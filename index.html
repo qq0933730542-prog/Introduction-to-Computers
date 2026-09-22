@@ -63,7 +63,7 @@
     </div>
   </header>
 
-  <!-- 次導覽列：6 大功能分頁 (完全對應手繪架構) -->
+  <!-- 次導覽列：6 大功能分頁 -->
   <nav class="bg-slate-900 border-b border-slate-800 px-4 lg:px-8 py-1.5 flex overflow-x-auto gap-2 text-sm sticky top-[61px] z-30">
     <button onclick="switchTab('notes')" id="tab-notes" class="tab-btn px-4 py-2 rounded-lg font-medium flex items-center gap-2 text-emerald-400 bg-slate-800 border border-emerald-500/30 transition">
       📖 課本重點
@@ -253,27 +253,67 @@
       </div>
     </section>
 
-    <!-- 6. 補充專區分頁 -->
+    <!-- 6. 補充專區分頁 (深度對接老師 GitHub 官方教材) -->
     <section id="view-supplements" class="space-y-6 hidden">
       <div class="border-b border-slate-800 pb-4">
         <h2 class="text-2xl font-bold text-white">📂 補充專區</h2>
-        <p class="text-sm text-slate-400 mt-1">老師課堂出題 · 作業習題 · 經典論文與新科技導讀</p>
+        <p class="text-sm text-slate-400 mt-1">老師官方教材對接 · 課堂出題作業 · 經典論文與科技前沿</p>
+      </div>
+
+      <!-- 老師官方專案直連卡片 -->
+      <div class="bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 border border-emerald-500/30 rounded-2xl p-6 space-y-3 shadow-xl">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-xl">
+              👨‍🏫
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-white flex items-center gap-2">
+                老師官方課程教材 (GitHub)
+                <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Official Repo</span>
+              </h3>
+              <p class="text-xs text-slate-400 font-mono">pennyliu6761/Introduction-to-Computers</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <a href="https://github.com/pennyliu6761/Introduction-to-Computers" target="_blank" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 border border-slate-700 transition flex items-center gap-1.5">
+              <span>🏛️ 老師專案首頁</span> ↗
+            </a>
+            <a id="teacherChapterLink" href="https://github.com/pennyliu6761/Introduction-to-Computers/blob/main/01/Readme.md" target="_blank" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs font-bold text-white transition flex items-center gap-1.5 shadow-lg shadow-emerald-600/30">
+              <span id="teacherChapterBtnText">📖 查看第 01 章老師原版講義</span> ↗
+            </a>
+          </div>
+        </div>
+        <p class="text-xs text-slate-300 leading-relaxed">
+          ※ 隨章節切換，右側按鈕會自動指向老師該章的完整講義、原圖架構與補充說明！
+        </p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- 老師給題目 -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
           <div class="flex items-center justify-between">
-            <h3 class="text-lg font-bold text-white flex items-center gap-2">📝 老師課堂出題 / 作業</h3>
+            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+              📝 老師課堂出題 / 作業
+            </h3>
             <span class="text-xs px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">Homework</span>
           </div>
-          <div id="supplementsTeacherList" class="space-y-3 text-sm"></div>
+          <p class="text-xs text-slate-400">隨課堂進度收錄教授發布之申論練習、課堂隨堂小考題與討論題。</p>
+          <div id="supplementsTeacherList" class="space-y-3 text-sm">
+          </div>
         </div>
+
+        <!-- 論文與個案 -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
           <div class="flex items-center justify-between">
-            <h3 class="text-lg font-bold text-white flex items-center gap-2">📜 經典論文與科技前沿</h3>
+            <h3 class="text-lg font-bold text-white flex items-center gap-2">
+              📜 經典論文與科技前沿
+            </h3>
             <span class="text-xs px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">Research</span>
           </div>
-          <div id="supplementsPapersList" class="space-y-3 text-sm"></div>
+          <p class="text-xs text-slate-400">收錄圖靈（Alan Turing）、馮諾曼（von Neumann）開創論文與 AI 當前最新論文。</p>
+          <div id="supplementsPapersList" class="space-y-3 text-sm">
+          </div>
         </div>
       </div>
     </section>
@@ -456,22 +496,29 @@
             ]
           },
           {
-            section: "2.2 生成式 AI 與大型語言模型 (LLM)",
+            section: "2.2 深度學習與 Transformer 革命",
             items: [
-              "Transformer 架構：Self-Attention 自注意力機制，解決 RNN 無法平行處理的缺點。",
-              "Prompt Engineering (提示工程) 與 RAG (檢索增強生成)。"
+              "傳統 RNN / LSTM 缺陷：必須序列逐步讀取字詞，難以平行加速運算，且對長文本有遺忘問題。",
+              "Transformer 架構（2017 Google 提出）：以 Self-Attention（自注意力機制）為核心，可全文本並行處理矩陣運算，成為 GPT、Claude、Gemini 的共同基石。"
+            ]
+          },
+          {
+            section: "2.3 生成式 AI 與大型語言模型實務技術",
+            items: [
+              "提示工程 (Prompt Engineering)：設計明確角色、背景、範例（Few-Shot）以引導模型產生精準回答。",
+              "RAG (檢索增強生成)：在回答前先檢索外部私有知識庫，徹底解決模型知識過期與「幻覺 (Hallucination)」問題。"
             ]
           }
         ],
         concepts: [
           {
-            name: "Transformer 架構",
-            tag: "人工智慧",
-            aim: "當代大型語言模型 (GPT, Claude, Gemini) 的底層架構",
-            pipeline: "Input Tokens -> Multi-Head Self-Attention -> Feed Forward -> Output",
-            glossary: "Self-Attention、Positional Encoding、Fine-Tuning、RAG",
-            tech: "利用並行矩陣加速，徹底取代傳統序列式 RNN/LSTM",
-            source: "Vaswani et al., 2017 Attention Is All You Need"
+            name: "Transformer 架構 (自注意力機制)",
+            tag: "深度學習架構",
+            aim: "當代大型語言模型 (LLM) 與多模態 AI 的底層核心架構",
+            pipeline: "Input Tokens ➔ Token & Positional Embedding ➔ Multi-Head Self-Attention ➔ Feed Forward ➔ Softmax",
+            glossary: "Self-Attention、Query-Key-Value (Q, K, V)、Positional Encoding、Context Window",
+            tech: "高度契合 GPU 平行張量矩陣加速，徹底取代傳統序列式 RNN/LSTM",
+            source: "Vaswani et al., 2017 (Attention Is All You Need)"
           }
         ],
         quiz: [
@@ -479,23 +526,23 @@
             id: "02-q1",
             chapter: "第 02 章 人工智慧與科技新發展",
             type: "架構題",
-            question: "當代大語言模型（如 GPT、Gemini）所奠基的核心類神經網絡架構為何？",
-            options: ["A. CNN (卷積神經網路)", "B. RNN (遞歸神經網路)", "C. Transformer 架構", "D. 決策樹 (Decision Tree)"],
+            question: "2017 年 Google 發布論文《Attention Is All You Need》，提出了當代大語言模型（如 GPT-4、Gemini）所共同奠基的核心架構，該架構名稱為？",
+            options: ["A. CNN", "B. RNN", "C. Transformer 架構", "D. GAN"],
             answer: "C",
-            explanation: "2017 年 Google 提出的 Transformer 架構以 Self-Attention 機制取代序列運算，成為大語言模型爆發的基礎。",
+            explanation: "Transformer 揚棄傳統 RNN 循序循環計算，改採自注意力機制（Self-Attention）實現高度並行運算。",
             source: "課本 2.2 節"
           }
         ],
         flashcards: [
           {
-            front: "何謂 RAG (Retrieval-Augmented Generation，檢索增強生成)？",
-            back: "一種讓大型語言模型在生成回答前，先從外部私有資料庫（向量資料庫）檢索相關正確資料，藉此消除幻覺並更新即時資訊的技術。",
-            tag: "AI技術"
+            front: "何謂『大型語言模型的幻覺 (Hallucination)』？",
+            back: "指大語言模型生成表面看起來流暢、邏輯完整，但事實上完全錯誤、捏造或無中生有的虛假資訊。",
+            tag: "AI核心概念"
           }
         ],
         supplements: {
           teacher: [
-            { title: "第 2 週實作作業：利用 Python 實作簡單 Prompt 呼叫與輸出解析", desc: "認識 API 串接與 Token 概念。" }
+            { title: "第 2 週實作作業：使用 Python 串接 LLM API 並設計少樣本提示 (Few-Shot Prompt)", desc: "練習 Prompt 結構化設定與 Temperature 參數調校。" }
           ],
           papers: [
             { title: "Attention Is All You Need (Vaswani et al., 2017)", desc: "開啟生成式 AI 新紀元的 Transformer 開創性論文。" }
@@ -902,9 +949,19 @@
       }
     }
 
+    // 6. 渲染補充專區 (動態更新老師官方講義直連按鈕)
     function renderSupplements(data) {
       const tContainer = document.getElementById('supplementsTeacherList');
       const pContainer = document.getElementById('supplementsPapersList');
+
+      // 動態更新「查看老師原版講義」連結與文字
+      const teacherLink = document.getElementById('teacherChapterLink');
+      const teacherBtnText = document.getElementById('teacherChapterBtnText');
+      if (teacherLink && teacherBtnText) {
+        teacherLink.href = `https://github.com/pennyliu6761/Introduction-to-Computers/blob/main/${currentChapterId}/Readme.md`;
+        teacherBtnText.innerText = `📖 查看第 ${currentChapterId} 章老師原版講義`;
+      }
+
       const supp = data.supplements || { teacher: [], papers: [] };
 
       if (!supp.teacher || supp.teacher.length === 0) {
@@ -913,7 +970,7 @@
         tContainer.innerHTML = supp.teacher.map(item => `
           <div class="p-3 rounded-xl bg-slate-850 border border-slate-800">
             <h4 class="font-bold text-slate-200 mb-1">${item.title}</h4>
-            <p class="text-xs text-slate-400">${item.desc}</p>
+            <p class="text-xs text-slate-400 leading-relaxed">${item.desc}</p>
           </div>
         `).join('');
       }
@@ -924,7 +981,7 @@
         pContainer.innerHTML = supp.papers.map(item => `
           <div class="p-3 rounded-xl bg-slate-850 border border-slate-800">
             <h4 class="font-bold text-slate-200 mb-1">${item.title}</h4>
-            <p class="text-xs text-slate-400">${item.desc}</p>
+            <p class="text-xs text-slate-400 leading-relaxed">${item.desc}</p>
           </div>
         `).join('');
       }
