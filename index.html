@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>計算機概論 終極備考與筆記系統 | Introduction to Computers</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: { 50: '#f0fdf4', 500: '#22c55e', 600: '#16a34a', 700: '#15803d' },
+            slate: { 850: '#151e2e', 900: '#0f172a', 950: '#020617' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .perspective-1000 { perspective: 1000px; }
+    .transform-style-3d { transform-style: preserve-3d; }
+    .backface-hidden { backface-visibility: hidden; }
+    .rotate-y-180 { transform: rotateY(180deg); }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans selection:bg-brand-500 selection:text-white">
+
+  <!-- 頂部導覽列 -->
+  <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur border-b border-slate-800 px-4 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/20 font-bold text-xl text-white">
+        💻
+      </div>
+      <div>
+        <h1 class="text-base font-bold text-white flex items-center gap-2">
+          計算機概論 <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">14 章備考全系統</span>
+        </h1>
+        <p class="text-xs text-slate-400">Introduction to Computers · 雲端同步筆記與題庫</p>
+      </div>
+    </div>
+
+    <!-- 章節選擇器 (14 章) -->
+    <div class="flex items-center gap-2">
+      <span class="text-xs text-slate-400 font-medium">當前章節：</span>
+      <select id="chapterSelect" onchange="onChapterChange(this.value)" class="bg-slate-800 border border-slate-700 text-emerald-300 text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium">
+      </select>
+    </div>
+
+    <!-- 狀態資訊 -->
+    <div class="flex items-center gap-3 text-xs">
+      <span class="px-2.5 py-1 rounded-md bg-slate-800 border border-slate-700 text-slate-300">
+        📚 累積收錄 <span id="totalQuestionsCount" class="text-emerald-400 font-bold">0</span> 題
+      </span>
+      <span class="px-2.5 py-1 rounded-md bg-red-950/60 border border-red-800/50 text-red-300">
+        ⚠️ 錯題本 <span id="navMistakeCount" class="text-red-400 font-bold">0</span> 題
+      </span>
+    </div>
+  </header>
+
+  <!-- 次導覽列：6 大功能分頁 (完全對應手繪架構) -->
+  <nav class="bg-slate-900 border-b border-slate-800 px-4 lg:px-8 py-1.5 flex overflow-x-auto gap-2 text-sm sticky top-[61px] z-30">
+    <button onclick="switchTab('notes')" id="tab-notes" class="tab-btn px-4 py-2 rounded-lg font-medium flex items-center gap-2 text-emerald-400 bg-slate-800 border border-emerald-500/30 transition">
+      📖 課本重點
+    </button>
+    <button onclick="switchTab('concepts')" id="tab-concepts" class="tab-btn px-4 py-2 rounded-lg font-medium flex items-center gap-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition">
+      💡 核心概念
+    </button>
+    <button onclick="switchTab('quiz')" id="tab-quiz" class="tab-btn px-4 py-2 rounded-lg font-medium flex items-center gap-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition">
+      📝 題目考場
+    </button>
+    <button onclick="switchTab('flashcards')" id="tab-flashcards" class="tab-btn px-4 py-2 rounded-lg font-medium flex items-center gap-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition">
+      📇 記憶卡 (3D)
+    </button>
+    <button onclick="switchTab('mistakes')" id="tab-mistakes" class="tab-btn px-4 py-2 rounded-lg font-medium flex items-center gap-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition">
+      🔁 錯題分析與重寫
+    </button>
+    <button onclick="switchTab('supplements')" id="tab-supplements" class="tab-btn px-4 py-2 rounded-lg font-medium flex items-center gap-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition">
+      📂 補充專區 (老師/論文)
+    </button>
+  </nav>
+
+  <!-- 主內容展示區 -->
+  <main class="flex-1 max-w-6xl w-full mx-auto p-4 lg:p-8">
+
+    <!-- 1. 課本重點分頁 -->
+    <section id="view-notes" class="space-y-6">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div>
+          <h2 id="notesChapterTitle" class="text-2xl font-bold text-white tracking-wide">第 01 章 導論</h2>
+          <p class="text-sm text-slate-400 mt-1">完整精讀筆記 · 一次掌握全章精髓</p>
+        </div>
+        <button onclick="exportCurrentChapterMarkdown()" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition flex items-center gap-1.5">
+          📥 匯出為 Markdown
+        </button>
+      </div>
+      <div id="notesContainer" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 lg:p-8 space-y-6 text-slate-300 leading-relaxed">
+      </div>
+    </section>
+
+    <!-- 2. 核心概念庫分頁 -->
+    <section id="view-concepts" class="space-y-6 hidden">
+      <div class="border-b border-slate-800 pb-4">
+        <h2 class="text-2xl font-bold text-white">💡 5 維度核心概念庫</h2>
+        <p class="text-sm text-slate-400 mt-1">底層架構 · 必考名詞 · 實務工程 · 理論出處</p>
+      </div>
+      <div id="conceptsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      </div>
+    </section>
+
+    <!-- 3. 題目考場分頁 -->
+    <section id="view-quiz" class="space-y-6 hidden">
+      <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
+        <div>
+          <h2 class="text-2xl font-bold text-white">📝 全真題目考場</h2>
+          <p class="text-sm text-slate-400 mt-1">支援章節隨堂測驗 · 即時紅綠對照 · 智能收錄錯題本</p>
+        </div>
+      </div>
+
+      <div id="quizContainer" class="space-y-6"></div>
+
+      <!-- 交卷控制列 -->
+      <div id="quizSubmitBar" class="sticky bottom-4 bg-slate-900/95 backdrop-blur border border-slate-700 p-4 rounded-2xl flex items-center justify-between shadow-2xl">
+        <div class="text-sm text-slate-300">
+          已作答 <span id="quizAnsweredCount" class="text-emerald-400 font-bold">0</span> / <span id="quizTotalCount" class="font-bold">0</span> 題
+        </div>
+        <button onclick="submitQuiz()" class="px-6 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm transition shadow-lg shadow-emerald-500/30">
+          📤 立即交卷並結算
+        </button>
+      </div>
+
+      <!-- 成績結算報告卡 -->
+      <div id="quizResultCard" class="hidden bg-slate-900 border border-slate-800 rounded-2xl p-6 lg:p-8 space-y-4">
+        <h3 class="text-xl font-bold text-white flex items-center gap-2">
+          📊 測驗結算報告
+        </h3>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+          <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700">
+            <div class="text-xs text-slate-400">總得分</div>
+            <div id="resScore" class="text-3xl font-extrabold text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700">
+            <div class="text-xs text-slate-400">答對題數</div>
+            <div id="resCorrect" class="text-3xl font-extrabold text-emerald-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700">
+            <div class="text-xs text-slate-400">答錯題數</div>
+            <div id="resWrong" class="text-3xl font-extrabold text-red-400 mt-1">0</div>
+          </div>
+          <div class="bg-slate-800/80 p-4 rounded-xl border border-slate-700">
+            <div class="text-xs text-slate-400">通過狀態 (門檻70)</div>
+            <div id="resStatus" class="text-xl font-bold text-emerald-400 mt-2">及格</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. 記憶卡 (3D) 分頁 -->
+    <section id="view-flashcards" class="space-y-6 hidden">
+      <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
+        <div>
+          <h2 class="text-2xl font-bold text-white">📇 3D 記憶翻牌卡 (Active Recall)</h2>
+          <p class="text-sm text-slate-400 mt-1">點擊卡片翻轉查看核心機制 · 專利掌握度進度追蹤</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <button onclick="shuffleFlashcards()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs border border-slate-700 transition">
+            🔀 隨機洗牌
+          </button>
+          <button onclick="resetFlashcardProgress()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs border border-slate-700 transition">
+            🔄 重置掌握進度
+          </button>
+        </div>
+      </div>
+
+      <!-- 記憶進度條 -->
+      <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex flex-col gap-2">
+        <div class="flex justify-between text-xs text-slate-400 font-medium">
+          <span>掌握進度：<span id="fcMasteredText" class="text-emerald-400 font-bold">0 / 0</span></span>
+          <span id="fcPercentText" class="text-emerald-400 font-bold">0%</span>
+        </div>
+        <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden">
+          <div id="fcProgressBar" class="bg-gradient-to-r from-emerald-500 to-cyan-400 h-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- 單張 3D 展示卡 -->
+      <div class="flex flex-col items-center justify-center py-6">
+        <div id="flashcardBox" onclick="flipCard()" class="perspective-1000 w-full max-w-xl h-80 cursor-pointer select-none">
+          <div id="flashcardInner" class="transform-style-3d relative w-full h-full duration-500 rounded-2xl shadow-2xl">
+            <!-- 正面 -->
+            <div class="backface-hidden absolute inset-0 bg-gradient-to-br from-slate-900 to-slate-850 border-2 border-slate-700 rounded-2xl p-8 flex flex-col justify-between">
+              <div class="flex justify-between items-center text-xs text-slate-400">
+                <span id="fcTag" class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">考點問答</span>
+                <span id="fcIndex" class="font-mono text-slate-400">1 / 10</span>
+              </div>
+              <div id="fcFrontText" class="text-xl sm:text-2xl font-bold text-white text-center leading-snug"></div>
+              <div class="text-center text-xs text-slate-400">🔄 點擊卡片翻面看解析</div>
+            </div>
+            <!-- 背面 -->
+            <div class="rotate-y-180 backface-hidden absolute inset-0 bg-gradient-to-br from-slate-850 to-slate-900 border-2 border-emerald-500/50 rounded-2xl p-8 flex flex-col justify-between">
+              <div class="flex justify-between items-center text-xs text-emerald-400 font-semibold">
+                <span>💡 核心解析與關鍵機制</span>
+                <span class="text-slate-400">背面</span>
+              </div>
+              <div id="fcBackText" class="text-sm sm:text-base text-slate-200 leading-relaxed overflow-y-auto my-2 pr-1"></div>
+              <div class="text-center text-xs text-slate-400">再次點擊可翻回正面</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4 mt-6">
+          <button onclick="prevFlashcard()" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300">⬅️ 上一張</button>
+          <button onclick="markFlashcard(false)" class="px-5 py-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 font-medium text-sm transition">😅 還不熟</button>
+          <button onclick="markFlashcard(true)" class="px-5 py-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 font-medium text-sm transition">✅ 已記住</button>
+          <button onclick="nextFlashcard()" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300">下一張 ➡️</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. 錯題分析與重寫分頁 -->
+    <section id="view-mistakes" class="space-y-6 hidden">
+      <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
+        <div>
+          <h2 class="text-2xl font-bold text-white">🔁 錯題分析與盲測重寫</h2>
+          <p class="text-sm text-slate-400 mt-1">章節分佈統計 · 題型盲點挖掘 · 歷史答案全遮蔽獨立重練</p>
+        </div>
+        <button onclick="clearAllMistakes()" class="text-xs px-3 py-1.5 rounded-lg bg-red-950/60 hover:bg-red-900 border border-red-800 text-red-300 transition">🗑️ 清空錯題本</button>
+      </div>
+
+      <!-- 錯題雙維度分析儀表板 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+          <h3 class="text-base font-bold text-white flex items-center gap-2 mb-4">📌 依章節錯題分佈</h3>
+          <div id="mistakeChapterBars" class="space-y-3 text-xs"></div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+          <h3 class="text-base font-bold text-white flex items-center gap-2 mb-4">🎯 依題型盲點分佈</h3>
+          <div id="mistakeTypeBars" class="space-y-3 text-xs"></div>
+        </div>
+      </div>
+
+      <!-- 錯題重練 -->
+      <div class="space-y-4">
+        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+          ⚡ 錯題盲測清單 (<span id="mistakeListCount">0</span> 題待消滅)
+        </h3>
+        <div id="mistakeCardsContainer" class="space-y-4"></div>
+      </div>
+    </section>
+
+    <!-- 6. 補充專區分頁 -->
+    <section id="view-supplements" class="space-y-6 hidden">
+      <div class="border-b border-slate-800 pb-4">
+        <h2 class="text-2xl font-bold text-white">📂 補充專區</h2>
+        <p class="text-sm text-slate-400 mt-1">老師課堂出題 · 作業習題 · 經典論文與新科技導讀</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-bold text-white flex items-center gap-2">📝 老師課堂出題 / 作業</h3>
+            <span class="text-xs px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">Homework</span>
+          </div>
+          <div id="supplementsTeacherList" class="space-y-3 text-sm"></div>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-bold text-white flex items-center gap-2">📜 經典論文與科技前沿</h3>
+            <span class="text-xs px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">Research</span>
+          </div>
+          <div id="supplementsPapersList" class="space-y-3 text-sm"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 浮動 AI 助教 -->
+  <div class="fixed bottom-6 right-6 z-50">
+    <button onclick="toggleAiDrawer()" class="w-14 h-14 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-xl shadow-emerald-500/30 flex items-center justify-center text-2xl hover:scale-105 transition-transform">
+      ✨
+    </button>
+  </div>
+
+  <div id="aiDrawer" class="fixed bottom-24 right-6 w-96 max-w-[calc(100vw-3rem)] h-[520px] bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl flex flex-col z-50 hidden overflow-hidden">
+    <div class="bg-slate-850 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="text-lg">🤖</span>
+        <span class="text-sm font-bold text-white">計概 AI 隨身助教</span>
+      </div>
+      <button onclick="toggleAiDrawer()" class="text-slate-400 hover:text-white text-sm">✕</button>
+    </div>
+    <div id="aiChatMessages" class="flex-1 p-4 overflow-y-auto space-y-3 text-xs leading-relaxed">
+      <div class="bg-slate-800 p-3 rounded-xl text-slate-200">
+        👋 你好！我是你的《計算機概論》專屬助教。讀筆記或做題目有任何不懂的名詞（例如二進位補數、CPU 管線、馮諾曼架構），隨時考考我！
+      </div>
+    </div>
+    <div class="p-3 border-t border-slate-800 bg-slate-850 flex gap-2">
+      <input type="text" id="aiInput" onkeypress="if(event.key==='Enter') sendAiMessage()" placeholder="輸入想問的計概概念或題目..." class="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-emerald-500" />
+      <button onclick="sendAiMessage()" class="px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs">發送</button>
+    </div>
+  </div>
+
+  <footer class="border-t border-slate-800/80 py-4 text-center text-xs text-slate-400">
+    <p>© 2026 計算機概論 終極備考系統 · GitHub Pages 靜態零成本運行</p>
+  </footer>
+
+  <script>
+    const CHAPTERS_METADATA = [
+      { id: "01", title: "第 01 章 導論" },
+      { id: "02", title: "第 02 章 人工智慧與科技新發展" },
+      { id: "03", title: "第 03 章 數字系統與資料表示法" },
+      { id: "04", title: "第 04 章 數位邏輯設計" },
+      { id: "05", title: "第 05 章 計算機組織" },
+      { id: "06", title: "第 06 章 電腦軟體與作業系統" },
+      { id: "07", title: "第 07 章 電腦網路與無線通訊" },
+      { id: "08", title: "第 08 章 網際網路、雲端運算與物聯網" },
+      { id: "09", title: "第 09 章 資訊安全" },
+      { id: "10", title: "第 10 章 程式語言" },
+      { id: "11", title: "第 11 章 演算法" },
+      { id: "12", title: "第 12 章 資料結構" },
+      { id: "13", title: "第 13 章 資料庫、資料倉儲與大數據" },
+      { id: "14", title: "第 14 章 軟體工程" }
+    ];
+
+    const BUILTIN_DATABASE = {
+      "01": {
+        title: "第 01 章 導論",
+        notes: [
+          {
+            section: "1.1 計算機發展世代",
+            items: [
+              "第一代（1940-1956）：真空管 (Vacuum Tube)，體積龐大、耗電發熱量高、故障率高（如 ENIAC）。",
+              "第二代（1956-1963）：電晶體 (Transistor)，體積縮小、運算速度與可靠度大幅躍升。",
+              "第三代（1964-1971）：積體電路 (IC)，將多個元件整合於微小矽晶片。",
+              "第四代（1971-至今）：超大型積體電路 (VLSI / ULSI) 與微處理器 (Microprocessor)。"
+            ]
+          },
+          {
+            section: "1.2 馮諾曼架構 (von Neumann Architecture)",
+            items: [
+              "核心特徵：儲存程式（Stored-Program）架構，將指令與資料儲存於同一記憶單元中。",
+              "五大基本單元：輸入單元 (Input)、輸出單元 (Output)、記憶單元 (Memory)、控制單元 (CU)、算術邏輯單元 (ALU)。",
+              "馮諾曼瓶頸 (von Neumann Bottleneck)：CPU 運算速率遠快於記憶體匯流排傳輸速率所導致的效能瓶頸。"
+            ]
+          },
+          {
+            section: "1.3 效能指標與分類",
+            items: [
+              "MIPS (Million Instructions Per Second)：每秒執行百萬條指令數，常評估通用 CPU 整數效能。",
+              "FLOPS (Floating-point Operations Per Second)：每秒浮點運算次數，為評估超級電腦與 AI 算力之標準基準。"
+            ]
+          }
+        ],
+        concepts: [
+          {
+            name: "儲存程式概念 (Stored-Program Concept)",
+            tag: "計算機體系結構",
+            aim: "奠定現代通用電腦的程式運作基礎",
+            pipeline: "載入程式與資料至記憶體 -> CU 抓取指令 (Fetch) -> 解碼 (Decode) -> ALU 執行 (Execute)",
+            glossary: "馮諾曼架構、PC (程式計數器)、IR (指令暫存器)",
+            tech: "採用記憶體階層快取 (Cache L1/L2/L3) 與管線技術 (Pipelining) 緩解傳輸延遲",
+            source: "John von Neumann, 1945"
+          },
+          {
+            name: "莫爾定律 (Moore's Law)",
+            tag: "半導體製程演進",
+            aim: "評估積體電路電晶體密度與性價比演進趨勢",
+            pipeline: "每 18 至 24 個月 -> 晶片容納電晶體數倍增 -> 效能提升且單位成本減半",
+            glossary: "製程節點 (nm)、極紫外線光刻 (EUV)、小晶片封裝 (Chiplet)",
+            tech: "邁入 2nm 以下時面臨量子穿隧效應物理極限，發展先進 3D 堆疊封裝補足",
+            source: "Gordon Moore, 1965"
+          }
+        ],
+        quiz: [
+          {
+            id: "01-q1",
+            chapter: "第 01 章 導論",
+            type: "名詞定義",
+            question: "奠定現代通用電子計算機將『程式指令』與『運算資料』置於同一記憶單元的架構稱為？",
+            options: [
+              "A. 馮諾曼架構 (von Neumann Architecture)",
+              "B. 圖靈機模型 (Turing Machine)",
+              "C. 巴貝奇差分機",
+              "D. 類神經網絡架構"
+            ],
+            answer: "A",
+            explanation: "馮諾曼架構的核心理念即為儲存程式（Stored-Program）設計，至今仍是絕大多數電腦的基礎。",
+            source: "課本 1.2 節"
+          },
+          {
+            id: "01-q2",
+            chapter: "第 01 章 導論",
+            type: "架構題",
+            question: "下列哪一個單元『不屬於』馮諾曼五大基本核心單元？",
+            options: [
+              "A. 算術邏輯單元 (ALU)",
+              "B. 控制單元 (CU)",
+              "C. 網路通訊單元 (Network Interface)",
+              "D. 記憶單元 (Memory)"
+            ],
+            answer: "C",
+            explanation: "五大基本單元為 Input、Output、Memory、CU、ALU。網路通訊單元為後續外接的周邊介面設備。",
+            source: "課本 1.2 節"
+          },
+          {
+            id: "01-q3",
+            chapter: "第 01 章 導論",
+            type: "運算題",
+            question: "衡量現代超級電腦或 AI 深度學習晶片運算能力時，最廣泛採用的效能單位為？",
+            options: [
+              "A. MIPS",
+              "B. FLOPS",
+              "C. DPI",
+              "D. Baud Rate"
+            ],
+            answer: "B",
+            explanation: "深度學習大量涉及矩陣與浮點數運算，故以 FLOPS（每秒浮點運算次數）為算力權威標準。",
+            source: "課本 1.3 節"
+          }
+        ],
+        flashcards: [
+          {
+            front: "何謂『馮諾曼瓶頸 (von Neumann Bottleneck)』？",
+            back: "因 CPU 與主記憶體共享同一傳輸匯流排，當 CPU 運算速度遠超記憶體頻寬時，CPU 必須等待資料讀寫，造成整體運算速度受制於匯流排頻寬的現象。",
+            tag: "架構名詞"
+          },
+          {
+            front: "電腦的五大硬體架構單元為何？",
+            back: "1. 輸入單元 (Input Unit)\n2. 輸出單元 (Output Unit)\n3. 記憶單元 (Memory Unit)\n4. 控制單元 (Control Unit, CU)\n5. 算術邏輯單元 (Arithmetic Logic Unit, ALU)",
+            tag: "基礎考點"
+          }
+        ],
+        supplements: {
+          teacher: [
+            { title: "第 1 週課堂作業：試比較哈佛架構 (Harvard) 與馮諾曼架構之異同", desc: "提示：重點在於指令與資料記憶體是否分開獨立匯流排。" }
+          ],
+          papers: [
+            { title: "First Draft of a Report on the EDVAC (John von Neumann, 1945)", desc: "計算機科學開山鼻祖論文，首次正式闡述儲存程式架構概念。" }
+          ]
+        }
+      },
+      "02": {
+        title: "第 02 章 人工智慧與科技新發展",
+        notes: [
+          {
+            section: "2.1 人工智慧定義與發展歷程",
+            items: [
+              "弱人工智慧 (Narrow AI) vs 強人工智慧 (AGI - 通用人工智慧)。",
+              "AI 演進三浪潮：規則邏輯專家系統 -> 機器學習 (Machine Learning) -> 深度學習 (Deep Learning) 與大語言模型 (LLM)。"
+            ]
+          },
+          {
+            section: "2.2 生成式 AI 與大型語言模型 (LLM)",
+            items: [
+              "Transformer 架構：Self-Attention 自注意力機制，解決 RNN 無法平行處理的缺點。",
+              "Prompt Engineering (提示工程) 與 RAG (檢索增強生成)。"
+            ]
+          }
+        ],
+        concepts: [
+          {
+            name: "Transformer 架構",
+            tag: "人工智慧",
+            aim: "當代大型語言模型 (GPT, Claude, Gemini) 的底層架構",
+            pipeline: "Input Tokens -> Multi-Head Self-Attention -> Feed Forward -> Output",
+            glossary: "Self-Attention、Positional Encoding、Fine-Tuning、RAG",
+            tech: "利用並行矩陣加速，徹底取代傳統序列式 RNN/LSTM",
+            source: "Vaswani et al., 2017 Attention Is All You Need"
+          }
+        ],
+        quiz: [
+          {
+            id: "02-q1",
+            chapter: "第 02 章 人工智慧與科技新發展",
+            type: "架構題",
+            question: "當代大語言模型（如 GPT、Gemini）所奠基的核心類神經網絡架構為何？",
+            options: ["A. CNN (卷積神經網路)", "B. RNN (遞歸神經網路)", "C. Transformer 架構", "D. 決策樹 (Decision Tree)"],
+            answer: "C",
+            explanation: "2017 年 Google 提出的 Transformer 架構以 Self-Attention 機制取代序列運算，成為大語言模型爆發的基礎。",
+            source: "課本 2.2 節"
+          }
+        ],
+        flashcards: [
+          {
+            front: "何謂 RAG (Retrieval-Augmented Generation，檢索增強生成)？",
+            back: "一種讓大型語言模型在生成回答前，先從外部私有資料庫（向量資料庫）檢索相關正確資料，藉此消除幻覺並更新即時資訊的技術。",
+            tag: "AI技術"
+          }
+        ],
+        supplements: {
+          teacher: [
+            { title: "第 2 週實作作業：利用 Python 實作簡單 Prompt 呼叫與輸出解析", desc: "認識 API 串接與 Token 概念。" }
+          ],
+          papers: [
+            { title: "Attention Is All You Need (Vaswani et al., 2017)", desc: "開啟生成式 AI 新紀元的 Transformer 開創性論文。" }
+          ]
+        }
+      }
+    };
+
+    let currentChapterId = "01";
+    let userAnswers = {};
+    let flashcardIndex = 0;
+    let flashcardList = [];
+    let masteredFlashcards = new Set(JSON.parse(localStorage.getItem('fc_mastered') || '[]'));
+    let mistakeList = JSON.parse(localStorage.getItem('cs_mistakes') || '[]');
+
+    function init() {
+      const sel = document.getElementById('chapterSelect');
+      sel.innerHTML = CHAPTERS_METADATA.map(ch => `<option value="${ch.id}">${ch.title}</option>`).join('');
+      sel.value = currentChapterId;
+      loadChapter(currentChapterId);
+      updateMistakeStats();
+    }
+
+    function onChapterChange(chId) {
+      currentChapterId = chId;
+      loadChapter(chId);
+    }
+
+    async function loadChapter(chId) {
+      let data = BUILTIN_DATABASE[chId];
+      try {
+        const res = await fetch(`./${chId}/data.json`);
+        if (res.ok) {
+          const remoteData = await res.json();
+          if (remoteData) data = remoteData;
+        }
+      } catch (e) {}
+
+      if (!data) {
+        data = {
+          title: CHAPTERS_METADATA.find(c => c.id === chId)?.title || `第 ${chId} 章`,
+          notes: [{ section: "章節建置中", items: ["此章節筆記正陸續更新中，歡迎將講義投影片交付 AI 助教一鍵生成完整內容！"] }],
+          concepts: [],
+          quiz: [],
+          flashcards: [],
+          supplements: { teacher: [], papers: [] }
+        };
+      }
+
+      renderNotes(data);
+      renderConcepts(data);
+      renderQuiz(data);
+      renderFlashcards(data);
+      renderSupplements(data);
+      updateHeaderCounts();
+    }
+
+    function renderNotes(data) {
+      document.getElementById('notesChapterTitle').innerText = data.title;
+      const container = document.getElementById('notesContainer');
+      if (!data.notes || data.notes.length === 0) {
+        container.innerHTML = `<p class="text-slate-400">目前尚無筆記內容。</p>`;
+        return;
+      }
+      container.innerHTML = data.notes.map(sec => `
+        <div class="space-y-3">
+          <h3 class="text-lg font-bold text-emerald-400 border-l-4 border-emerald-500 pl-3">${sec.section}</h3>
+          <ul class="space-y-2 list-disc list-inside text-sm text-slate-300">
+            ${sec.items.map(item => `<li class="leading-relaxed">${item}</li>`).join('')}
+          </ul>
+        </div>
+      `).join('');
+    }
+
+    function renderConcepts(data) {
+      const container = document.getElementById('conceptsContainer');
+      if (!data.concepts || data.concepts.length === 0) {
+        container.innerHTML = `<div class="col-span-2 text-center py-12 text-slate-400">本章尚無核心概念收錄。</div>`;
+        return;
+      }
+      container.innerHTML = data.concepts.map(c => `
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4 hover:border-slate-700 transition">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-bold text-white">${c.name}</h3>
+            <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">${c.tag}</span>
+          </div>
+          <div class="space-y-2 text-xs">
+            <div class="bg-slate-850 p-3 rounded-xl border border-slate-800">
+              <span class="text-emerald-400 font-semibold">🎯 考查核心：</span>
+              <span class="text-slate-300">${c.aim}</span>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 font-mono text-cyan-300 overflow-x-auto">
+              <span class="text-slate-400 font-sans block text-[10px] mb-1">⚙️ 底層架構機制 (Pipeline)：</span>
+              ${c.pipeline}
+            </div>
+            <div class="text-slate-300 leading-relaxed"><span class="text-amber-400 font-semibold">📖 必備術語：</span> ${c.glossary}</div>
+            <div class="text-slate-300 leading-relaxed"><span class="text-purple-400 font-semibold">🛠️ 實務技術：</span> ${c.tech}</div>
+            <div class="text-slate-400 text-[11px] pt-1"><span>📜 理論出處：</span> ${c.source}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderQuiz(data) {
+      const container = document.getElementById('quizContainer');
+      const submitBar = document.getElementById('quizSubmitBar');
+      const resultCard = document.getElementById('quizResultCard');
+      resultCard.classList.add('hidden');
+      userAnswers = {};
+
+      if (!data.quiz || data.quiz.length === 0) {
+        container.innerHTML = `<div class="text-center py-12 text-slate-400 bg-slate-900 border border-slate-800 rounded-2xl">本章目前尚無題目，可使用右下角 AI 助教快速出題練習！</div>`;
+        submitBar.classList.add('hidden');
+        return;
+      }
+
+      submitBar.classList.remove('hidden');
+      document.getElementById('quizTotalCount').innerText = data.quiz.length;
+      document.getElementById('quizAnsweredCount').innerText = "0";
+
+      container.innerHTML = data.quiz.map((q, idx) => `
+        <div id="qcard-${q.id}" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
+          <div class="flex items-center justify-between text-xs">
+            <span class="font-mono text-emerald-400 font-bold">Question ${idx + 1}</span>
+            <span class="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700">${q.type || '一般題型'}</span>
+          </div>
+          <div class="text-base font-semibold text-white leading-relaxed">${q.question}</div>
+          <div class="space-y-2">
+            ${q.options.map(opt => {
+              const optChar = opt.charAt(0);
+              return `
+                <button type="button" onclick="selectQuizOption('${q.id}', '${optChar}', this)" class="opt-btn-${q.id} w-full text-left px-4 py-3 rounded-xl border border-slate-800 hover:bg-slate-800/80 text-sm text-slate-300 transition flex items-center gap-3">
+                  <span class="w-6 h-6 rounded-lg bg-slate-800 flex items-center justify-center font-mono font-bold text-xs text-slate-400 opt-badge">${optChar}</span>
+                  <span>${opt}</span>
+                </button>
+              `;
+            }).join('')}
+          </div>
+          <div id="explain-${q.id}" class="hidden pt-4 border-t border-slate-800 text-xs space-y-2">
+            <div class="flex items-center gap-2">
+              <span class="text-slate-400">官方正解：</span>
+              <span class="text-emerald-400 font-bold text-sm">${q.answer}</span>
+            </div>
+            <p class="text-slate-300 leading-relaxed">${q.explanation}</p>
+            <p class="text-slate-400 text-[11px]">出處：${q.source}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function selectQuizOption(qId, optChar, btnElement) {
+      userAnswers[qId] = optChar;
+      document.querySelectorAll(`.opt-btn-${qId}`).forEach(btn => {
+        btn.classList.remove('border-emerald-500', 'bg-emerald-500/10', 'text-white');
+        btn.classList.add('border-slate-800', 'text-slate-300');
+      });
+      btnElement.classList.add('border-emerald-500', 'bg-emerald-500/10', 'text-white');
+      btnElement.classList.remove('border-slate-800', 'text-slate-300');
+      document.getElementById('quizAnsweredCount').innerText = Object.keys(userAnswers).length;
+    }
+
+    function submitQuiz() {
+      const data = BUILTIN_DATABASE[currentChapterId];
+      if (!data || !data.quiz) return;
+
+      let correct = 0;
+      let wrong = 0;
+      const total = data.quiz.length;
+
+      data.quiz.forEach(q => {
+        const uAns = userAnswers[q.id];
+        const isRight = (uAns === q.answer);
+        const card = document.getElementById(`qcard-${q.id}`);
+        const explain = document.getElementById(`explain-${q.id}`);
+
+        if (explain) explain.classList.remove('hidden');
+
+        if (isRight) {
+          correct++;
+          if (card) {
+            card.classList.remove('border-slate-800');
+            card.classList.add('border-emerald-500/50', 'bg-emerald-950/10');
+          }
+        } else {
+          wrong++;
+          if (card) {
+            card.classList.remove('border-slate-800');
+            card.classList.add('border-red-500/50', 'bg-red-950/10');
+          }
+          if (!mistakeList.some(m => m.id === q.id)) {
+            mistakeList.push({
+              id: q.id,
+              chapter: q.chapter || data.title,
+              type: q.type || '未分類',
+              question: q.question,
+              options: q.options,
+              answer: q.answer,
+              explanation: q.explanation,
+              source: q.source
+            });
+          }
+        }
+      });
+
+      const score = Math.round((correct / total) * 100);
+      document.getElementById('resScore').innerText = score;
+      document.getElementById('resCorrect').innerText = correct;
+      document.getElementById('resWrong').innerText = wrong;
+      
+      const statusEl = document.getElementById('resStatus');
+      if (score >= 70) {
+        statusEl.innerText = "及格 PASS 🎉";
+        statusEl.className = "text-xl font-bold text-emerald-400 mt-2";
+      } else {
+        statusEl.innerText = "未達標 FAIL ⚠️";
+        statusEl.className = "text-xl font-bold text-red-400 mt-2";
+      }
+
+      document.getElementById('quizResultCard').classList.remove('hidden');
+      document.getElementById('quizResultCard').scrollIntoView({ behavior: 'smooth' });
+
+      localStorage.setItem('cs_mistakes', JSON.stringify(mistakeList));
+      updateMistakeStats();
+    }
+
+    function renderFlashcards(data) {
+      flashcardList = data.flashcards || [];
+      flashcardIndex = 0;
+      updateFlashcardView();
+    }
+
+    function updateFlashcardView() {
+      if (flashcardList.length === 0) {
+        document.getElementById('fcFrontText').innerText = "本章目前尚無記憶卡。";
+        document.getElementById('fcBackText').innerText = "無內容。";
+        document.getElementById('fcIndex').innerText = "0 / 0";
+        document.getElementById('fcTag').innerText = "無卡片";
+        document.getElementById('fcProgressBar').style.width = "0%";
+        document.getElementById('fcMasteredText').innerText = "0 / 0";
+        document.getElementById('fcPercentText').innerText = "0%";
+        return;
+      }
+
+      const card = flashcardList[flashcardIndex];
+      const inner = document.getElementById('flashcardInner');
+      inner.classList.remove('rotate-y-180');
+
+      document.getElementById('fcFrontText').innerText = card.front;
+      document.getElementById('fcBackText').innerText = card.back;
+      document.getElementById('fcIndex').innerText = `${flashcardIndex + 1} / ${flashcardList.length}`;
+      document.getElementById('fcTag').innerText = card.tag || '考點解析';
+
+      const masteredCount = flashcardList.filter(c => masteredFlashcards.has(c.front)).length;
+      const pct = Math.round((masteredCount / flashcardList.length) * 100);
+      document.getElementById('fcProgressBar').style.width = `${pct}%`;
+      document.getElementById('fcMasteredText').innerText = `${masteredCount} / ${flashcardList.length}`;
+      document.getElementById('fcPercentText').innerText = `${pct}%`;
+    }
+
+    function flipCard() {
+      document.getElementById('flashcardInner').classList.toggle('rotate-y-180');
+    }
+
+    function prevFlashcard() {
+      if (flashcardList.length === 0) return;
+      flashcardIndex = (flashcardIndex - 1 + flashcardList.length) % flashcardList.length;
+      updateFlashcardView();
+    }
+
+    function nextFlashcard() {
+      if (flashcardList.length === 0) return;
+      flashcardIndex = (flashcardIndex + 1) % flashcardList.length;
+      updateFlashcardView();
+    }
+
+    function markFlashcard(isMastered) {
+      if (flashcardList.length === 0) return;
+      const card = flashcardList[flashcardIndex];
+      if (isMastered) masteredFlashcards.add(card.front);
+      else masteredFlashcards.delete(card.front);
+      localStorage.setItem('fc_mastered', JSON.stringify([...masteredFlashcards]));
+      nextFlashcard();
+    }
+
+    function shuffleFlashcards() {
+      flashcardList.sort(() => Math.random() - 0.5);
+      flashcardIndex = 0;
+      updateFlashcardView();
+    }
+
+    function resetFlashcardProgress() {
+      masteredFlashcards.clear();
+      localStorage.removeItem('fc_mastered');
+      updateFlashcardView();
+    }
+
+    function updateMistakeStats() {
+      document.getElementById('navMistakeCount').innerText = mistakeList.length;
+      document.getElementById('mistakeListCount').innerText = mistakeList.length;
+
+      const chMap = {};
+      const typeMap = {};
+      mistakeList.forEach(m => {
+        chMap[m.chapter] = (chMap[m.chapter] || 0) + 1;
+        typeMap[m.type] = (typeMap[m.type] || 0) + 1;
+      });
+
+      const chContainer = document.getElementById('mistakeChapterBars');
+      if (Object.keys(chMap).length === 0) {
+        chContainer.innerHTML = `<p class="text-slate-400">目前尚無錯題紀錄，太優秀了！</p>`;
+      } else {
+        chContainer.innerHTML = Object.entries(chMap).map(([ch, count]) => `
+          <div class="space-y-1">
+            <div class="flex justify-between text-slate-300">
+              <span>${ch}</span>
+              <span class="text-red-400 font-bold">${count} 題</span>
+            </div>
+            <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+              <div class="bg-red-500 h-full" style="width: ${Math.min(count * 25, 100)}%"></div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      const typeContainer = document.getElementById('mistakeTypeBars');
+      if (Object.keys(typeMap).length === 0) {
+        typeContainer.innerHTML = `<p class="text-slate-400">目前尚無錯題紀錄！</p>`;
+      } else {
+        typeContainer.innerHTML = Object.entries(typeMap).map(([t, count]) => `
+          <div class="space-y-1">
+            <div class="flex justify-between text-slate-300">
+              <span>${t}</span>
+              <span class="text-amber-400 font-bold">${count} 題</span>
+            </div>
+            <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+              <div class="bg-amber-500 h-full" style="width: ${Math.min(count * 25, 100)}%"></div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      renderMistakeCards();
+    }
+
+    function renderMistakeCards() {
+      const container = document.getElementById('mistakeCardsContainer');
+      if (mistakeList.length === 0) {
+        container.innerHTML = `<div class="p-8 text-center bg-slate-900 border border-slate-800 rounded-2xl text-slate-400">🎉 太棒了！錯題本已全數清空！</div>`;
+        return;
+      }
+
+      container.innerHTML = mistakeList.map(m => `
+        <div id="mcard-${m.id}" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
+          <div class="flex items-center justify-between text-xs">
+            <span class="px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-300 border border-red-500/30">${m.chapter}</span>
+            <span class="text-slate-400">題型：${m.type}</span>
+          </div>
+          <div class="text-base font-semibold text-white">${m.question}</div>
+          <div class="space-y-2">
+            ${m.options.map(opt => `
+              <button onclick="checkMistakeRetry('${m.id}', '${opt.charAt(0)}')" class="w-full text-left px-4 py-2.5 rounded-xl border border-slate-800 hover:bg-slate-800 text-sm text-slate-300 transition">
+                ${opt}
+              </button>
+            `).join('')}
+          </div>
+          <div id="m-result-${m.id}" class="hidden pt-3 border-t border-slate-800 text-xs"></div>
+        </div>
+      `).join('');
+    }
+
+    function checkMistakeRetry(mId, selectedChar) {
+      const m = mistakeList.find(item => item.id === mId);
+      if (!m) return;
+      const resEl = document.getElementById(`m-result-${mId}`);
+      resEl.classList.remove('hidden');
+
+      if (selectedChar === m.answer) {
+        resEl.innerHTML = `
+          <div class="text-emerald-400 font-bold mb-2">🎉 答對了！恭喜消除此盲點！</div>
+          <p class="text-slate-300 leading-relaxed mb-3">${m.explanation}</p>
+          <button onclick="removeMistake('${mId}')" class="px-3 py-1.5 rounded-lg bg-emerald-500 text-slate-950 font-bold text-xs">
+            ✅ 從錯題本中移除此題
+          </button>
+        `;
+      } else {
+        resEl.innerHTML = `
+          <div class="text-red-400 font-bold mb-1">❌ 依然答錯囉！請看詳解重新思考：</div>
+          <p class="text-slate-300 leading-relaxed">${m.explanation}</p>
+        `;
+      }
+    }
+
+    function removeMistake(mId) {
+      mistakeList = mistakeList.filter(m => m.id !== mId);
+      localStorage.setItem('cs_mistakes', JSON.stringify(mistakeList));
+      updateMistakeStats();
+    }
+
+    function clearAllMistakes() {
+      if (confirm('確定要清空整本錯題紀錄嗎？')) {
+        mistakeList = [];
+        localStorage.removeItem('cs_mistakes');
+        updateMistakeStats();
+      }
+    }
+
+    function renderSupplements(data) {
+      const tContainer = document.getElementById('supplementsTeacherList');
+      const pContainer = document.getElementById('supplementsPapersList');
+      const supp = data.supplements || { teacher: [], papers: [] };
+
+      if (!supp.teacher || supp.teacher.length === 0) {
+        tContainer.innerHTML = `<p class="text-slate-400 text-xs">本章目前尚無老師補充題目。</p>`;
+      } else {
+        tContainer.innerHTML = supp.teacher.map(item => `
+          <div class="p-3 rounded-xl bg-slate-850 border border-slate-800">
+            <h4 class="font-bold text-slate-200 mb-1">${item.title}</h4>
+            <p class="text-xs text-slate-400">${item.desc}</p>
+          </div>
+        `).join('');
+      }
+
+      if (!supp.papers || supp.papers.length === 0) {
+        pContainer.innerHTML = `<p class="text-slate-400 text-xs">本章目前尚無補充論文。</p>`;
+      } else {
+        pContainer.innerHTML = supp.papers.map(item => `
+          <div class="p-3 rounded-xl bg-slate-850 border border-slate-800">
+            <h4 class="font-bold text-slate-200 mb-1">${item.title}</h4>
+            <p class="text-xs text-slate-400">${item.desc}</p>
+          </div>
+        `).join('');
+      }
+    }
+
+    function updateHeaderCounts() {
+      let totalQ = 0;
+      Object.values(BUILTIN_DATABASE).forEach(ch => {
+        if (ch.quiz) totalQ += ch.quiz.length;
+      });
+      document.getElementById('totalQuestionsCount').innerText = totalQ;
+    }
+
+    function switchTab(tabName) {
+      const tabs = ['notes', 'concepts', 'quiz', 'flashcards', 'mistakes', 'supplements'];
+      tabs.forEach(t => {
+        const view = document.getElementById(`view-${t}`);
+        const btn = document.getElementById(`tab-${t}`);
+        if (t === tabName) {
+          view.classList.remove('hidden');
+          btn.classList.add('text-emerald-400', 'bg-slate-800', 'border-emerald-500/30');
+          btn.classList.remove('text-slate-400');
+        } else {
+          view.classList.add('hidden');
+          btn.classList.remove('text-emerald-400', 'bg-slate-800', 'border-emerald-500/30');
+          btn.classList.add('text-slate-400');
+        }
+      });
+    }
+
+    function toggleAiDrawer() {
+      document.getElementById('aiDrawer').classList.toggle('hidden');
+    }
+
+    function sendAiMessage() {
+      const input = document.getElementById('aiInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const chat = document.getElementById('aiChatMessages');
+      chat.innerHTML += `
+        <div class="flex justify-end">
+          <div class="bg-emerald-600 text-white p-2.5 rounded-xl max-w-[85%] text-xs">${text}</div>
+        </div>
+      `;
+      input.value = '';
+      chat.scrollTop = chat.scrollHeight;
+
+      setTimeout(() => {
+        let reply = "這是一個非常關鍵的計算機概論核心觀念！";
+        if (text.includes("二進位") || text.includes("補數")) {
+          reply = "【二補數運算 (2's Complement)】：電腦內部表示負整數的標準方式。做法是：先取反（1變0、0變1），最後再加 1。最大優點是可以將減法運算直接轉為加法器處理！";
+        } else if (text.includes("馮諾曼") || text.includes("架構")) {
+          reply = "【馮諾曼架構】：特點是程式指令與資料都放在同一個記憶體（Stored-Program）。五大單元包含 Input、Output、Memory、CU、ALU。注意『馮諾曼瓶頸』是指匯流排頻寬趕不上 CPU 運算速度。";
+        } else if (text.includes("GPU") || text.includes("CPU")) {
+          reply = "【CPU vs GPU】：CPU 擁有少數強大的核心與複雜的控制邏輯（擅長低延遲的序列複雜任務）；GPU 則擁有數千個較小的核心（擅長高吞吐量的平行矩陣運算，因此非常適合 3D 渲染與 AI 深度學習）。";
+        } else {
+          reply = `關於「${text}」，在計算機科學中，建議先從底層運作原理（如資料如何表示、硬體如何執行指令）著手，再對照課本重點章節的理論模型！`;
+        }
+
+        chat.innerHTML += `
+          <div class="flex justify-start">
+            <div class="bg-slate-800 text-slate-200 p-2.5 rounded-xl max-w-[85%] text-xs border border-slate-700 leading-relaxed">
+              🤖 ${reply}
+            </div>
+          </div>
+        `;
+        chat.scrollTop = chat.scrollHeight;
+      }, 500);
+    }
+
+    function exportCurrentChapterMarkdown() {
+      const data = BUILTIN_DATABASE[currentChapterId];
+      if (!data) return;
+      let md = `# ${data.title}\n\n`;
+      if (data.notes) {
+        data.notes.forEach(sec => {
+          md += `## ${sec.section}\n\n`;
+          sec.items.forEach(item => { md += `- ${item}\n`; });
+          md += `\n`;
+        });
+      }
+      const blob = new Blob([md], { type: 'text/markdown;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${currentChapterId}_notes.md`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    window.onload = init;
+  </script>
+</body>
+</html>
