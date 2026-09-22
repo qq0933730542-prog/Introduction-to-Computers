@@ -1,0 +1,141 @@
+{
+  "chapterId": "14",
+  "title": "第 14 章 軟體工程",
+  "notes": [
+    {
+      "section": "14.1 軟體危機與軟體開發生命週期 (SDLC)",
+      "items": [
+        "軟體危機 (Software Crisis)：1960 年代隨硬體算力暴增，軟體規模失控導致「成本嚴重超支、專案嚴重落後、品質低劣、維護極端困難」，促成軟體工程學科誕生。",
+        "SDLC 標準生命週期六大階段：",
+        "需求分析 (Requirements) ➔ 系統設計 (Design) ➔ 編碼實作 (Implementation) ➔ 測試驗證 (Testing) ➔ 部署上線 (Deployment) ➔ 軟體維護 (Maintenance)。",
+        "※ 重點考點：在軟體的整體生命週期中，耗費成本最高、時間最長（佔 60%~80% 總成本）的階段是「軟體維護 (Maintenance)」！"
+      ]
+    },
+    {
+      "section": "14.2 軟體開發模型：瀑布模型 vs. 敏捷開發 (Agile)",
+      "items": [
+        "瀑布模型 (Waterfall Model)：循序漸進、各階段劃分明確且需完整產出文件，上一階段驗收完才進下一階段。缺點：僵化、缺乏彈性，難以應對客戶中途變更需求。",
+        "敏捷開發 (Agile Development)：核心理念為「擁抱變化、以人為本、快速迭代、產出可運行的軟體勝過冗長文件」。",
+        "Scrum 框架核心要素：",
+        "• 角色：產品負責人 (Product Owner, PO)、Scrum Master (敏捷教練)、開發團隊。",
+        "• 衝刺 (Sprint)：為期 1 至 4 週的短週期開發衝刺，每個衝刺結束均交付具備增量功能之可執行版本。",
+        "• 活動：每日立會 (Daily Standup)、衝刺檢視會議 (Sprint Review)、衝刺回顧會議 (Retrospective)。"
+      ]
+    },
+    {
+      "section": "14.3 軟體測試方法與測試階層",
+      "items": [
+        "黑箱測試 (Black-box Testing)：測試人員不看內部原始碼結構，純粹由外部給予輸入資料，檢驗輸出結果是否符合規格需求（如邊界值分析法）。",
+        "白箱測試 (White-box Testing)：測試人員深入檢視內部程式碼邏輯，設計測試案例跑遍所有分支與條件路徑（如陳述涵蓋度、分支涵蓋度）。",
+        "測試金字塔階層：單元測試 (Unit Test，針對單一函式) ➔ 整合測試 (Integration Test，模組串接) ➔ 系統測試 (System Test) ➔ 驗收測試 (UAT，使用者驗收)。"
+      ]
+    },
+    {
+      "section": "14.4 版本控制 (Git) 與 DevOps / CI/CD",
+      "items": [
+        "Git 分散式版本控制：每位開發者本地皆有完整儲存庫歷史。核心操作：Commit (提交快照)、Branch (功能分支)、Merge (分支合併)、Pull Request (PR 代碼審查)。",
+        "CI/CD (持續整合與持續部署)：",
+        "• CI (持續整合)：開發者提交代碼至 GitHub 時，自動觸發編譯與自動化單元測試，及早發現程式錯誤。",
+        "• CD (持續部署)：測試通過後，自動打包部署上線（如同你使用 GitHub Pages 自動上線網頁）。"
+      ]
+    }
+  ],
+  "concepts": [
+    {
+      "name": "敏捷開發 (Agile) 與 Scrum 框架",
+      "tag": "專案管理典範",
+      "aim": "在瞬息萬變的商業市場中，以短週期快速交付並頻繁調整產品方向",
+      "pipeline": "Product Backlog (需求清單) ➔ Sprint Planning ➔ 1~4週 Sprint 衝刺 (每日 Standup) ➔ Sprint Review 產出成品 ➔ Retrospective 優化流程",
+      "glossary": "Agile Manifesto (敏捷宣言)、Sprint (衝刺)、Scrum Master、Burndown Chart (燃盡圖)、Kanban (看板)",
+      "tech": "現代科技巨頭（如 Google、Spotify、Netflix）全面採行敏捷架構取代傳統瀑布模型",
+      "source": "Agile Manifesto, 2001 & Ken Schwaber, Jeff Sutherland (Scrum Guide)"
+    },
+    {
+      "name": "黑箱測試 vs. 白箱測試 (Testing Strategy)",
+      "tag": "軟體品管驗證",
+      "aim": "確保軟體功能符合規格（外部黑箱）且程式內部邏輯嚴密無漏洞（內部白箱）",
+      "pipeline": "規格需求書 ➔ 黑箱測試 (邊界值分析/等價分割)；原始碼 ➔ 白箱測試 (分支/路徑覆蓋率) ➔ 缺陷報告 (Bug Report)",
+      "glossary": "Black-box, White-box, Unit Test, Regression Testing (回歸測試), UAT",
+      "tech": "結合 CI/CD Pipeline 自動化執行單元測試，達成代碼覆蓋率 (Code Coverage) 80% 以上的品質標準",
+      "source": "Glenford J. Myers (The Art of Software Testing)"
+    }
+  ],
+  "quiz": [
+    {
+      "id": "14-q1",
+      "chapter": "第 14 章 軟體工程",
+      "type": "觀念題",
+      "question": "在軟體開發生命週期 (SDLC) 的各個階段中，統計上通常佔據軟體整體生命週期『花費成本最高、歷時最長』的階段是下列哪一個？",
+      "options": [
+        "A. 需求分析階段",
+        "B. 編碼實作階段",
+        "C. 軟體維護階段",
+        "D. 系統設計階段"
+      ],
+      "answer": "C",
+      "explanation": "軟體維護階段（包含錯誤修復、適應新環境、功能擴充）通常佔據軟體總生命週期成本的 60% 至 80% 以上，遠超前期的編碼開發成本。",
+      "source": "課本 14.1 節"
+    },
+    {
+      "id": "14-q2",
+      "chapter": "第 14 章 軟體工程",
+      "type": "名詞定義",
+      "question": "測試人員完全不檢視軟體內部程式碼的結構與邏輯，純粹透過給予輸入資料並比對輸出結果是否符合規格，這種測試方法稱為？",
+      "options": [
+        "A. 白箱測試 (White-box Testing)",
+        "B. 黑箱測試 (Black-box Testing)",
+        "C. 壓力測試 (Stress Testing)",
+        "D. 灰箱測試 (Gray-box Testing)"
+      ],
+      "answer": "B",
+      "explanation": "黑箱測試（Black-box Testing）將軟體視為一個不透光的黑盒子，只關心輸入與輸出功能是否正常，測試人員無須看到程式碼內部結構。",
+      "source": "課本 14.3 節"
+    },
+    {
+      "id": "14-q3",
+      "chapter": "第 14 章 軟體工程",
+      "type": "架構題",
+      "question": "相較於傳統『瀑布模型 (Waterfall)』，現代盛行的『敏捷開發 (Agile / Scrum)』最核心的優勢在於何種能力？",
+      "options": [
+        "A. 產生最龐大詳盡的紙本規格書與合約文件",
+        "B. 透過短週期的快速迭代，能夠高度靈活彈性地因應客戶的需求變更",
+        "C. 開發過程完全不需要進行軟體測試",
+        "D. 保證所有軟體絕不會出現任何 Bug"
+      ],
+      "answer": "B",
+      "explanation": "敏捷開發的核心精神就是「擁抱變化」，透過 1~4 週的短週期 Sprint 不斷交付可運行的軟體版本，並隨時依回饋調整產品方向。",
+      "source": "課本 14.2 節"
+    }
+  ],
+  "flashcards": [
+    {
+      "front": "簡述瀑布模型 (Waterfall) 與 敏捷開發 (Agile) 的核心理念差異？",
+      "back": "• 瀑布模型：嚴格線性順序（需求➔設計➔編碼➔測試），重視完整規格文件，難以應對中途變更。\n• 敏捷開發：短週期快速迭代 (Sprint)，重視人與互動、可運行的軟體，擁抱需求變動並持續交付。",
+      "tag": "開發模式"
+    },
+    {
+      "front": "黑箱測試與白箱測試的核心差別為何？",
+      "back": "• 黑箱測試：不看內部代碼，從外部檢查輸入與輸出是否符合規格（如功能測試）。\n• 白箱測試：深入分析內部程式碼，檢查所有邏輯分支、迴圈與路徑是否被完整執行覆蓋。",
+      "tag": "軟體品管"
+    },
+    {
+      "front": "什麼是 CI/CD (持續整合 / 持續部署)？",
+      "back": "• CI (持續整合)：開發者每次提交代碼至 GitHub，系統自動編譯並執行單元測試，及早揪出衝突。\n• CD (持續部署)：代碼測試通過後，自動將軟體打包發布至正式雲端環境，達成高頻率穩定發布。",
+      "tag": "現代DevOps"
+    }
+  ],
+  "supplements": {
+    "teacher": [
+      {
+        "title": "第 14 週軟體工程專案：使用 GitHub 建立團隊共同協作 Repository，練習 Branch 分支、Pull Request (PR) 與 Code Review",
+        "desc": "體驗真實企業開發流程：建立 feature branch，提交 PR 審查，並解決 Merge Conflict 衝突。"
+      }
+    ],
+    "papers": [
+      {
+        "title": "The Mythical Man-Month (Fred Brooks, 1975)",
+        "desc": "軟體工程界「聖經級」經典名著，提出著名的布魯克斯法則（人月神話）：「為延遲的軟體專案增加人手，只會讓它更延遲」。"
+      }
+    ]
+  }
+}
