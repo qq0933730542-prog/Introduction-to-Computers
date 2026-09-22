@@ -1,0 +1,137 @@
+{
+  "chapterId": "09",
+  "title": "第 09 章 資訊安全",
+  "notes": [
+    {
+      "section": "9.1 資訊安全三大金科玉律：CIA 三要素",
+      "items": [
+        "機密性 (Confidentiality)：確保只有經授權者可讀取機密資訊，防止未授權洩漏（防範手段：資料加密、存取權限控制）。",
+        "完整性 (Integrity)：確保資料在傳輸與儲存時未遭未授權竄改、刪除或偽造（防範手段：雜湊值 Hash、數位簽章、校驗碼）。",
+        "可用性 (Availability)：確保經授權者在需要時隨時能正常取用系統與資料（防範手段：雙機備援、定期備份、防禦 DDoS 攻擊）。",
+        "不可否認性 (Non-Repudiation)：行為人無法事後否認自己曾發送或簽署過該訊息（透過數位簽章實現）。"
+      ]
+    },
+    {
+      "section": "9.2 密碼學：對稱式加密 vs. 非對稱式加密",
+      "items": [
+        "對稱式加密 (Symmetric)：加密與解密使用「同一把密鑰 (Secret Key)」。優點：運算速度極快，適合大量資料傳輸；缺點：密鑰安全分發困難。代表演算法：AES、DES、3DES。",
+        "非對稱式加密 (Asymmetric / 公開金鑰)：擁有成對的「公鑰 (Public Key)」與「私鑰 (Private Key)」。公鑰公開供大家加密，唯有自己私鑰能解密。優點：免去交換私密密鑰風險；缺點：數學計算量大、速度較慢。代表演算法：RSA、ECC (橢圓曲線)。",
+        "混合式加密 (Hybrid)：實務上（如 HTTPS / SSL）結合兩者優點——先以非對稱加密安全交換「對稱金鑰」，後續連線全部採用該對稱金鑰進行超高速加密傳輸！"
+      ]
+    },
+    {
+      "section": "9.3 單向雜湊函數 (Hash) 與數位簽章",
+      "items": [
+        "雜湊函數 (Hash Function)：將任意長度的資料轉換為固定長度的指紋字串（如 SHA-256）。特性：具不可逆性（無法由雜湊值反推原文）、雪崩效應（原文改動 1 個位元，雜湊值全變）、抗碰撞性。常用於密碼儲存與檔案完整性比對。",
+        "數位簽章 (Digital Signature)：發送者以「自己的私鑰」加密文件的 Hash 值。接收者以發送者的「公鑰」解開驗證。保證了：來源真實性、資料完整性、不可否認性。"
+      ]
+    },
+    {
+      "section": "9.4 常見資安威脅與零信任防禦 (Zero Trust)",
+      "items": [
+        "惡意軟體分類：電腦病毒 (需寄生宿主檔)、電腦蠕蟲 (Worm，具自我複製與網路主動擴散能力，如 WannaCry)、特洛伊木馬 (偽裝為合法程式)。",
+        "DDoS (分散式阻斷服務攻擊)：駭客控制大量受感染的殭屍網路 (Botnet)，同時向目標發送海量無效請求，塞爆頻寬使正常伺服器癱瘓。",
+        "社交工程與釣魚 (Phishing)：利用人性弱點（好奇、恐懼、貪婪）誘騙被害者點擊偽造網址並輸入密碼。",
+        "零信任架構 (Zero Trust)：核心原則為「永不信任，始終驗證 (Never Trust, Always Verify)」，強制多因素驗證 (MFA) 與最小權限存取。"
+      ]
+    }
+  ],
+  "concepts": [
+    {
+      "name": "非對稱加密與數位簽章機制 (Digital Signature)",
+      "tag": "密碼學應用",
+      "aim": "在開放不可靠的網際網路上，實現身分鑑別與防止檔案遭中間人竄改",
+      "pipeline": "原文 ➔ 經 SHA-256 產出摘要 Hash ➔ 寄件者以【自己私鑰】加密 Hash 得數位簽章 ➔ 收件者以寄件者【公鑰】解開比對 Hash 是否相符",
+      "glossary": "Public Key (公鑰)、Private Key (私鑰)、CA (憑證中心)、SSL/TLS Certificate",
+      "tech": "現代網路銀行與電子公文傳輸均強制依賴 X.509 數位憑證與 PKI (公開金鑰基礎建設)",
+      "source": "Diffie & Hellman, 1976 (New Directions in Cryptography)"
+    },
+    {
+      "name": "零信任安全架構 (Zero Trust Architecture)",
+      "tag": "新世代企業防禦",
+      "aim": "揚棄傳統以內網邊界為防護的觀念，將每個請求都視為潛在威脅",
+      "pipeline": "所有使用者/設備 ➔ 身分驗證 (MFA) ➔ 設備合規檢測 ➔ 動態授予最小權限 ➔ 持續即時監控分析",
+      "glossary": "Zero Trust (零信任)、MFA (多因素驗證)、Least Privilege (最小權限原則)、Micro-segmentation (微隔離)",
+      "tech": "結合 FIDO2 無密碼金鑰 (Passkey) 技術，從根源徹底防禦釣魚網站憑證竊取",
+      "source": "NIST SP 800-207 (Zero Trust Architecture)"
+    }
+  ],
+  "quiz": [
+    {
+      "id": "09-q1",
+      "chapter": "第 09 章 資訊安全",
+      "type": "名詞定義",
+      "question": "資訊安全領域最著名的『CIA 三要素』，分別代表哪三項核心安全目標？",
+      "options": [
+        "A. 機密性 (Confidentiality)、完整性 (Integrity)、可用性 (Availability)",
+        "B. 相容性 (Compatibility)、完整性 (Integrity)、鑑別性 (Authentication)",
+        "C. 機密性 (Confidentiality)、身分驗證 (Identity)、授權性 (Authorization)",
+        "D. 控制性 (Control)、檢驗性 (Inspection)、可用性 (Availability)"
+      ],
+      "answer": "A",
+      "explanation": "資安黃金金字塔 CIA 三要素即為：機密性 (Confidentiality)、完整性 (Integrity) 與可用性 (Availability)。",
+      "source": "課本 9.1 節"
+    },
+    {
+      "id": "09-q2",
+      "chapter": "第 09 章 資訊安全",
+      "type": "架構題",
+      "question": "在公開金鑰密碼系統（非對稱加密）中，若愛麗絲 (Alice) 想要發送一封『只有鮑伯 (Bob) 能讀取』的機密情書，愛麗絲應該使用哪一把金鑰來加密這封信？",
+      "options": [
+        "A. 愛麗絲自己的公鑰",
+        "B. 愛麗絲自己的私鑰",
+        "C. 鮑伯的公鑰",
+        "D. 鮑伯的私鑰"
+      ],
+      "answer": "C",
+      "explanation": "要確保機密性（只有收件人能解開），寄件人必須使用『收件人的公鑰 (Bob's Public Key)』加密；因為全世界唯有鮑伯持有的『鮑伯私鑰』能解開此密文。",
+      "source": "課本 9.2 節"
+    },
+    {
+      "id": "09-q3",
+      "chapter": "第 09 章 資訊安全",
+      "type": "觀念題",
+      "question": "駭客利用偽造合法機構（如銀行、郵局或 Netflix）的簡訊或電子郵件，誘騙受害者點擊假連結並自行交出帳號密碼與信用卡資料，此類攻擊手法稱為？",
+      "options": [
+        "A. 阻斷服務攻擊 (DDoS)",
+        "B. 釣魚攻擊 (Phishing)",
+        "C. SQL 注入攻擊 (SQL Injection)",
+        "D. 緩衝區溢位 (Buffer Overflow)"
+      ],
+      "answer": "B",
+      "explanation": "釣魚攻擊（Phishing）屬於社交工程的一種，利用假冒知名合法品牌誘騙使用者主動提供敏感機密資訊。",
+      "source": "課本 9.4 節"
+    }
+  ],
+  "flashcards": [
+    {
+      "front": "簡述對稱式加密與非對稱式加密的最核心優缺點比較？",
+      "back": "• 對稱式 (如 AES)：速度極快、開銷小，適合大檔傳輸；但雙方必須共用同一把密鑰，密鑰安全分發極難。\n• 非對稱式 (如 RSA)：使用公鑰加密/私鑰解密，公鑰可隨意公開，金鑰管理極安全；但涉及龐大質數數學運算，速度極慢。",
+      "tag": "密碼學必背"
+    },
+    {
+      "front": "什麼是『單向雜湊函數 (Hash Function)』？它有哪兩大關鍵特性？",
+      "back": "雜湊函數可將任意長度文字轉為固定長度指紋字串（如 SHA-256）。\n兩大特性：\n1. 單向不可逆：無法從產出的雜湊值反推回原始密碼。\n2. 雪崩效應：輸入原文只要改動 1 個字母，輸出的雜湊值幾乎全數變動。",
+      "tag": "資安基礎"
+    },
+    {
+      "front": "『數位簽章 (Digital Signature)』是如何驗證寄件者身分且防止內容被竄改的？",
+      "back": "1. 寄件者用【自己的私鑰】將文件 Hash 簽名。\n2. 收到的人用寄件者的【公開金鑰】解鎖。\n因為全世界只有寄件者擁有該私鑰，若解得開就證實確實由該人發出（不可否認性），且 Hash 比對相同代表內文完全未遭竄改（完整性）。",
+      "tag": "簽章機制"
+    }
+  ],
+  "supplements": {
+    "teacher": [
+      {
+        "title": "第 9 週資安作業：使用 OpenSSL 工具建立 RSA 2048-bit 金鑰對並實作文字加解密與數位簽章驗證",
+        "desc": "實際操作 openssl genrsa, rsa -pubout 與 dgst -sign 命令，體驗金鑰配對運作原理。"
+      }
+    ],
+    "papers": [
+      {
+        "title": "New Directions in Cryptography (Whitfield Diffie & Martin E. Hellman, 1976)",
+        "desc": "打破千百年對稱密碼傳統，首次提出公開金鑰密碼學與金鑰交換理論的資安史上最重磅論文。"
+      }
+    ]
+  }
+}
