@@ -1,0 +1,137 @@
+{
+  "chapterId": "07",
+  "title": "第 07 章 電腦網路與無線通訊",
+  "notes": [
+    {
+      "section": "7.1 網路分類、拓撲與傳輸媒介",
+      "items": [
+        "涵蓋範圍分類：PAN (個人網路，如藍牙) ➔ LAN (區域網路，如校園宿舍) ➔ MAN (都會網路) ➔ WAN (廣域網路，如網際網路)。",
+        "常見網路拓撲：星狀 (Star，以 Switch 為中心，單點故障不影響全網，最常見)、環狀 (Ring)、匯流排 (Bus)、網狀 (Mesh，容錯率最高但佈線昂貴)。",
+        "傳輸媒介：雙絞線 (UTP/STP，RJ-45 接頭)；光纖 (Fiber Optic，利用光全反射傳輸，頻寬極大、距離遠且完全抗電磁干擾)。"
+      ]
+    },
+    {
+      "section": "7.2 OSI 七層模型 vs. TCP/IP 架構",
+      "items": [
+        "OSI 由下而上七層：實體層 (Physical) ➔ 資料連結層 (Data Link) ➔ 網路層 (Network) ➔ 傳輸層 (Transport) ➔ 會議層 (Session) ➔ 展示層 (Presentation) ➔ 應用層 (Application)。",
+        "核心層級與代表設備/協定：",
+        "• 第二層 (Data Link)：以 MAC 位址定址，傳輸單位為 Frame（訊框），核心設備為交換器 (Switch)。",
+        "• 第三層 (Network)：以 IP 位址定址，負責路徑選擇 (Routing)，傳輸單位為 Packet（封包），核心設備為路由器 (Router)。",
+        "• 第四層 (Transport)：端對端連線，以 Port (連接埠) 辨識應用程式，協定有 TCP 與 UDP。"
+      ]
+    },
+    {
+      "section": "7.3 傳輸層雙雄：TCP vs. UDP",
+      "items": [
+        "TCP (傳輸控制協定)：連線導向 (Connection-oriented)、可靠傳輸（保證不遺失且依序送達）、具備流量控制與壅塞控制。透過「三向交握 (Three-way Handshake)」建立連線。用於 HTTP/HTTPS、郵件 SMTP、檔案下載。",
+        "UDP (使用者資料包協定)：非連線導向、不保證送達、開銷極小、速度極快。用於即時語音 (VoIP)、串流影音直播、線上多人對戰遊戲、DNS 查詢。"
+      ]
+    },
+    {
+      "section": "7.4 主流無線通訊技術",
+      "items": [
+        "Wi-Fi (IEEE 802.11 系列)：如 Wi-Fi 6 (802.11ax)、Wi-Fi 7 (802.11be)，利用 2.4GHz、5GHz 及 6GHz 頻段傳輸。",
+        "藍牙 (Bluetooth, IEEE 802.15.1)：短距離、低耗電 (BLE)，用於無線耳機、智慧手環穿戴裝置。",
+        "NFC (近場通訊)：傳輸距離通常在 4 公分以內，工作頻率 13.56 MHz，廣泛應用於 Apple Pay、悠遊卡、感應門禁。"
+      ]
+    }
+  ],
+  "concepts": [
+    {
+      "name": "OSI 七層模型與資料封裝 (PDU)",
+      "tag": "網路協定架構",
+      "aim": "標準化不同廠商電腦設備間通訊的開放式架構規範",
+      "pipeline": "資料 (Data) ➔ 加 TCP/UDP 標頭成 Segment ➔ 加 IP 標頭成 Packet ➔ 加 MAC 標頭成 Frame ➔ 轉為 Bits 位元流在實體媒介傳輸",
+      "glossary": "Encapsulation (封裝)、Decapsulation (解封裝)、PDU (協定資料單元)、MAC Address、IP Address",
+      "tech": "網管人員排查網路問題時，通常自實體層由下往上逐步診斷（如先檢查網線再檢查 IP）",
+      "source": "ISO/IEC 7498-1 Standard"
+    },
+    {
+      "name": "TCP 三向交握機制 (Three-way Handshake)",
+      "tag": "傳輸層可靠機制",
+      "aim": "在不可靠的 IP 網路上，確保通訊雙方收發能力健全並同步初始序號 (ISN)",
+      "pipeline": "Client 發送 SYN ➔ Server 回覆 SYN-ACK ➔ Client 回覆 ACK ➔ TCP 連線正式建立",
+      "glossary": "SYN (Synchronize)、ACK (Acknowledge)、Seq Number (序列號)、四次揮手 (FIN/ACK 斷線)",
+      "tech": "遭遇 SYN Flood 阻斷服務攻擊時，伺服器藉由 SYN Cookie 機制防禦半開連線資源耗盡",
+      "source": "RFC 793 (Transmission Control Protocol)"
+    }
+  ],
+  "quiz": [
+    {
+      "id": "07-q1",
+      "chapter": "第 07 章 電腦網路與無線通訊",
+      "type": "架構題",
+      "question": "在 OSI 七層模型中，負責尋找最佳傳輸路徑（Routing），並以『IP 位址』進行封包轉發的設備是下列何者？",
+      "options": [
+        "A. 集線器 (Hub)",
+        "B. 交換器 (Switch)",
+        "C. 路由器 (Router)",
+        "D. 中繼器 (Repeater)"
+      ],
+      "answer": "C",
+      "explanation": "路由器運作於 OSI 第三層（網路層），讀取 IP 封包並根據路由表選擇最佳路徑；交換器則主要運作於第二層（資料連結層），依據 MAC 位址轉發訊框。",
+      "source": "課本 7.2 節"
+    },
+    {
+      "id": "07-q2",
+      "chapter": "第 07 章 電腦網路與無線通訊",
+      "type": "觀念題",
+      "question": "線上多人射擊遊戲、視訊會議或串流影音直播，通常偏好使用 UDP 協定而非 TCP 協定，其最主要原因為何？",
+      "options": [
+        "A. UDP 具備更強大的資料加密能力",
+        "B. UDP 傳輸速度極快且延遲低，能容忍極少量封包遺失",
+        "C. UDP 保證每個封包絕對不遺失",
+        "D. UDP 採用了三向交握驗證"
+      ],
+      "answer": "B",
+      "explanation": "UDP 沒有 TCP 繁重的三向交握、確認應答與重傳機制，雖然不保證百分之百送達，但低延遲的特性非常適合對即時性要求極高的即時影音與遊戲。",
+      "source": "課本 7.3 節"
+    },
+    {
+      "id": "07-q3",
+      "chapter": "第 07 章 電腦網路與無線通訊",
+      "type": "名詞定義",
+      "question": "智慧型手機使用 Apple Pay、Google 錢包或感應悠遊卡搭乘捷運時，主要是利用下列哪一種無線通訊技術？",
+      "options": [
+        "A. 藍牙 (Bluetooth)",
+        "B. 近場通訊 (NFC)",
+        "C. Wi-Fi 6",
+        "D. 衛星通訊 (GPS)"
+      ],
+      "answer": "B",
+      "explanation": "NFC (Near Field Communication，近場通訊) 是由 RFID 演進而來的短距離（約 4 公分內）無線射頻通訊技術，廣泛應用於感應支付與電子票證。",
+      "source": "課本 7.4 節"
+    }
+  ],
+  "flashcards": [
+    {
+      "front": "請由下而上（第 1 層到第 7 層）依序背出 OSI 七層模型？",
+      "back": "1. 實體層 (Physical)\n2. 資料連結層 (Data Link)\n3. 網路層 (Network)\n4. 傳輸層 (Transport)\n5. 會議層 (Session)\n6. 展示層 (Presentation)\n7. 應用層 (Application)",
+      "tag": "必考模型"
+    },
+    {
+      "front": "簡述 TCP 建立連線時的『三向交握 (Three-way Handshake)』三步驟？",
+      "back": "1. 客戶端送出 SYN 封包，請求建立連線。\n2. 伺服器端收到後，回覆 SYN + ACK 封包。\n3. 客戶端收到後，再次回覆 ACK 封包。\n此時雙方確認連線通暢，開始傳送資料！",
+      "tag": "傳輸機制"
+    },
+    {
+      "front": "MAC 位址 (實體位址) 與 IP 位址 (邏輯位址) 的主要區別？",
+      "back": "• MAC 位址：燒錄在網卡上的唯一硬體識別碼（48 bits），用於區域網路內部（同網段）設備定位。\n• IP 位址：由網路管理者分配的邏輯位址（IPv4 為 32 bits，IPv6 為 128 bits），用於跨網際網路路由尋址。",
+      "tag": "定址概念"
+    }
+  ],
+  "supplements": {
+    "teacher": [
+      {
+        "title": "第 7 週網路實作作業：使用 Wireshark 網路封包分析工具擷取 TCP 三向交握與 HTTP Request",
+        "desc": "實際觀察 SYN, SYN-ACK, ACK 封包中的 Seq 與 Ack 數值變化。"
+      }
+    ],
+    "papers": [
+      {
+        "title": "A Protocol for Packet Network Intercommunication (Vinton G. Cerf & Robert E. Kahn, 1974)",
+        "desc": "網際網路之父發表之經典論文，首次正式提出 TCP/IP 協定核心規範。"
+      }
+    ]
+  }
+}
