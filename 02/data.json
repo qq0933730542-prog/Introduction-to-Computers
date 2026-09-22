@@ -1,128 +1,948 @@
+
 {
   "chapterId": "02",
-  "title": "第 02 章 人工智慧與科技新發展",
+  "title": "第 02 章 人工智慧與科技新發展 (50題全真特訓版)",
   "notes": [
     {
-      "section": "2.1 人工智慧定義與發展歷程",
+      "section": "2.1 人工智慧定義、分類與三次歷史浪潮",
       "items": [
-        "弱人工智慧 (Narrow AI / Weak AI)：專注於解決特定領域問題（如 AlphaGo 下圍棋、人臉辨識、語音助理）。",
-        "強人工智慧 (General AI / AGI)：具備等同或超越人類的全面通用推理、認知與自主學習能力。",
-        "AI 演進三浪潮：1950-1980 規則專家系統 ➔ 1990-2010 傳統機器學習 (ML，如 SVM、決策樹) ➔ 2012-至今 深度學習 (DL) 與大型語言模型 (LLM)。"
+        "AI 分類：",
+        "• 弱人工智慧 (Narrow AI)：專精於單一特定領域任務（如 AlphaGo 下圍棋、人臉辨識、Siri 語音助理、醫療影像診斷），當前所有實用 AI 均屬此類。",
+        "• 強人工智慧 (General AI / AGI)：具備等同於人類之通用認知、跨領域推理、自主學習與問題解決能力。",
+        "• 超人工智慧 (Superintelligence / ASI)：在所有智力領域（包含科學創造力、智慧、社交技巧）遠遠超越全體人類智慧總和的假想形態。",
+        "AI 演進三浪潮：",
+        "• 第一次浪潮 (1950-1970)：符號邏輯與搜尋，以邏輯推理與跳棋程式為代表。面臨第一次寒冬：單層感知器無法解決 XOR 非線性問題。",
+        "• 第二次浪潮 (1980-1990)：專家系統 (Expert Systems) 與知識庫工程，BP 反向傳播演算法振興多層感知器。面臨第二次寒冬：知識獲取困難、系統難以維護。",
+        "• 第三次浪潮 (2012-至今)：大數據 + GPU 平行運算 + 深度學習 (AlexNet 奪冠、AlphaGo)，演進至當前以 Transformer 為基礎的生成式 AI 與大型語言模型 (LLM) 爆發。"
       ]
     },
     {
-      "section": "2.2 深度學習與 Transformer 革命",
+      "section": "2.2 機器學習 (Machine Learning) 三大範式",
       "items": [
-        "傳統 RNN / LSTM 缺陷：必須序列逐步讀取字詞，難以平行加速運算，且對長文本有遺忘問題。",
-        "Transformer 架構（2017 Google 提出）：以 Self-Attention（自注意力機制）為核心，可全文本並行處理矩陣運算，成為 GPT、Claude、Gemini 的共同基石。",
-        "神經網路核心三要素：權重 (Weights)、偏置 (Bias)、激活函數 (Activation Function，如 ReLU)。"
+        "1. 監督式學習 (Supervised Learning)：訓練資料包含「特徵 (Features)」與「標籤 (Labels)」。任務包含：分類 (Classification，輸出離散類別，如垃圾郵件判定) 與 回歸 (Regression，輸出連續數值，如預測房價)。",
+        "2. 非監督式學習 (Unsupervised Learning)：訓練資料「沒有任何標籤」，由演算法自主發掘資料潛在分佈結構。任務包含：分群 (Clustering，如 K-Means 客戶群體細分) 與 降維 (Dimensionality Reduction，如 PCA)。",
+        "3. 強化學習 (Reinforcement Learning)：智慧代理人 (Agent) 在環境中採取行動 (Action)，透過環境給予的獎勵 (Reward) 或懲罰持續試錯學習最佳策略 (Policy)（如 AlphaGo、自駕車導航）。",
+        "自監督學習 (Self-Supervised Learning)：大語言模型預訓練之核心，直接利用無標籤海量文本，自製克漏字填空或預測下一個 Token 進行大規模自我學習。"
       ]
     },
     {
-      "section": "2.3 生成式 AI 與大型語言模型實務技術",
+      "section": "2.3 深度學習核心架構演進：CNN、RNN 到 Transformer",
       "items": [
-        "提示工程 (Prompt Engineering)：設計明確角色、背景、範例（Few-Shot）以引導模型產生精準回答。",
-        "RAG (檢索增強生成)：在回答前先檢索外部私有知識庫，徹底解決模型知識過期與「幻覺 (Hallucination)」問題。",
-        "模型微調 (Fine-Tuning) 與參數高效微調 (PEFT / LoRA)：以低算力低成本讓通用大模型專精特定領域。"
+        "人工神經元基本運算：輸入向量與權重 (Weights) 進行內積運算，加上偏置 (Bias)，再經過非線性「激活函數 (Activation Function，如 ReLU、Sigmoid、GELU)」產生輸出。",
+        "卷積神經網路 (CNN)：具備局部感知 (Local Receptive Field) 與權重共享 (Weight Sharing) 特性，具平移不變性，專長於「電腦視覺 (Computer Vision)」影像特徵提取。",
+        "遞歸神經網路 (RNN / LSTM)：專為時間序列與自然語言設計，具隱藏狀態 (Hidden State) 記憶歷史資訊。致命缺點：必須逐字序列處理（無法平行運算加速），且面臨「梯度消失 (Vanishing Gradient)」與長距遺忘問題。",
+        "Transformer 架構 (2017 Google 發表)：",
+        "• 自注意力機制 (Self-Attention)：全文本矩陣並行計算，任一字詞均能直接關注文章中其他所有字詞的語意關聯。",
+        "• 徹底擺脫 RNN 序列循環，完全契合 GPU 大規模平行張量矩陣計算，成為現代 GPT、Claude、Gemini 與多模態大模型的通用架構。"
+      ]
+    },
+    {
+      "section": "2.4 生成式 AI 與大型語言模型 (LLM) 關鍵工程技術",
+      "items": [
+        "LLM 三階段訓練管線：",
+        "1. 預訓練 (Pre-training)：海量無標籤文本學習語言規律與世界知識（獲得基底模型 Base Model）。",
+        "2. 監督式微調 (SFT)：高品質問答對訓練模型聽懂指令並依格式回答（Instruction Following）。",
+        "3. 對齊 (Alignment - RLHF / DPO)：透過人類回饋強化學習，確保模型符合 3H 原則（Helpful 有幫助、Honest 誠實、Harmless 無害）。",
+        "提示工程 (Prompt Engineering)：設計角色設定、情境脈絡、少樣本範例 (Few-Shot) 與思維鏈 (Chain-of-Thought, CoT) 激發模型逐步推理能力。",
+        "RAG (檢索增強生成)：生成前先從外部私有向量資料庫 (Vector DB) 檢索最新參考資料填入 Prompt，徹底根除模型「幻覺 (Hallucination)」與知識過期問題。",
+        "PEFT (參數高效微調 - LoRA)：凍結模型原數百億參數，僅外掛訓練低秩小矩陣，以極低顯存與成本完成模型客製化。",
+        "模型量化 (Quantization)：將浮點數權重由 FP16 壓縮至 INT8 或 INT4，大幅縮減顯存並加速推論。"
+      ]
+    },
+    {
+      "section": "2.5 前沿新興科技 (Edge AI、量子運算、數位雙生)",
+      "items": [
+        "邊緣 AI (Edge AI)：將神經網路模型部署於本地終端晶片（NPU / 行動裝置），達成超低延遲、離線可用且保障個資隱私。",
+        "量子運算 (Quantum Computing)：以量子位元 (Qubit) 為基本單位，利用「量子疊加 (Superposition)」與「量子糾纏 (Entanglement)」，在特定難題（如質因數分解 Shor's Algorithm、分子藥物模擬）達成指數級算力超越（量子霸權）。",
+        "具身智能 (Embodied AI)：結合多模態大模型的大腦與實體機器人肢體，能理解物理世界環境並執行精密實體動作。"
       ]
     }
   ],
   "concepts": [
     {
-      "name": "Transformer 架構 (自注意力機制)",
+      "name": "Transformer 架構與自注意力機制",
       "tag": "深度學習架構",
-      "aim": "當代大型語言模型 (LLM) 與多模態 AI 的底層核心架構",
-      "pipeline": "Input Tokens ➔ Token & Positional Embedding ➔ Multi-Head Self-Attention ➔ Feed Forward ➔ Softmax 輸出機率",
-      "glossary": "Self-Attention、Query-Key-Value (Q, K, V)、Positional Encoding、Context Window",
-      "tech": "高度契合 GPU 平行張量矩陣加速，徹底取代傳統序列式 RNN/LSTM",
+      "aim": "當代大型語言模型 (GPT, Gemini) 的底層通用算力模型",
+      "pipeline": "Tokens ➔ Embedding + Positional Encoding ➔ Multi-Head Self-Attention ➔ Feed Forward ➔ Softmax",
+      "glossary": "Self-Attention、Q/K/V、Positional Encoding、Context Window、Multi-Head",
+      "tech": "高度契合 GPU 平行張量運算，以 attention map 捕捉跨千字以上的全域語意相依性",
       "source": "Vaswani et al., 2017 (Attention Is All You Need)"
     },
     {
-      "name": "檢索增強生成 (RAG)",
-      "tag": "AI系統工程",
-      "aim": "結合私有外掛資料庫，解決大語言模型知識不及時與幻覺問題",
-      "pipeline": "使用者 Query ➔ Embedding 向量化 ➔ 向量資料庫餘弦相似度檢索 ➔ 拼接 Context ➔ LLM 生成回答",
-      "glossary": "Vector Database (向量資料庫)、Embedding (向量嵌入)、Cosine Similarity、Chunking (分塊)",
-      "tech": "搭配混合檢索 (Hybrid Search) 與重排模型 (Re-ranking) 提高檢索精準度",
-      "source": "Lewis et al., 2020 (Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks)"
-    }
-  ],
-  "quiz": [
-    {
-      "id": "02-q1",
-      "chapter": "第 02 章 人工智慧與科技新發展",
-      "type": "架構題",
-      "question": "2017 年 Google 發布論文《Attention Is All You Need》，提出了當代大語言模型（如 GPT-4、Gemini）所共同奠基的核心架構，該架構名稱為？",
-      "options": [
-        "A. CNN (卷積神經網路)",
-        "B. RNN (遞歸神經網路)",
-        "C. Transformer 架構",
-        "D. GAN (生成對抗網路)"
-      ],
-      "answer": "C",
-      "explanation": "Transformer 揚棄了傳統 RNN 的循序循環計算，改採自注意力機制（Self-Attention）實現高度並行運算，引爆了當代生成式 AI 與 LLM 革命。",
-      "source": "課本 2.2 節"
-    },
-    {
-      "id": "02-q2",
-      "chapter": "第 02 章 人工智慧與科技新發展",
-      "type": "實務技術",
-      "question": "企業在不重新訓練整顆大型語言模型的前提下，為解決模型『胡言亂語（幻覺）』並使其能回答公司內部即時專屬文件的技術稱為？",
-      "options": [
-        "A. RAG (檢索增強生成)",
-        "B. Pre-training (預訓練)",
-        "C. Backpropagation (反向傳播)",
-        "D. Quantization (模型量化)"
-      ],
-      "answer": "A",
-      "explanation": "RAG（Retrieval-Augmented Generation）在模型生成回答前，先由向量資料庫檢索精確背景資料傳入 Prompt，是企業消除幻覺最主流手法。",
-      "source": "課本 2.3 節"
-    },
-    {
-      "id": "02-q3",
-      "chapter": "第 02 章 人工智慧與科技新發展",
-      "type": "名詞定義",
-      "question": "能針對下圍棋、人臉辨識或垃圾郵件分類等『單一特定任務』表現極為優異，但不具備人類廣泛通用思考能力的 AI，屬於下列哪一類別？",
-      "options": [
-        "A. 弱人工智慧 (Narrow / Weak AI)",
-        "B. 強人工智慧 (AGI)",
-        "C. 超人工智慧 (ASI)",
-        "D. 符號邏輯 AI"
-      ],
-      "answer": "A",
-      "explanation": "目前現實生活中的所有 AI 應用（包含 AlphaGo、Siri）均屬於弱人工智慧（Narrow AI），專精於特定狹隘領域；強人工智慧（AGI）為具備廣泛通用智能的理想目標。",
-      "source": "課本 2.1 節"
+      "name": "檢索增強生成 (RAG) 系統工程",
+      "tag": "LLM應用架構",
+      "aim": "為大模型外掛私有領域知識庫，根絕模型幻覺與時效性問題",
+      "pipeline": "用戶 Query ➔ Embedding 向量化 ➔ 向量資料庫檢索 Top-K 文本 ➔ 組合 Prompt ➔ LLM 生成附出處的可靠答案",
+      "glossary": "Vector DB, Embedding, Cosine Similarity, Chunking, Hallucination",
+      "tech": "採用 Hybrid Search (語意向量 + 關鍵字 BM25) 與 Re-ranking 重排模型最大化檢索精準度",
+      "source": "Lewis et al., 2020 (RAG for Knowledge-Intensive NLP Tasks)"
     }
   ],
   "flashcards": [
     {
-      "front": "何謂『大型語言模型的幻覺 (Hallucination)』？",
-      "back": "指大語言模型生成表面看起來流暢、邏輯完整，但事實上完全錯誤、捏造或無中生有的虛假資訊。",
-      "tag": "AI核心概念"
+      "front": "什麼是『弱人工智慧 (Narrow AI)』與『強人工智慧 (AGI)』？",
+      "back": "• 弱 AI (Narrow AI)：專精於單一特定任務（如人臉辨識、下圍棋、翻譯），目前現實生活中的所有 AI 皆屬此類。\n• 強 AI (AGI)：具備等同人類、能跨領域自主學習、推理與解決全新複雜問題的通用智能。",
+      "tag": "AI分類"
     },
     {
-      "front": "Transformer 為何比傳統 RNN / LSTM 更適合訓練超大型模型？",
-      "back": "因為 RNN 必須序列依序處理字詞（無法並行）；Transformer 使用 Self-Attention 機制，可將整篇文章的所有字詞同時放入 GPU 進行大規模平行矩陣運算，訓練速度呈幾何級數提升。",
-      "tag": "技術機制"
+      "front": "監督式學習 (Supervised) 與 非監督式學習 (Unsupervised) 最核心區別？",
+      "back": "• 監督式學習：訓練資料『有標籤 (Labels)』，包含分類（如貓狗分類）與回歸（如房價預測）。\n• 非監督式學習：訓練資料『沒有標籤』，演算法自行發掘資料群體特徵（如 K-Means 分群、PCA 降維）。",
+      "tag": "機器學習"
     },
     {
-      "front": "何謂『提示工程 (Prompt Engineering)』？",
-      "back": "透過結構化設計輸入給語言模型的提示詞（包含指定角色、任務背景、輸入限制與輸出格式，例如 Few-Shot 範例），以引導模型產生高品質且符合預期的答案。",
-      "tag": "實用技術"
+      "front": "Transformer 革命為何能徹底取代傳統 RNN？",
+      "back": "傳統 RNN 必須逐字循序讀取，無法讓 GPU 平行加速且容易遺忘長文本；Transformer 採用『自注意力機制 (Self-Attention)』，可同時平行處理整篇文章所有字詞的矩陣計算，訓練速度呈指數級飛躍。",
+      "tag": "深度學習"
+    },
+    {
+      "front": "什麼是大型語言模型的『幻覺 (Hallucination)』？如何有效防範？",
+      "back": "幻覺指模型以極度流暢自信的語氣，生成完全捏造、錯誤或無中生有的虛假資訊。\n防範手法：採用 RAG（檢索增強生成）、提示詞加上嚴格引用限制、調低 Temperature 參數、以及知識對齊 (RLHF)。",
+      "tag": "LLM核心"
+    },
+    {
+      "front": "簡述 RAG (檢索增強生成) 的運作四步驟？",
+      "back": "1. 檢索 (Retrieve)：將用戶問題向量化，在向量資料庫中搜尋最相似的私有文件。\n2. 增強 (Augment)：將檢索到的正確文本片段塞入 Prompt 作為參考背景。\n3. 生成 (Generate)：傳給 LLM 根據參考資料產出精準回答。\n4. 溯源：附帶原始文件出處。",
+      "tag": "RAG架構"
+    },
+    {
+      "front": "什麼是參數高效微調技術『LoRA (Low-Rank Adaptation)』？",
+      "back": "一種極度省資源的微調技術。它保持原本龐大的大模型權重凍結不動，僅在外側附加訓練兩顆極小的低秩矩陣 (A × B)，以不到原本 1% 的顯存成本達成專屬領域客製化。",
+      "tag": "微調技術"
+    },
+    {
+      "front": "量子運算的核心原理是什麼？什麼是量子疊加態？",
+      "back": "傳統位元只能是 0 或 1；量子位元 (Qubit) 藉由量子疊加態 (Superposition)，可同時處於 0 和 1 的機率結合狀態。n 個量子位元可同時表示 2^n 個狀態，具備龐大的平行計算潛力。",
+      "tag": "前沿科技"
+    },
+    {
+      "front": "什麼是『提示工程 (Prompt Engineering)』的思維鏈 (Chain-of-Thought, CoT)？",
+      "back": "一種在提示詞中引導模型「一步一步思考 (Let's think step by step)」的技巧。透過將複雜問題拆解為多個中間推導步驟，大幅降低邏輯與數學運算的答錯機率。",
+      "tag": "提示工程"
+    }
+  ],
+  "quiz": [
+    {
+      "id": "02-q01",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "簡單",
+      "type": "AI分類",
+      "question": "專精於單一特定領域任務（如 AlphaGo 下圍棋、Apple FaceID 人臉辨識），但不具備人類廣泛通用推理能力的 AI 稱為？",
+      "options": [
+        "A. 弱人工智慧 (Narrow AI)",
+        "B. 通用人工智慧 (AGI)",
+        "C. 超人工智慧 (ASI)",
+        "D. 符號邏輯 AI"
+      ],
+      "answer": "A",
+      "explanation": "目前現實世界所有商用與專用 AI 均屬於弱人工智慧 (Narrow AI)。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q02",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "簡單",
+      "type": "機器學習基礎",
+      "question": "訓練資料同時包含『輸入特徵 (Features)』與『正確標準答案 (Labels)』的機器學習方法稱為？",
+      "options": [
+        "A. 監督式學習 (Supervised Learning)",
+        "B. 非監督式學習 (Unsupervised Learning)",
+        "C. 強化學習 (Reinforcement Learning)",
+        "D. 演化計算"
+      ],
+      "answer": "A",
+      "explanation": "監督式學習的根本特徵即為訓練集具備已知標籤 (Labels)。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q03",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "簡單",
+      "type": "非監督學習",
+      "question": "訓練資料完全沒有任何標籤，由演算法自行分析並將相似的客戶資料自動分成數個群組的任務屬於？",
+      "options": [
+        "A. 分類 (Classification)",
+        "B. 分群 (Clustering)",
+        "C. 回歸 (Regression)",
+        "D. 強化學習"
+      ],
+      "answer": "B",
+      "explanation": "分群（如 K-Means）是非監督式學習的典型應用，目標為尋找無標籤資料的群聚結構。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q04",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "簡單",
+      "type": "深度學習架構",
+      "question": "2017 年 Google 在論文《Attention Is All You Need》中提出，成為當代大語言模型基石的核心架構是？",
+      "options": [
+        "A. CNN",
+        "B. RNN",
+        "C. Transformer",
+        "D. 決策樹"
+      ],
+      "answer": "C",
+      "explanation": "Transformer 架構揚棄循序循環，完全以自注意力機制實現並行計算。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q05",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "簡單",
+      "type": "LLM核心觀念",
+      "question": "大語言模型以極為流暢自信的語調，講出表面看似合理但事實上完全捏造錯誤的現象在 AI 術語中稱為？",
+      "options": [
+        "A. 梯度爆炸",
+        "B. 幻覺 (Hallucination)",
+        "C. 溢位 (Overflow)",
+        "D. 偏置 (Bias)"
+      ],
+      "answer": "B",
+      "explanation": "幻覺指大語言模型受限於機率預測機制產出的無中生有錯誤事實。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q06",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "簡單",
+      "type": "電腦視覺",
+      "question": "在圖像辨識與電腦視覺 (Computer Vision) 領域中，最常採用的經典深度學習神經網路架構為？",
+      "options": [
+        "A. CNN (卷積神經網路)",
+        "B. RNN (遞歸神經網路)",
+        "C. ANN (傳統感知器)",
+        "D. 專家系統"
+      ],
+      "answer": "A",
+      "explanation": "CNN 具備卷積核局部感知與權重共享，為影像特徵提取的權威架構。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q07",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "簡單",
+      "type": "NLP基礎",
+      "question": "在自然語言處理中，將大文章或字句切分成機器可處理的最小單元（如單詞或子詞）的技術過程稱為？",
+      "options": [
+        "A. 標記化 (Tokenization)",
+        "B. 量化 (Quantization)",
+        "C. 剪枝 (Pruning)",
+        "D. 蒸餾 (Distillation)"
+      ],
+      "answer": "A",
+      "explanation": "Tokenization 將輸入字串切為 Tokens（如使用 BPE 演算法）。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q08",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "簡單",
+      "type": "強化學習",
+      "question": "AlphaGo 透過與環境下圍棋並藉由輸贏回饋分數來持續優化策略的學習方式，屬於下列何者？",
+      "options": [
+        "A. 監督式學習",
+        "B. 非監督式學習",
+        "C. 強化學習 (Reinforcement Learning)",
+        "D. 啟發式搜尋"
+      ],
+      "answer": "C",
+      "explanation": "強化學習透過 Agent 採取行動並由環境回饋 Reward 獎懲來學習最佳策略。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q09",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "簡單",
+      "type": "量子運算",
+      "question": "傳統電腦以二進位 Bit (0 或 1) 為基礎，而量子電腦所使用的基本資訊運算單元稱為？",
+      "options": [
+        "A. Qubit (量子位元)",
+        "B. Byte",
+        "C. Qu-Byte",
+        "D. Token"
+      ],
+      "answer": "A",
+      "explanation": "Qubit（量子位元）為量子電腦的基本運算單位。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q10",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "簡單",
+      "type": "神經網路基礎",
+      "question": "神經網絡中負責引入非線性轉換能力，使神經網路能夠擬合複雜函數的元件稱為？",
+      "options": [
+        "A. 匯流排",
+        "B. 激活函數 (Activation Function)",
+        "C. 時脈振盪器",
+        "D. 暫存器"
+      ],
+      "answer": "B",
+      "explanation": "若無非線性激活函數（如 ReLU），多層神經網路本質上仍只是單純的線性代數矩陣相乘。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q11",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "簡單",
+      "type": "提示工程",
+      "question": "在提示工程 (Prompt Engineering) 中，在提問時完全不給任何範例直接要求模型回答的模式稱為？",
+      "options": [
+        "A. Zero-Shot Prompting (零樣本提示)",
+        "B. Few-Shot Prompting (少樣本提示)",
+        "C. Fine-Tuning",
+        "D. Pre-training"
+      ],
+      "answer": "A",
+      "explanation": "Zero-Shot 代表提問中不提供任何參考範例，直接考驗模型通用知識。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q12",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "簡單",
+      "type": "邊緣運算",
+      "question": "將 AI 深度學習模型直接部署於智慧型手機、行車紀錄器等終端邊緣設備運行的架構稱為？",
+      "options": [
+        "A. 邊緣 AI (Edge AI)",
+        "B. 雲端集中運算",
+        "C. 虛擬主機",
+        "D. 超級運算中心"
+      ],
+      "answer": "A",
+      "explanation": "Edge AI 在本地晶片執行模型推論，具備低延遲與高隱私優勢。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q13",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "簡單",
+      "type": "機器學習分類",
+      "question": "機器學習中，用來預測房屋價格（輸出為連續實數數值）的任務類型屬於？",
+      "options": [
+        "A. 分類 (Classification)",
+        "B. 回歸 (Regression)",
+        "C. 分群 (Clustering)",
+        "D. 雜湊"
+      ],
+      "answer": "B",
+      "explanation": "預測連續實數為回歸任務；預測離散類別（如貓或狗）為分類任務。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q14",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "簡單",
+      "type": "AI歷史名機",
+      "question": "1997 年擊敗世界西洋棋棋王卡斯帕羅夫的 IBM 電腦名稱為？",
+      "options": [
+        "A. 深藍 (Deep Blue)",
+        "B. 華生 (Watson)",
+        "C. 深層思考 (DeepMind)",
+        "D. 巨人機 (Colossus)"
+      ],
+      "answer": "A",
+      "explanation": "IBM 深藍 (Deep Blue) 於 1997 年擊敗人類西洋棋世界冠軍，震撼全球。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q15",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "簡單",
+      "type": "企業部署",
+      "question": "企業為避免向 OpenAI 傳送商業機密，將開源大模型私有化部署在自家內網伺服器的行為屬於？",
+      "options": [
+        "A. 地端部署 (On-Premises)",
+        "B. 公有雲服務",
+        "C. SaaS 租用",
+        "D. 網路釣魚"
+      ],
+      "answer": "A",
+      "explanation": "On-Premises 指將硬體與模型架設於企業內部受限機房，保障機密性。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q16",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "一般",
+      "type": "RAG架構",
+      "question": "在大型語言模型中，RAG (Retrieval-Augmented Generation) 解決模型幻覺的最關鍵步驟是？",
+      "options": [
+        "A. 將模型層數增加十倍",
+        "B. 在生成回答前，先由向量資料庫檢索精準的私有外部資料填入 Prompt",
+        "C. 提高伺服器電源供應瓦數",
+        "D. 將程式碼編譯成組合語言"
+      ],
+      "answer": "B",
+      "explanation": "RAG 透過「先檢索外部客觀事實，再生成回答」機制，大幅降低幻覺並更新即時知識。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q17",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "一般",
+      "type": "深度學習機制",
+      "question": "傳統遞歸神經網路 (RNN) 處理長篇文章時，最常遭遇何種嚴重的數學最佳化瓶頸？",
+      "options": [
+        "A. 空間碎裂",
+        "B. 梯度消失 (Vanishing Gradient) 與長距遺忘",
+        "C. 緩衝區溢位",
+        "D. 死結循環"
+      ],
+      "answer": "B",
+      "explanation": "反向傳播跨多個時間步連乘小於 1 的權重時，梯度呈指數衰減至 0，失去學習長距依賴能力。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q18",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "一般",
+      "type": "Transformer架構",
+      "question": "Transformer 中的『自注意力機制 (Self-Attention)』主要是透過計算哪三個向量矩陣的交互關係？",
+      "options": [
+        "A. Alpha, Beta, Gamma",
+        "B. Query, Key, Value (Q, K, V)",
+        "C. Input, Output, Hidden",
+        "D. Push, Pop, Peek"
+      ],
+      "answer": "B",
+      "explanation": "Self-Attention 透過 Q 查詢向量與 K 鍵值向量做內積計算注意力權重，再加權聚合 V 數值向量。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q19",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "一般",
+      "type": "提示工程",
+      "question": "在大模型提示工程中，引導模型『請一步一步思考 (Let's think step by step)』以提升複雜邏輯推理正確率的技巧稱為？",
+      "options": [
+        "A. 少樣本提示 (Few-Shot)",
+        "B. 思維鏈 (Chain-of-Thought, CoT)",
+        "C. 模型蒸餾",
+        "D. 語意對齊"
+      ],
+      "answer": "B",
+      "explanation": "思維鏈 (CoT) 促使模型產生逐步的中間推理 Token，顯著提高數學與複雜推理命中率。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q20",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "一般",
+      "type": "模型對齊",
+      "question": "在訓練大語言模型對齊 (Alignment) 時，利用人類標註員對模型輸出的優劣進行評分以微調模型的技術縮寫為何？",
+      "options": [
+        "A. RLHF (人類回饋強化學習)",
+        "B. CNN",
+        "C. DFS",
+        "D. NAT"
+      ],
+      "answer": "A",
+      "explanation": "RLHF (Reinforcement Learning from Human Feedback) 是讓大模型遵循人類價值觀（3H）的關鍵對齊方法。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q21",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "一般",
+      "type": "微調技術",
+      "question": "參數高效微調技術 LoRA (Low-Rank Adaptation) 能在僅消耗極少顯存的前提下微調大模型，其核心數學原理為？",
+      "options": [
+        "A. 將模型所有權重歸零",
+        "B. 凍結主模型權重，僅透過分解的兩個低秩矩陣 (A × B) 進行增量訓練",
+        "C. 砍掉模型所有的注意力頭",
+        "D. 轉為二進位純文字儲存"
+      ],
+      "answer": "B",
+      "explanation": "LoRA 利用內在維度 (Intrinsic Rank) 低的假設，將龐大更新矩陣拆為兩個低階小矩陣大幅節省顯存。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q22",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "一般",
+      "type": "向量檢索",
+      "question": "在向量資料庫 (Vector Database) 中，評估兩段文字 Embedding 向量語意相似度最常用的幾何衡量方式為？",
+      "options": [
+        "A. 餘弦相似度 (Cosine Similarity)",
+        "B. 費氏數列",
+        "C. 奇偶校驗",
+        "D. 漢明距離"
+      ],
+      "answer": "A",
+      "explanation": "餘弦相似度計算兩多維向量間的夾角餘弦值，值越接近 1 代表語意關聯度越高。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q23",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "一般",
+      "type": "模型壓縮",
+      "question": "將深度學習模型的浮點數權重由 16 位元 (FP16) 轉換為 8 位元 (INT8) 或 4 位元 (INT4) 的壓縮技術稱為？",
+      "options": [
+        "A. 模型量化 (Quantization)",
+        "B. 模型對齊 (Alignment)",
+        "C. 資料正規化",
+        "D. 反向傳播"
+      ],
+      "answer": "A",
+      "explanation": "量化以微小精度損失為代價，大幅削減模型顯存佔用（減半以上）並加速 GPU 矩陣推論。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q24",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "一般",
+      "type": "量子前沿",
+      "question": "量子運算中，兩個或多個量子位元在空間上彼此相隔遙遠，但一個量子狀態的改變會瞬間影響另一個的奇特物理現象稱為？",
+      "options": [
+        "A. 量子穿隧",
+        "B. 量子糾纏 (Quantum Entanglement)",
+        "C. 量子退相干",
+        "D. 莫爾效應"
+      ],
+      "answer": "B",
+      "explanation": "量子糾纏是量子通訊（量子密鑰分發 QKD）與量子平行計算的核心物理依據。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q25",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "一般",
+      "type": "神經網路",
+      "question": "在深度學習神經元中，ReLU 激活函數的數學定義為？",
+      "options": [
+        "A. f(x) = x^2",
+        "B. f(x) = max(0, x)",
+        "C. f(x) = 1 / (1 + e^-x)",
+        "D. f(x) = sin(x)"
+      ],
+      "answer": "B",
+      "explanation": "ReLU (Rectified Linear Unit) 定義為 max(0, x)，計算極簡且在正數區無梯度消失問題。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q26",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "一般",
+      "type": "推論參數",
+      "question": "在大模型生成文本時，控制模型回答『隨機性與創造力』的超參數為？",
+      "options": [
+        "A. Batch Size",
+        "B. Temperature (溫度參數)",
+        "C. Learning Rate",
+        "D. Momentum"
+      ],
+      "answer": "B",
+      "explanation": "Temperature 越低輸出越確定保守；Temperature 越高輸出越多樣富創造力（但也更易胡言亂語）。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q27",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "一般",
+      "type": "新興科技",
+      "question": "下列何種技術可以將實體工廠、風力發電機或城市管線在電腦中建立 1:1 的即時數位虛擬鏡像以進行預測模擬？",
+      "options": [
+        "A. 數位雙生 (Digital Twin)",
+        "B. 區塊鏈",
+        "C. 雜湊表",
+        "D. 多工器"
+      ],
+      "answer": "A",
+      "explanation": "數位雙生結合物聯網感測器即時數據與 3D 模擬，達到設備預測性維護。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q28",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "一般",
+      "type": "評估指標",
+      "question": "在機器學習評估指標中，預測為正且實際也為正的樣本佔所有被預測為正的樣本比例稱為？",
+      "options": [
+        "A. 精確率 (Precision)",
+        "B. 召回率 (Recall)",
+        "C. 損失函數 (Loss)",
+        "D. 學習率"
+      ],
+      "answer": "A",
+      "explanation": "Precision = TP / (TP + FP)，代表模型預測命中正例的準繩度。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q29",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "一般",
+      "type": "AI倫理資安",
+      "question": "利用深度學習偽造名人的臉部特徵或聲音進行詐騙或造假的黑科技統稱為？",
+      "options": [
+        "A. 深偽技術 (Deepfake)",
+        "B. 勒索軟體",
+        "C. 殭屍網路",
+        "D. 數位簽章"
+      ],
+      "answer": "A",
+      "explanation": "Deepfake 主要利用 GAN 生成對抗網路或 Diffusion 擴散模型偽造極度逼真的影音假訊息。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q30",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "一般",
+      "type": "語意表示",
+      "question": "在自然語言處理中，將字詞轉換為高維度稠密數值向量以捕捉語意關係的技術稱為？",
+      "options": [
+        "A. 詞嵌入 (Word Embedding)",
+        "B. 編譯",
+        "C. 鏈結",
+        "D. 加密"
+      ],
+      "answer": "A",
+      "explanation": "Embedding（如 Word2Vec）將字詞映射到多維向量空間，語意相近的詞在空間距離更近。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q31",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "一般",
+      "type": "CNN架構",
+      "question": "卷積神經網路 (CNN) 中的『池化層 (Pooling Layer，如 Max Pooling)』最主要的功用為？",
+      "options": [
+        "A. 增加影像特徵圖的解析度",
+        "B. 降低特徵圖空間維度以減少運算參數量並具備微小位移容忍度",
+        "C. 執行字串翻譯",
+        "D. 加密影像資料"
+      ],
+      "answer": "B",
+      "explanation": "池化層（降取樣）縮小特徵圖尺寸，減少後續運算量並有效防止過擬合 (Overfitting)。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q32",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "一般",
+      "type": "電腦視覺",
+      "question": "在自駕車視覺辨識系統中，能夠為影像中『每一個像素 (Pixel)』都標註出所屬物體類別的進階視覺技術為？",
+      "options": [
+        "A. 語意分割 (Semantic Segmentation)",
+        "B. 影像分類",
+        "C. 文字轉語音",
+        "D. 邊界檢測"
+      ],
+      "answer": "A",
+      "explanation": "語意分割逐像素精準劃分道路、行人與障礙物，為高階自動駕駛核心演算法。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q33",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "一般",
+      "type": "模型訓練",
+      "question": "大語言模型訓練過程中，為防止模型在訓練集表現完美但在新資料一塌糊塗的現象稱為？",
+      "options": [
+        "A. 欠擬合 (Underfitting)",
+        "B. 過擬合 (Overfitting)",
+        "C. 梯度爆炸",
+        "D. 量化誤差"
+      ],
+      "answer": "B",
+      "explanation": "過擬合（Overfitting）指模型死記訓練資料的雜訊，失去面對未知資料的泛化能力。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q34",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "一般",
+      "type": "生成技術",
+      "question": "下列哪一種生成模型是目前主流文字生成圖片工具（如 Midjourney、Stable Diffusion）所廣泛採用的核心演算法？",
+      "options": [
+        "A. 擴散模型 (Diffusion Models)",
+        "B. 決策樹",
+        "C. 線性回歸",
+        "D. 隱藏式馬可夫模型"
+      ],
+      "answer": "A",
+      "explanation": "擴散模型透過在影像逐步加入高斯雜訊，再訓練神經網絡反向「去噪」重現高清圖片。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q35",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "一般",
+      "type": "LLM評測",
+      "question": "當前大模型主流評估標竿中，專門測試模型在文史、數理、醫學等跨學科知識儲備的多主題評測基準縮寫為何？",
+      "options": [
+        "A. MMLU (Massive Multitask Language Understanding)",
+        "B. TCP/IP",
+        "C. SQL",
+        "D. IEEE 754"
+      ],
+      "answer": "A",
+      "explanation": "MMLU 包含 57 個學科領域的大量選擇題，為衡量當代基礎大模型綜合知識能力的權威評測集。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q36",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "難",
+      "type": "數學底層機制",
+      "question": "在 Transformer 的自注意力運算中，標準 Scaled Dot-Product Attention 公式為 Attention(Q,K,V) = softmax( (QK^T) / sqrt(d_k) ) × V，其中除以 sqrt(d_k) 的關鍵數學目的為何？",
+      "options": [
+        "A. 增加權重大小以加快計算",
+        "B. 防止向量維度 d_k 過大時點積數值過大，導致 Softmax 進入極端飽和區造成梯度消失",
+        "C. 將矩陣轉為整數以利儲存",
+        "D. 消除偏置 Bias 影響"
+      ],
+      "answer": "B",
+      "explanation": "維度 d_k 很大時點積方差激增，除以 sqrt(d_k) 可將數值縮放回常態分佈，維持 Softmax 穩定的梯度反向傳播。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q37",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "難",
+      "type": "RAG工程細節",
+      "question": "某公司擁有 10 萬篇內部 PDF 技術規章，若直接將整份規章全部塞入大模型 Prompt 往往會導致 Context Window 爆表且費用昂貴。在建構 RAG 系統時，標準的『分塊 (Chunking)』最佳實踐通常會保留 overlap（重疊字數），其核心目的為？",
+      "options": [
+        "A. 增加資料庫體積",
+        "B. 防止文章在固定長度切斷時，剛好把關鍵語意或名詞硬生生腰斬分離造成資訊斷裂",
+        "C. 加密檔案內容",
+        "D. 減少向量計算量"
+      ],
+      "answer": "B",
+      "explanation": "Chunk Overlap（如每 500 字切一段保留 50 字重疊）確保跨切片交界處的語意上下文連貫不遺失。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q38",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "難",
+      "type": "數學向量計算",
+      "question": "假設一個二維平面空間中，向量 A = (1, 1)，向量 B = (0, 2)，則兩向量之間的『餘弦相似度 (Cosine Similarity)』計算結果為何？",
+      "options": [
+        "A. 0.5",
+        "B. sqrt(2) / 2 (約 0.707)",
+        "C. 1.0",
+        "D. 0"
+      ],
+      "answer": "B",
+      "explanation": "A·B = 0+2 = 2。|A| = sqrt(1+1) = sqrt(2)，|B| = sqrt(4) = 2。Cos = 2 / (sqrt(2) × 2) = 1/sqrt(2) = sqrt(2)/2 ≈ 0.707。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q39",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "難",
+      "type": "參數量計算",
+      "question": "在 LoRA 參數高效微調架構中，若原始大模型的權重矩陣 W 維度為 4096 × 4096（共約 1677 萬個參數）。若設定秩 rank r = 8，將其分解為 A(4096 × 8) 與 B(8 × 4096)，則 LoRA 需要訓練的參數量為多少？",
+      "options": [
+        "A. 32,768 (約 3.2 萬個參數)",
+        "B. 65,536 (約 6.5 萬個參數)",
+        "C. 100 萬個參數",
+        "D. 4096 個參數"
+      ],
+      "answer": "B",
+      "explanation": "A 參數量 = 4096 × 8 = 32,768；B 參數量 = 8 × 4096 = 32,768。總參數量 = 32768 + 32768 = 65,536，僅佔原本的 0.39%！",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q40",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "難",
+      "type": "量子威脅",
+      "question": "量子運算演算法中著名的『秀爾演算法 (Shor's Algorithm)』，因能在多項式時間內解決何種數學難題，從而對現代 RSA 非對稱密碼體系構成致命崩潰威脅？",
+      "options": [
+        "A. 質因數分解 (Prime Factorization)",
+        "B. 矩陣轉置",
+        "C. 排序演算法",
+        "D. 雜湊校驗"
+      ],
+      "answer": "A",
+      "explanation": "Shor's Algorithm 能在量子多項式時間破解大整數質因數分解，直接摧毀建立在大質數難題上的 RSA 加密。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q41",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "難",
+      "type": "LLM推論優化",
+      "question": "大模型在執行推論 (Inference) 生成文本時，通常會快取前文已計算好的 Key 與 Value 向量，避免每個 Token 生成都重複計算整個歷史上下文。這項關鍵記憶體優化技術稱為？",
+      "options": [
+        "A. KV Cache",
+        "B. 虛擬記憶體 Paging",
+        "C. 堆疊 Stack",
+        "D. 垃圾回收 GC"
+      ],
+      "answer": "A",
+      "explanation": "KV Cache 將歷史 Tokens 的 Key 與 Value 張量暫存於顯存中，將後續自回歸生成的計算複雜度大幅降低。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q42",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "難",
+      "type": "RL理論",
+      "question": "在強化學習 (Reinforcement Learning) 的貝爾曼方程式 (Bellman Equation) 中，折現因子 (Discount Factor, γ，通常介於 0 到 1 之間) 的核心作用為？",
+      "options": [
+        "A. 權衡眼前立即獎勵與長遠未來累積獎勵的比重",
+        "B. 減少記憶體佔用",
+        "C. 防止除以零錯誤",
+        "D. 加密通訊數據"
+      ],
+      "answer": "A",
+      "explanation": "γ 越接近 0 代表 Agent 極度短視只看眼前獎勵；γ 越接近 1 代表 Agent 越重視長遠未來的持續收益。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q43",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "難",
+      "type": "前沿對齊技術",
+      "question": "目前國際頂尖 AI 實驗室所推動的『Constitutional AI (憲法 AI)』對齊架構，其主要突破創新在於何處？",
+      "options": [
+        "A. 廢除所有 AI 倫理約束",
+        "B. 利用一套預先寫好的明確原則規範（憲法），讓 AI 模型自我評判與修正批判，大幅減少對昂貴人類標註員的依賴",
+        "C. 強制將 AI 原始碼開源",
+        "D. 改用二進位手動微調"
+      ],
+      "answer": "B",
+      "explanation": "Anthropic 提出的 Constitutional AI 透過 AI 自我監督與 RLAIF 實現大規模自動化無害對齊。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q44",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "難",
+      "type": "MoE架構",
+      "question": "在大模型混合專家系統 (Mixture of Experts, MoE，如 Mixtral 8x7B) 架構中，系統如何在保持極大總參數量的同時，維持極快的單 Token 推論速度？",
+      "options": [
+        "A. 每次推論時，由路由門控網路 (Gating Network) 動態僅啟用 1~2 個最相關的專屬前饋專家層 (Feed-Forward Experts)",
+        "B. 砍掉所有權重矩陣",
+        "C. 改用 CPU 序列執行",
+        "D. 將所有文字轉為音訊"
+      ],
+      "answer": "A",
+      "explanation": "MoE 採用稀疏激活 (Sparse Activation)，總參數量巨大但每個 Token 僅呼叫局部專家子網絡計算。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q45",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "難",
+      "type": "量子物理難題",
+      "question": "在量子電腦硬體中，量子位元極易受到外界環境溫度、電磁雜訊干擾而喪失量子疊加特性退化為普通位元的現象稱為？",
+      "options": [
+        "A. 量子退相干 (Quantum Decoherence)",
+        "B. 量子霸權",
+        "C. 馮諾曼瓶頸",
+        "D. 梯度消失"
+      ],
+      "answer": "A",
+      "explanation": "量子退相干（Decoherence）是量子電腦必須維持在接近絕對零度（數十毫開爾文 mK）環境運作的主因。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q46",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "難",
+      "type": "生成架構",
+      "question": "現代 Diffusion 擴散模型（如 Stable Diffusion）在去噪生成圖片的過程中，實體負責預測並剔除噪聲的神經網絡骨幹多採用下列何者？",
+      "options": [
+        "A. U-Net 架構 (或 Diffusion Transformer - DiT)",
+        "B. 單層感知器",
+        "C. 傳統專家系統",
+        "D. 泡沫排序器"
+      ],
+      "answer": "A",
+      "explanation": "U-Net 具備編碼器-解碼器跳躍連接結構，能精準在多尺度特徵圖上預測高斯噪聲分佈。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q47",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "難",
+      "type": "深度學習革命",
+      "question": "當神經網路層數極深時（如超過 100 層），ResNet (殘差網路) 藉由何種突破性的設計，成功解決了深層網路反向傳播時的梯度消失問題？",
+      "options": [
+        "A. 殘差跳躍連接 (Skip / Residual Connection: F(x) + x)",
+        "B. 拔除所有激活函數",
+        "C. 改用全連接層",
+        "D. 增加池化層數目"
+      ],
+      "answer": "A",
+      "explanation": "何愷明提出的殘差連接使得梯度可以直接經由恆等映射 (Identity Map) 跨層暢通無阻傳播至最淺層。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q48",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "難",
+      "type": "Tokenizer算法",
+      "question": "某語言模型使用 BPE (Byte-Pair Encoding) 演算法建構詞表，其最根本的建表邏輯是依據下列何者反覆迭代合併？",
+      "options": [
+        "A. 字母在字典的順序",
+        "B. 統計文本中相鄰字元對 (Byte-Pair) 出現頻率最高者進行合併",
+        "C. 隨機亂數抽取",
+        "D. 英文文法規則"
+      ],
+      "answer": "B",
+      "explanation": "BPE 貪婪地統計並合併最高頻連續子字元對，在詞表體積與未登錄詞 (OOV) 覆蓋率間取得完美平衡。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q49",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "難",
+      "type": "系統工程優化",
+      "question": "在大模型推論服務部署中，PageAttention (如 vLLM 框架) 藉由借鑑作業系統的何種經典記憶體管理概念，大幅解決了 KV Cache 顯存浪費與碎片化問題？",
+      "options": [
+        "A. 虛擬記憶體分頁機制 (Paging)",
+        "B. 死結循環等待",
+        "C. 磁碟磁軌重組",
+        "D. 堆疊溢位"
+      ],
+      "answer": "A",
+      "explanation": "vLLM 借鑑 OS 虛擬分頁，將 KV Cache 切為固定物理分頁非連續儲存，將顯存浪費降至 4% 以下。",
+      "source": "教材 2.1 - 2.5 節"
+    },
+    {
+      "id": "02-q50",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "difficulty": "難",
+      "type": "AI評測陷阱",
+      "question": "在 AI 評測中，所謂的『數據污染 (Data Contamination)』現象是指？",
+      "options": [
+        "A. 訓練資料感染電腦病毒",
+        "B. 評測測試集的題目與標準答案已經不慎洩漏並混入大模型的預訓練語料中，導致跑分虛高假象",
+        "C. 資料庫被植入木馬",
+        "D. 影像解析度過低"
+      ],
+      "answer": "B",
+      "explanation": "數據污染指模型在預訓練時早已「看過考卷題目與解答」，使得跑分極高但真實泛化推理能力低落。",
+      "source": "教材 2.1 - 2.5 節"
     }
   ],
   "supplements": {
     "teacher": [
       {
-        "title": "第 2 週實作作業：使用 Python 串接 LLM API 並設計少樣本提示 (Few-Shot Prompt)",
-        "desc": "練習 Prompt 結構化設定與 Temperature 參數調校。"
+        "title": "第 2 週實作作業：使用 Python 串接 LLM API 並實作 RAG 向量搜尋系統",
+        "desc": "以 LangChain 或 LlamaIndex 實作私有 PDF 文件問答。"
+      },
+      {
+        "title": "深度計算作業：自注意力機制矩陣乘法維度推導與 LoRA 參數量估算",
+        "desc": "計算不同 rank 參數下參數量縮減比率。"
       }
     ],
     "papers": [
       {
         "title": "Attention Is All You Need (Vaswani et al., 2017)",
         "desc": "開啟生成式 AI 新紀元的 Transformer 開創性論文。"
+      },
+      {
+        "title": "LoRA: Low-Rank Adaptation of Large Language Models (Hu et al., 2021)",
+        "desc": "奠定大模型輕量化微調主流地位的經典論文。"
       }
     ]
   }
 }
+目前顯示的是「第02章_人工智慧與科技新發展_50題全真特訓版.json」。
