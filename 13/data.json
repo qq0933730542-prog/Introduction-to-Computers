@@ -1,0 +1,147 @@
+{
+  "chapterId": "13",
+  "title": "第 13 章 資料庫、資料倉儲與大數據",
+  "notes": [
+    {
+      "section": "13.1 關聯式資料庫 (RDBMS) 與 ACID 交易特性",
+      "items": [
+        "關聯式模型 (Relational Model)：以二維表格 (Table) 儲存資料，列 (Row / Tuple) 為個別紀錄，行 (Column / Attribute) 為欄位屬性。",
+        "關鍵鍵值：",
+        "• 主鍵 (Primary Key, PK)：唯一識別表格中每一筆紀錄的欄位，不可重複且絕不能為空值 (Not NULL)。",
+        "• 外鍵 (Foreign Key, FK)：用來建立兩個表格關聯的欄位，其數值必須參照對應表格的主鍵，維持「參照完整性」。",
+        "交易 (Transaction) 之 ACID 四大特性：",
+        "1. 原子性 (Atomicity)：交易內的所有操作「要麼全部成功，要麼全部失敗回滾 (Rollback)」，絕無中間狀態（如銀行轉帳扣款與入帳）。",
+        "2. 一致性 (Consistency)：交易前後，資料庫必須始終符合所有預設規則與約束。",
+        "3. 隔離性 (Isolation)：多個交易同時進行時互不干擾，避免產生髒讀 (Dirty Read)。",
+        "4. 耐久性 (Durability)：交易一旦 Commit 成功，其結果永久寫入磁碟，即使停電系統崩潰也不會遺失。"
+      ]
+    },
+    {
+      "section": "13.2 SQL 語言與資料庫正規化 (Normalization)",
+      "items": [
+        "SQL 語言三大類：",
+        "• DDL (資料定義語言)：CREATE、ALTER、DROP（定義或修改資料庫結構）。",
+        "• DML (資料操作語言)：SELECT、INSERT、UPDATE、DELETE（查詢或修改資料內容）。",
+        "• DCL (資料控制語言)：GRANT、REVOKE（管理帳號權限）。",
+        "正規化三大階層（目的在消除重複資料與異常）：",
+        "• 1NF (第一正規化)：每個欄位必須具備「原子性 (Atomic)」，不可包含多個值或重複群組。",
+        "• 2NF (第二正規化)：符合 1NF，且消除「部分功能相依」（所有非鍵欄位必須完全相依於整個主鍵）。",
+        "• 3NF (第三正規化)：符合 2NF，且消除「遞移功能相依」（非鍵欄位不可相依於其他非鍵欄位）。"
+      ]
+    },
+    {
+      "section": "13.3 NoSQL 非關聯式資料庫與 CAP 定理",
+      "items": [
+        "NoSQL 特點：無須固定 Schema、支援水平均衡擴展 (Scale-out)、適合海量非結構化資料。",
+        "四大類型：文件型 (Document，如 MongoDB - JSON/BSON 格式)、鍵值型 (Key-Value，如 Redis - 超高速記憶體快取)、寬欄型 (Column，如 Cassandra)、圖形型 (Graph，如 Neo4j - 社交好友關係圖)。",
+        "CAP 定理：分散式系統中，「一致性 (Consistency)」、「可用性 (Availability)」、「分區容錯性 (Partition Tolerance)」三者無法同時兼得，至多只能滿足其中兩者。"
+      ]
+    },
+    {
+      "section": "13.4 資料倉儲 (Data Warehouse) 與大數據 4V",
+      "items": [
+        "OLTP vs. OLAP：OLTP (線上交易處理，如 ATM 提款) 著重即時短小交易；OLAP (線上分析處理，如資料倉儲商業智慧 BI) 著重歷史巨量報表分析。",
+        "ETL 流程：擷取 (Extract) ➔ 轉換 (Transform) ➔ 載入 (Load)。",
+        "大數據 4V 特徵：海量 (Volume)、高速 (Velocity)、多樣 (Variety，文字/圖片/影音)、真實性 (Veracity)。"
+      ]
+    }
+  ],
+  "concepts": [
+    {
+      "name": "資料庫交易 ACID 四大特性",
+      "tag": "資料庫核心保證",
+      "aim": "金融交易與企業核心系統保障資料絕對正確的理論基石",
+      "pipeline": "Begin Transaction ➔ 執行多個 SQL ➔ 若皆成功執行 Commit (持久化) ➔ 若任一步驟報錯執行 Rollback (全面回滾)",
+      "glossary": "Atomicity (原子性)、Consistency (一致性)、Isolation (隔離性)、Durability (耐久性)、WAL (預寫日誌)",
+      "tech": "資料庫利用雙階段鎖定 (2PL) 與 WAL (Write-Ahead Logging) 機制實現 Isolation 與 Durability",
+      "source": "Jim Gray (Turing Award, Transaction Processing Concepts)"
+    },
+    {
+      "name": "資料庫正規化 (Normalization 1NF-3NF)",
+      "tag": "關聯式設計",
+      "aim": "消除資料冗餘，根絕資料庫的新增異常、刪除異常與更新異常",
+      "pipeline": "原始表格 ➔ 1NF (欄位不可分割) ➔ 2NF (消除部分相依) ➔ 3NF (消除非鍵對非鍵的遞移相依) ➔ 乾淨關聯表格",
+      "glossary": "Anomaly (異常)、Functional Dependency (功能相依)、Primary Key、Foreign Key",
+      "tech": "在超大型報表分析系統中，有時會反其道而行進行「反正規化 (Denormalization)」以犧牲空間換取查詢速度",
+      "source": "Edgar F. Codd, 1970 (A Relational Model of Data for Large Shared Data Banks)"
+    }
+  ],
+  "quiz": [
+    {
+      "id": "13-q1",
+      "chapter": "第 13 章 資料庫、資料倉儲與大數據",
+      "type": "名詞定義",
+      "question": "銀行跨行轉帳時，必須保證『A 帳戶扣款 1000 元』與『B 帳戶入帳 1000 元』這兩個動作要麼全部完成，要麼只要任一失敗就全部取消回滾。這項保證符合資料庫 ACID 的哪一項特性？",
+      "options": [
+        "A. 原子性 (Atomicity)",
+        "B. 一致性 (Consistency)",
+        "C. 隔離性 (Isolation)",
+        "D. 耐久性 (Durability)"
+      ],
+      "answer": "A",
+      "explanation": "原子性（Atomicity）強調交易不可分割（All or Nothing），交易內的所有操作必須全數成功，若中途失敗則必須復原至未執行狀態。",
+      "source": "課本 13.1 節"
+    },
+    {
+      "id": "13-q2",
+      "chapter": "第 13 章 資料庫、資料倉儲與大數據",
+      "type": "觀念題",
+      "question": "在關聯式資料庫中，下列關於『主鍵 (Primary Key)』特性的敘述，何者完全正確？",
+      "options": [
+        "A. 一個表格內可以允許多筆紀錄擁有相同的主鍵值",
+        "B. 主鍵欄位可以允許填入 NULL 空值",
+        "C. 主鍵是用來唯一識別表格中每一筆紀錄的欄位，不可重複且不可為 NULL",
+        "D. 主鍵只能由單一欄位組成，不能是複合欄位"
+      ],
+      "answer": "C",
+      "explanation": "主鍵（Primary Key）是表格的唯一識別符，強制具備唯一性（Unique）且絕不能為 NULL（實體完整性規則）。",
+      "source": "課本 13.1 節"
+    },
+    {
+      "id": "13-q3",
+      "chapter": "第 13 章 資料庫、資料倉儲與大數據",
+      "type": "架構題",
+      "question": "現代分散式資料庫理論中的 CAP 定理指出，在分散式網路分區（P, Partition Tolerance）必然存在的前提下，系統通常必須在下列哪兩者之間做權衡取捨？",
+      "options": [
+        "A. 成本 (Cost) 與 速度 (Speed)",
+        "B. 一致性 (Consistency) 與 可用性 (Availability)",
+        "C. 儲存量 (Capacity) 與 運算量 (Compute)",
+        "D. 安全性 (Security) 與 相容性 (Compatibility)"
+      ],
+      "answer": "B",
+      "explanation": "CAP 定理證明分散式系統在網路可能發生分區斷線 (P) 的情況下，無法同時兼顧強一致性 (C) 與高可用性 (A)，必須在 CP 或 AP 之間做出架構權衡。",
+      "source": "課本 13.3 節"
+    }
+  ],
+  "flashcards": [
+    {
+      "front": "簡述關聯式資料庫交易的 ACID 四大特性？",
+      "back": "• A (原子性)：全部成功或全部取消，絕無中間狀態。\n• C (一致性)：交易前後均滿足系統完整性約束。\n• I (隔離性)：多個交易併發執行時互不干擾。\n• D (耐久性)：一旦成功 Commit，寫入永久保存不遺失。",
+      "tag": "ACID必背"
+    },
+    {
+      "front": "資料庫正規化 1NF、2NF、3NF 各解決了什麼核心問題？",
+      "back": "• 1NF：欄位原子性，不可一欄塞多值。\n• 2NF：消除部分相依，非鍵欄位必須依賴完整主鍵。\n• 3NF：消除遞移相依，非鍵欄位不可相依於其他非鍵欄位（A➔B, B➔C）。",
+      "tag": "正規化口訣"
+    },
+    {
+      "front": "RDBMS (關聯式) 與 NoSQL (非關聯式) 的核心差異為何？",
+      "back": "• RDBMS (如 MySQL, PostgreSQL)：表格結構固定 (Schema)、支援強力 ACID 交易、透過 SQL 查詢、適合財務與結構化數據。\n• NoSQL (如 MongoDB, Redis)：結構動態自由、高併發水準擴展 (Scale-out)、適合海量大數據、日誌、物聯網與社群網絡。",
+      "tag": "資料庫對比"
+    }
+  ],
+  "supplements": {
+    "teacher": [
+      {
+        "title": "第 13 週資料庫實作：使用 SQLite 撰寫 SQL 進行多表 JOIN 關聯查詢與資料聚合 GROUP BY",
+        "desc": "以學生選課系統為例，撰寫 INNER JOIN 撈取修課學生清單並計算平均分數。"
+      }
+    ],
+    "papers": [
+      {
+        "title": "A Relational Model of Data for Large Shared Data Banks (E. F. Codd, 1970)",
+        "desc": "圖靈獎得主 Codd 奠定當代關聯式資料庫與正規化理論的開天闢地論文。"
+      }
+    ]
+  }
+}
