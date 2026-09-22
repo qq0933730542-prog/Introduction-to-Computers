@@ -16,14 +16,13 @@
           }
         }
       }
-    }
+    };
   </script>
   <style>
     .perspective-1000 { perspective: 1000px; }
     .transform-style-3d { transform-style: preserve-3d; }
     .backface-hidden { backface-visibility: hidden; }
     .rotate-y-180 { transform: rotateY(180deg); }
-    /* 自訂捲軸 */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #0f172a; }
     ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
@@ -46,18 +45,17 @@
       </div>
     </div>
 
-    <!-- 章節選擇器 -->
+    <!-- 章節選擇器 (14 章) -->
     <div class="flex items-center gap-2">
       <span class="text-xs text-slate-400 font-medium">當前章節：</span>
-      <select id="chapterSelect" onchange="onChapterChange(this.value)" class="bg-slate-800 border border-slate-700 text-emerald-300 text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium">
-        <!-- 由 JS 動態生成 14 章選單 -->
+      <select id="chapterSelect" onchange="onChapterChange(this.value)" class="bg-slate-800 border border-slate-700 text-emerald-300 text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium cursor-pointer">
       </select>
     </div>
 
     <!-- 狀態資訊 -->
     <div class="flex items-center gap-3 text-xs">
       <span class="px-2.5 py-1 rounded-md bg-slate-800 border border-slate-700 text-slate-300">
-        📚 累積收錄 <span id="totalQuestionsCount" class="text-emerald-400 font-bold">0</span> 題
+        📚 本章題庫 <span id="totalQuestionsCount" class="text-emerald-400 font-bold">0</span> 題
       </span>
       <span class="px-2.5 py-1 rounded-md bg-red-950/60 border border-red-800/50 text-red-300">
         ⚠️ 錯題本 <span id="navMistakeCount" class="text-red-400 font-bold">0</span> 題
@@ -65,7 +63,7 @@
     </div>
   </header>
 
-  <!-- 次導覽列：6 大功能分頁 (完全對應手繪架構) -->
+  <!-- 次導覽列：6 大功能分頁 -->
   <nav class="bg-slate-900 border-b border-slate-800 px-4 lg:px-8 py-1.5 flex overflow-x-auto gap-2 text-sm sticky top-[61px] z-30">
     <button onclick="switchTab('notes')" id="tab-notes" class="tab-btn px-4 py-2 rounded-lg font-medium flex items-center gap-2 text-emerald-400 bg-slate-800 border border-emerald-500/30 transition">
       📖 課本重點
@@ -90,7 +88,7 @@
   <!-- 主內容展示區 -->
   <main class="flex-1 max-w-6xl w-full mx-auto p-4 lg:p-8">
 
-    <!-- ==================== 1. 課本重點分頁 ==================== -->
+    <!-- 1. 課本重點分頁 -->
     <section id="view-notes" class="space-y-6">
       <div class="flex items-center justify-between border-b border-slate-800 pb-4">
         <div>
@@ -101,42 +99,30 @@
           📥 匯出為 Markdown
         </button>
       </div>
-
-      <!-- 筆記內容渲染區 -->
       <div id="notesContainer" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 lg:p-8 space-y-6 text-slate-300 leading-relaxed">
-        <!-- 動態渲染筆記區塊 -->
       </div>
     </section>
 
-    <!-- ==================== 2. 核心概念庫分頁 ==================== -->
+    <!-- 2. 核心概念庫分頁 -->
     <section id="view-concepts" class="space-y-6 hidden">
       <div class="border-b border-slate-800 pb-4">
         <h2 class="text-2xl font-bold text-white">💡 5 維度核心概念庫</h2>
         <p class="text-sm text-slate-400 mt-1">底層架構 · 必考名詞 · 實務工程 · 理論出處</p>
       </div>
       <div id="conceptsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- 動態渲染 5 維度卡片 -->
       </div>
     </section>
 
-    <!-- ==================== 3. 題目考場分頁 ==================== -->
+    <!-- 3. 題目考場分頁 (支援 50 題與難度標籤) -->
     <section id="view-quiz" class="space-y-6 hidden">
       <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
         <div>
           <h2 class="text-2xl font-bold text-white">📝 全真題目考場</h2>
-          <p class="text-sm text-slate-400 mt-1">支援章節隨堂測驗 · 即時紅綠對照 · 智能收錄錯題本</p>
-        </div>
-        <div class="flex items-center gap-2">
-          <button onclick="startChapterQuiz()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm transition shadow-lg shadow-emerald-600/20">
-            ⚡ 本章抽測 (全部題目)
-          </button>
+          <p class="text-sm text-slate-400 mt-1">支援章節隨堂測驗 · 難度分級 · 即時紅綠對照 · 智能收錄錯題本</p>
         </div>
       </div>
 
-      <!-- 答題與交卷看板 -->
-      <div id="quizContainer" class="space-y-6">
-        <!-- 動態渲染題目卡片 -->
-      </div>
+      <div id="quizContainer" class="space-y-6"></div>
 
       <!-- 交卷控制列 -->
       <div id="quizSubmitBar" class="sticky bottom-4 bg-slate-900/95 backdrop-blur border border-slate-700 p-4 rounded-2xl flex items-center justify-between shadow-2xl">
@@ -171,11 +157,10 @@
             <div id="resStatus" class="text-xl font-bold text-emerald-400 mt-2">及格</div>
           </div>
         </div>
-        <p class="text-xs text-slate-400">※ 做錯的題目已自動記錄至「錯題分析與重寫」系統中，可隨時進行盲測複習！</p>
       </div>
     </section>
 
-    <!-- ==================== 4. 記憶卡 (3D) 分頁 ==================== -->
+    <!-- 4. 記憶卡 (3D) 分頁 -->
     <section id="view-flashcards" class="space-y-6 hidden">
       <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
         <div>
@@ -192,7 +177,6 @@
         </div>
       </div>
 
-      <!-- 記憶掌握進度條 -->
       <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex flex-col gap-2">
         <div class="flex justify-between text-xs text-slate-400 font-medium">
           <span>掌握進度：<span id="fcMasteredText" class="text-emerald-400 font-bold">0 / 0</span></span>
@@ -203,111 +187,73 @@
         </div>
       </div>
 
-      <!-- 單張 3D 翻轉展示卡 -->
       <div class="flex flex-col items-center justify-center py-6">
         <div id="flashcardBox" onclick="flipCard()" class="perspective-1000 w-full max-w-xl h-80 cursor-pointer select-none">
           <div id="flashcardInner" class="transform-style-3d relative w-full h-full duration-500 rounded-2xl shadow-2xl">
-            <!-- 正面 -->
             <div class="backface-hidden absolute inset-0 bg-gradient-to-br from-slate-900 to-slate-850 border-2 border-slate-700 rounded-2xl p-8 flex flex-col justify-between">
               <div class="flex justify-between items-center text-xs text-slate-400">
                 <span id="fcTag" class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">考點問答</span>
-                <span id="fcIndex" class="font-mono text-slate-400">1 / 10</span>
+                <span id="fcIndex" class="font-mono text-slate-400">1 / 8</span>
               </div>
-              <div id="fcFrontText" class="text-xl sm:text-2xl font-bold text-white text-center leading-snug">
-                <!-- 題目文字 -->
-              </div>
-              <div class="text-center text-xs text-slate-400 flex items-center justify-center gap-1">
-                <span>🔄 點擊卡片翻面看解析</span>
-              </div>
+              <div id="fcFrontText" class="text-xl sm:text-2xl font-bold text-white text-center leading-snug"></div>
+              <div class="text-center text-xs text-slate-400">🔄 點擊卡片翻面看解析</div>
             </div>
-            <!-- 背面 -->
             <div class="rotate-y-180 backface-hidden absolute inset-0 bg-gradient-to-br from-slate-850 to-slate-900 border-2 border-emerald-500/50 rounded-2xl p-8 flex flex-col justify-between">
               <div class="flex justify-between items-center text-xs text-emerald-400 font-semibold">
                 <span>💡 核心解析與關鍵機制</span>
                 <span class="text-slate-400">背面</span>
               </div>
-              <div id="fcBackText" class="text-sm sm:text-base text-slate-200 leading-relaxed overflow-y-auto my-2 pr-1">
-                <!-- 答案解析 -->
-              </div>
-              <div class="text-center text-xs text-slate-400">
-                <span>再次點擊可翻回正面</span>
-              </div>
+              <div id="fcBackText" class="text-sm sm:text-base text-slate-200 leading-relaxed overflow-y-auto my-2 pr-1 whitespace-pre-line"></div>
+              <div class="text-center text-xs text-slate-400">再次點擊可翻回正面</div>
             </div>
           </div>
         </div>
 
-        <!-- 記憶評價控制列 -->
         <div class="flex items-center gap-4 mt-6">
-          <button onclick="prevFlashcard()" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300">
-            ⬅️ 上一張
-          </button>
-          <button onclick="markFlashcard(false)" class="px-5 py-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 font-medium text-sm transition">
-            😅 還不熟
-          </button>
-          <button onclick="markFlashcard(true)" class="px-5 py-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 font-medium text-sm transition">
-            ✅ 已記住
-          </button>
-          <button onclick="nextFlashcard()" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300">
-            下一張 ➡️
-          </button>
+          <button onclick="prevFlashcard()" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300">⬅️ 上一張</button>
+          <button onclick="markFlashcard(false)" class="px-5 py-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 font-medium text-sm transition">😅 還不熟</button>
+          <button onclick="markFlashcard(true)" class="px-5 py-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 font-medium text-sm transition">✅ 已記住</button>
+          <button onclick="nextFlashcard()" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300">下一張 ➡️</button>
         </div>
       </div>
     </section>
 
-    <!-- ==================== 5. 錯題分析與重寫分頁 ==================== -->
+    <!-- 5. 錯題分析與重寫分頁 -->
     <section id="view-mistakes" class="space-y-6 hidden">
       <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
         <div>
           <h2 class="text-2xl font-bold text-white">🔁 錯題分析與盲測重寫</h2>
           <p class="text-sm text-slate-400 mt-1">章節分佈統計 · 題型盲點挖掘 · 歷史答案全遮蔽獨立重練</p>
         </div>
-        <button onclick="clearAllMistakes()" class="text-xs px-3 py-1.5 rounded-lg bg-red-950/60 hover:bg-red-900 border border-red-800 text-red-300 transition">
-          🗑️ 清空錯題本
-        </button>
+        <button onclick="clearAllMistakes()" class="text-xs px-3 py-1.5 rounded-lg bg-red-950/60 hover:bg-red-900 border border-red-800 text-red-300 transition">🗑️ 清空錯題本</button>
       </div>
 
-      <!-- 錯題分析儀表板 (雙維度：章節、題型) -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- 章節分佈 -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-          <h3 class="text-base font-bold text-white flex items-center gap-2 mb-4">
-            📌 依章節錯題分佈
-          </h3>
-          <div id="mistakeChapterBars" class="space-y-3 text-xs">
-            <p class="text-slate-400">目前尚無做錯題目，太優秀了！</p>
-          </div>
+          <h3 class="text-base font-bold text-white flex items-center gap-2 mb-4">📌 依章節錯題分佈</h3>
+          <div id="mistakeChapterBars" class="space-y-3 text-xs"></div>
         </div>
-
-        <!-- 題型分佈 -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-          <h3 class="text-base font-bold text-white flex items-center gap-2 mb-4">
-            🎯 依題型盲點分佈 (名詞定義 / 運算 / 架構 / 個案)
-          </h3>
-          <div id="mistakeTypeBars" class="space-y-3 text-xs">
-            <p class="text-slate-400">目前尚無做錯題目，持續保持！</p>
-          </div>
+          <h3 class="text-base font-bold text-white flex items-center gap-2 mb-4">🎯 依題型盲點分佈</h3>
+          <div id="mistakeTypeBars" class="space-y-3 text-xs"></div>
         </div>
       </div>
 
-      <!-- 錯題盲測重寫區 -->
       <div class="space-y-4">
         <h3 class="text-lg font-bold text-white flex items-center gap-2">
           ⚡ 錯題盲測清單 (<span id="mistakeListCount">0</span> 題待消滅)
         </h3>
-        <div id="mistakeCardsContainer" class="space-y-4">
-          <!-- 動態渲染錯題卡片 -->
-        </div>
+        <div id="mistakeCardsContainer" class="space-y-4"></div>
       </div>
     </section>
 
-    <!-- ==================== 6. 補充專區分頁 ==================== -->
+    <!-- 6. 補充專區分頁 (對接老師 GitHub) -->
     <section id="view-supplements" class="space-y-6 hidden">
       <div class="border-b border-slate-800 pb-4">
         <h2 class="text-2xl font-bold text-white">📂 補充專區</h2>
         <p class="text-sm text-slate-400 mt-1">老師官方教材對接 · 課堂出題作業 · 經典論文與科技前沿</p>
       </div>
 
-      <!-- 老師官方專案直連卡片 -->
       <div class="bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 border border-emerald-500/30 rounded-2xl p-6 space-y-3 shadow-xl">
         <div class="flex flex-wrap items-center justify-between gap-4">
           <div class="flex items-center gap-3">
@@ -337,46 +283,32 @@
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- 老師給題目 -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
           <div class="flex items-center justify-between">
-            <h3 class="text-lg font-bold text-white flex items-center gap-2">
-              📝 老師課堂出題 / 作業
-            </h3>
+            <h3 class="text-lg font-bold text-white flex items-center gap-2">📝 老師課堂出題 / 作業</h3>
             <span class="text-xs px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">Homework</span>
           </div>
-          <p class="text-xs text-slate-400">隨課堂進度收錄教授發布之申論練習、課堂隨堂小考題與討論題。</p>
-          <div id="supplementsTeacherList" class="space-y-3 text-sm">
-            <!-- 動態載入補充題目 -->
-          </div>
+          <div id="supplementsTeacherList" class="space-y-3 text-sm"></div>
         </div>
-
-        <!-- 論文與個案 -->
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
           <div class="flex items-center justify-between">
-            <h3 class="text-lg font-bold text-white flex items-center gap-2">
-              📜 經典論文與科技前沿
-            </h3>
+            <h3 class="text-lg font-bold text-white flex items-center gap-2">📜 經典論文與科技前沿</h3>
             <span class="text-xs px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30">Research</span>
           </div>
-          <p class="text-xs text-slate-400">收錄圖靈（Alan Turing）、馮諾曼（von Neumann）開創論文與 AI 當前最新論文。</p>
-          <div id="supplementsPapersList" class="space-y-3 text-sm">
-            <!-- 動態載入論文資料 -->
-          </div>
+          <div id="supplementsPapersList" class="space-y-3 text-sm"></div>
         </div>
       </div>
     </section>
 
   </main>
 
-  <!-- 常駐 AI 助教浮動視窗 (選用) -->
+  <!-- 浮動 AI 助教 -->
   <div class="fixed bottom-6 right-6 z-50">
     <button onclick="toggleAiDrawer()" class="w-14 h-14 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-xl shadow-emerald-500/30 flex items-center justify-center text-2xl hover:scale-105 transition-transform">
       ✨
     </button>
   </div>
 
-  <!-- AI 助教抽屜 -->
   <div id="aiDrawer" class="fixed bottom-24 right-6 w-96 max-w-[calc(100vw-3rem)] h-[520px] bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl flex flex-col z-50 hidden overflow-hidden">
     <div class="bg-slate-850 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
       <div class="flex items-center gap-2">
@@ -387,7 +319,7 @@
     </div>
     <div id="aiChatMessages" class="flex-1 p-4 overflow-y-auto space-y-3 text-xs leading-relaxed">
       <div class="bg-slate-800 p-3 rounded-xl text-slate-200">
-        👋 你好！我是你的《計算機概論》專屬助教。讀筆記或做題目有任何不懂的名詞（例如二進位補數、CPU 管線、馮諾曼架構），隨時考考我！
+        👋 你好！我是你的《計算機概論》專屬助教。讀筆記或做題目有任何不懂的名詞，隨時問我！
       </div>
     </div>
     <div class="p-3 border-t border-slate-800 bg-slate-850 flex gap-2">
@@ -396,14 +328,11 @@
     </div>
   </div>
 
-  <!-- 頁尾 -->
   <footer class="border-t border-slate-800/80 py-4 text-center text-xs text-slate-400">
     <p>© 2026 計算機概論 終極備考系統 · GitHub Pages 靜態零成本運行</p>
   </footer>
 
-  <!-- 核心資料庫與邏輯腳本 -->
   <script>
-    // 14 章節目錄定義 (精準對應 GitHub repo 資料夾 01~14)
     const CHAPTERS_METADATA = [
       { id: "01", title: "第 01 章 導論" },
       { id: "02", title: "第 02 章 人工智慧與科技新發展" },
@@ -421,60 +350,46 @@
       { id: "14", title: "第 14 章 軟體工程" }
     ];
 
-    // 內建資料庫 (第 01 章與第 02 章完整內容，開箱即用，免開伺服器)
-    const BUILTIN_DATABASE = {"01": {"chapterId": "01", "title": "第 01 章 導論 (50題全真特訓版)", "notes": [{"section": "1.1 計算機發展史與先驅人物", "items": ["巴貝奇 (Charles Babbage)：設計「差分機」與「分析機」，被尊為「通用電腦之父」。", "愛達·勒芙蕾絲 (Ada Lovelace)：為分析機編寫伯努利數演算法，世界第一位程式設計師。", "何樂禮 (Herman Hollerith)：發明打孔卡片製表機，創立製表機器公司（IBM 前身）。", "圖靈 (Alan Turing)：提出圖靈機模型奠定計算理論，1950 年提出「圖靈測試」判定人工智慧。", "ENIAC (1946)：全球首部通用電子計算機，重 30 噸、18,000 支真空管，無儲存程式概念需手動插線。", "EDVAC (1945/1951)：首次實作馮諾曼「儲存程式 (Stored-Program)」架構的電子計算機。"]}, {"section": "1.2 計算機四大硬體世代演革", "items": ["第一代 (1946-1958)：真空管 (Vacuum Tube)，體積大、耗電發熱高、壽命短（如 ENIAC、UNIVAC-I）。", "第二代 (1959-1964)：電晶體 (Transistor)，體積劇減、可靠度提高、高階語言 FORTRAN/COBOL 問世。", "第三代 (1965-1970)：積體電路 (IC)，將眾多電晶體微縮至單一矽晶片，作業系統分時多工普及 (IBM 360)。", "第四代 (1971-至今)：超大型積體電路 (VLSI) 與微處理器 (Intel 4004)，微電腦與 PC 普及。"]}, {"section": "1.3 馮諾曼架構 vs. 哈佛架構", "items": ["馮諾曼架構五大單元：輸入 (Input)、輸出 (Output)、記憶體 (Memory)、控制單元 (CU)、算術邏輯單元 (ALU)。", "儲存程式概念：程式指令與資料一同以二進位儲存於主記憶體中，由 CPU 自動循序取指執行。", "馮諾曼瓶頸：CPU 與記憶體共用單一匯流排，記憶體頻寬成為整體系統運算效能瓶頸。", "哈佛架構：指令記憶體與資料記憶體實體分開，各自具備獨立匯流排，允許同時取指與讀寫資料。"]}, {"section": "1.4 計算機等級分類與應用", "items": ["超級電腦 (Supercomputer)：頂級浮點運算速度，以 FLOPS 評估，用於氣候預測、國防模擬、AI 訓練。", "大型主機 (Mainframe)：強調超高可靠度 (RAS) 與巨量 I/O 併發，用於金融銀行核心帳務。", "伺服器/工作站：提供企業多工服務；個人電腦 (PC)：日常通用處理。", "嵌入式系統 (Embedded Systems)：內建於特定設備、專為特定單一功能設計（如汽車 ECU、家電、醫療儀器）。"]}, {"section": "1.5 資料計量單位、效能指標與重要定律", "items": ["容量單位：Byte(B) < KB(2^10) < MB(2^20) < GB(2^30) < TB(2^40) < PB(2^50) < EB(2^60)。", "時間單位：秒(s) > 毫秒(ms, 10^-3) > 微秒(μs, 10^-6) > 奈秒(ns, 10^-9) > 皮秒(ps, 10^-12)。", "效能指標：時脈 (Clock Rate, GHz)、CPI (每指令平均週期)、MIPS (百萬整數指令/秒)、FLOPS (每秒浮點運算數)。", "莫爾定律：積體電路上電晶體數量約每 18-24 個月翻倍，晶片算力倍增且成本減半。", "安達爾定律：平行加速比受限於程式中「無法平行化的循序執行部分」比例。"]}], "concepts": [{"name": "馮諾曼架構 (von Neumann Architecture)", "tag": "計算機體系結構", "aim": "奠定現代通用電腦的 Stored-Program 基礎模型", "pipeline": "Input ➔ Memory (同時存放 Program 與 Data) ➔ CPU [CU 取指解碼 + ALU 算術邏輯] ➔ Output", "glossary": "Stored-Program (儲存程式)、Bus (匯流排)、Control Unit (CU)、ALU、PC、IR、MAR、MDR", "tech": "採用分層快取 (Cache L1/L2/L3)、指令預取 (Prefetch) 緩解傳輸頻寬瓶頸", "source": "John von Neumann, 1945"}, {"name": "安達爾定律 (Amdahl's Law)", "tag": "平行運算理論", "aim": "量化評估增加 CPU 核心數對系統整體加速效能的理論極限", "pipeline": "程式分為平行部分 (P) 與循序部分 (1-P) ➔ 加速比 Speedup = 1 / [(1-P) + P/N] ➔ 極限為 1 / (1-P)", "glossary": "Speedup (加速比), Parallel Fraction (可平行比例), Serial Fraction (循序比例)", "tech": "即便擁有 10,000 顆核心，只要有 10% 循序不可平行的程式碼，最大加速比絕不會超過 10 倍", "source": "Gene Amdahl, 1967"}], "flashcards": [{"front": "什麼是『馮諾曼瓶頸 (von Neumann Bottleneck)』？", "back": "CPU 與記憶體共用單一傳輸匯流排，因記憶體存取頻寬跟不上 CPU 運算速度，導致 CPU 經常閒置等待的架構瓶頸。", "tag": "計算機架構"}, {"front": "馮諾曼架構的核心『儲存程式 (Stored-Program)』是什麼意思？", "back": "程式指令與運算資料一同以二進位儲存於同一個記憶體中，由 CPU 自動循序讀取解碼執行，不需手動重新接線。", "tag": "基本架構"}, {"front": "哈佛架構與馮諾曼架構最大的差別是什麼？", "back": "哈佛架構將『指令記憶體』與『資料記憶體』實體完全分開，各自具備獨立的傳輸匯流排，允許同時取指與讀寫資料。", "tag": "架構對比"}, {"front": "電腦演進的四個世代及其關鍵核心電子元件分別為何？", "back": "第 1 代：真空管；第 2 代：電晶體；第 3 代：積體電路 (IC)；第 4 代：超大型積體電路 (VLSI) 與微處理器。", "tag": "世代演進"}, {"front": "世界第一位程式設計師是誰？", "back": "愛達·勒芙蕾絲 (Ada Lovelace)，於 1843 年為巴貝奇分析機設計計算伯努利數的演算法。", "tag": "歷史人物"}, {"front": "FLOPS 與 MIPS 有何不同？", "back": "• FLOPS：每秒浮點運算次數，用於評估超級電腦與 AI 算力。
-• MIPS：每秒百萬整數指令數，用於評估通用 CPU 執行速度。", "tag": "效能指標"}, {"front": "莫爾定律 (Moore's Law) 的定義是什麼？", "back": "積體電路晶片上可容納的電晶體數量，約每隔 18 至 24 個月翻倍，效能倍增且單位成本減半。", "tag": "產業法則"}, {"front": "安達爾定律 (Amdahl's Law) 的核心結論是什麼？", "back": "平行運算加速比受到程式中「無法平行的循序部分」的嚴格限制；不可平行的比例決定了理論加速比的上限天花板。", "tag": "平行理論"}], "quiz": [{"id": "01-q01", "chapter": "第 01 章 導論", "difficulty": "簡單", "type": "名詞定義", "question": "歷史上公認的第一位電腦程式設計師是誰？", "options": ["A. 艾倫·圖靈", "B. 愛達·勒芙蕾絲", "C. 葛麗絲·霍普", "D. 約翰·馮諾曼"], "answer": "B", "explanation": "愛達·勒芙蕾絲為巴貝奇分析機編寫演算法，被尊為史上首位程式設計師。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q02", "chapter": "第 01 章 導論", "difficulty": "簡單", "type": "歷史名機", "question": "1946 年問世、使用約 18,000 支真空管的世界首部通用電子計算機是？", "options": ["A. EDVAC", "B. ENIAC", "C. UNIVAC-I", "D. IBM PC"], "answer": "B", "explanation": "ENIAC 於 1946 年在賓州大學完成，為世界首部通用全電子計算機。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q03", "chapter": "第 01 章 導論", "difficulty": "簡單", "type": "世代演進", "question": "第一代電子計算機所使用的核心電子開關元件為何？", "options": ["A. 電晶體", "B. 真空管", "C. 積體電路", "D. 微處理器"], "answer": "B", "explanation": "第一代電腦採用真空管作為基本運算開關元件。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q04", "chapter": "第 01 章 導論", "difficulty": "簡單", "type": "世代演進", "question": "第二代電子計算機採用下列何種電子元件取代真空管？", "options": ["A. 電晶體", "B. 積體電路", "C. 超大型積體電路", "D. 光纖"], "answer": "A", "explanation": "第二代電腦全面以電晶體取代體積龐大易發熱的真空管。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q05", "chapter": "第 01 章 導論", "difficulty": "簡單", "type": "世代演進", "question": "第三代電腦所採用的核心電子元件為何？", "options": ["A. 真空管", "B. 電晶體", "C. 積體電路 (IC)", "D. 磁鼓"], "answer": "C", "explanation": "第三代電腦標誌為積體電路 (IC) 的發明與導入。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q06", "chapter": "第 01 章 導論", "difficulty": "簡單", "type": "單位概念", "question": "電腦儲存容量基本單位中，1 Byte 等於多少個 Bits？", "options": ["A. 2", "B. 4", "C. 8", "D. 16"], "answer": "C", "explanation": "1 Byte (位元組) 定義為 8 Bits (位元)。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q07", "chapter": "第 01 章 導論", "difficulty": "簡單", "type": "架構基礎", "question": "下列哪一個單元『不屬於』馮諾曼架構五大基本單元？", "options": ["A. 算術邏輯單元 (ALU)", "B. 控制單元 (CU)", "C. 記憶單元 (Memory)", "D. 顯示卡 (GPU)"], "answer": "D", "explanation": "馮諾曼五大單元為輸入、輸出、記憶體、控制單元與算術邏輯單元。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q08", "chapter": "第 01 章 導論", "difficulty": "簡單", "type": "歷史人物", "question": "被尊稱為「電腦之父」，提出差分機與分析機設計的英國學者是？", "options": ["A. 查爾斯·巴貝奇", "B. 艾倫·圖靈", "C. 約翰·馮諾曼", "D. 赫爾曼·何樂禮"], "answer": "A", "explanation": "查爾斯·巴貝奇提出現代電腦的雛型架構，被尊為電腦之父。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q09", "chapter": "第 01 章 導論", "difficulty": "簡單", "type": "單位概念", "question": "電腦計時單位中，1 毫秒 (ms) 代表多少秒？", "options": ["A. 10^-3 秒", "B. 10^-6 秒", "C. 10^-9 秒", "D. 10^-12 秒"], "answer": "A", "explanation": "毫秒 (ms) 為 10^-3 秒（千分之一秒）。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q10", "chapter": "第 01 章 導論", "difficulty": "簡單", "type": "電腦分類", "question": "下列何種電腦主要用於特定單一功能，例如洗衣機控制晶片、汽車引擎噴射電腦？", "options": ["A. 超級電腦", "B. 嵌入式系統", "C. 大型主機", "D. 伺服器"], "answer": "B", "explanation": "嵌入式系統為特定專屬任務而設計，廣泛應用於家電與車用電子。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q11", "chapter": "第 01 章 導論", "difficulty": "簡單", "type": "產業定律", "question": "由 Intel 創辦人高登·莫爾提出，預測晶片電晶體數量約每 18 至 24 個月翻倍的經驗法則是？", "options": ["A. 莫爾定律", "B. 安達爾定律", "C. 歐姆定律", "D. 布魯克斯法則"], "answer": "A", "explanation": "莫爾定律指出半導體晶片電晶體數目約每 18~24 個月成長一倍。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q12", "chapter": "第 01 章 導論", "difficulty": "簡單", "type": "微處理器", "question": "世界第一顆商用單晶片微處理器是由 Intel 於 1971 年發布的哪一顆晶片？", "options": ["A. Intel 4004", "B. Intel 8086", "C. Pentium", "D. 8051"], "answer": "A", "explanation": "Intel 4004 為全球首顆商用 4-bit 微處理器，揭開微電腦序幕。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q13", "chapter": "第 01 章 導論", "difficulty": "簡單", "type": "架構基礎", "question": "在 CPU 內部負責進行加減乘除算術與邏輯比對的單元縮寫為何？", "options": ["A. ALU", "B. CU", "C. RAM", "D. ROM"], "answer": "A", "explanation": "ALU (Arithmetic Logic Unit) 即為算術邏輯單元。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q14", "chapter": "第 01 章 導論", "difficulty": "簡單", "type": "架構基礎", "question": "在 CPU 內部負責解碼指令並發布控制訊號協調各單元運作的元件為何？", "options": ["A. 控制單元 (CU)", "B. 算術邏輯單元 (ALU)", "C. 暫存器", "D. 匯流排"], "answer": "A", "explanation": "CU (Control Unit) 為指揮官，負責提取、解碼指令並發送控制訊號。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q15", "chapter": "第 01 章 導論", "difficulty": "簡單", "type": "人工智慧", "question": "1950 年圖靈提出用以檢驗機器是否具有人類思維智慧的測試方法稱為？", "options": ["A. 圖靈測試", "B. 巴貝奇測試", "C. 馮諾曼驗證", "D. 艾薩克測試"], "answer": "A", "explanation": "圖靈測試藉由盲測文字對話判定機器是否具備人類智慧。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q16", "chapter": "第 01 章 導論", "difficulty": "一般", "type": "架構觀念", "question": "現代電腦通用架構中的『儲存程式 (Stored-Program)』概念，其核心本質為何？", "options": ["A. 程式碼只能由硬體 ROM 燒死無法更改", "B. 程式指令與運算資料共同以二進位存於同一主記憶體中", "C. 程式只能在軟碟中執行", "D. 運算結果必須手動列印至紙張上"], "answer": "B", "explanation": "儲存程式概念將指令與資料統一存放於記憶體，CPU 循序自動提取執行。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q17", "chapter": "第 01 章 導論", "difficulty": "一般", "type": "瓶頸機制", "question": "導致『馮諾曼瓶頸 (von Neumann Bottleneck)』發生的根本原因為何？", "options": ["A. CPU 缺少加法器", "B. CPU 運算速度遠超記憶體匯流排傳輸頻寬，造成 CPU 閒置等待", "C. 螢幕更新頻率過慢", "D. 作業系統缺少分時功能"], "answer": "B", "explanation": "CPU 與記憶體共享匯流排，記憶體頻寬不足導致資料傳輸成為系統天花板。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q18", "chapter": "第 01 章 導論", "difficulty": "一般", "type": "架構對比", "question": "相較於馮諾曼架構，『哈佛架構 (Harvard Architecture)』的最大優勢在於？", "options": ["A. 指令記憶體與資料記憶體各自獨立分開，可同時取指與讀寫資料", "B. 完全不需使用記憶體", "C. 能夠自動修復軟體錯誤", "D. 功耗必定為零"], "answer": "A", "explanation": "哈佛架構具備獨立的指令與資料匯流排，避免單一通道搶占壅塞。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q19", "chapter": "第 01 章 導論", "difficulty": "一般", "type": "效能指標", "question": "衡量全球 Top500 超級電腦計算效能時，最常採用的單位 FLOPS 代表什麼？", "options": ["A. 每秒執行百萬整數指令數", "B. 每秒浮點運算次數", "C. 每秒螢幕刷新次數", "D. 網路每秒封包傳輸率"], "answer": "B", "explanation": "FLOPS 即 Floating-point Operations Per Second（每秒浮點運算次數）。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q20", "chapter": "第 01 章 導論", "difficulty": "一般", "type": "系統分類", "question": "跨國大型金融銀行處理海量即時帳務與證券交易時，主要依賴何種高可靠度電腦？", "options": ["A. 個人桌機", "B. 大型主機 (Mainframe)", "C. 單板微控制器", "D. 掌上型遊戲機"], "answer": "B", "explanation": "大型主機以數十年不當機的超高可靠度與巨量 I/O 併發著稱。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q21", "chapter": "第 01 章 導論", "difficulty": "一般", "type": "單位換算", "question": "記憶體容量計量中，1 TB (Terabyte) 等於多少 GB？", "options": ["A. 100", "B. 512", "C. 1000", "D. 1024"], "answer": "D", "explanation": "依二進位規範，1 TB = 1,024 GB (2^10)。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q22", "chapter": "第 01 章 導論", "difficulty": "一般", "type": "時間單位", "question": "1 奈秒 (nanosecond, ns) 等於多少秒？", "options": ["A. 10^-3 秒", "B. 10^-6 秒", "C. 10^-9 秒", "D. 10^-12 秒"], "answer": "C", "explanation": "奈秒 (ns) = 10^-9 秒，常為快取與主記憶體存取延遲的計量級距。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q23", "chapter": "第 01 章 導論", "difficulty": "一般", "type": "歷史名機", "question": "第一部正式實作馮諾曼『儲存程式』設計的代表性電子計算機為？", "options": ["A. ENIAC", "B. EDVAC", "C. Apple I", "D. 差分機"], "answer": "B", "explanation": "EDVAC (1945/1951) 為首部完整實現儲存程式架構概念的電子計算機。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q24", "chapter": "第 01 章 導論", "difficulty": "一般", "type": "效能指標", "question": "衡量通用處理器整數運算速率時常用的指標 MIPS 是指？", "options": ["A. 每秒百萬條指令數", "B. 記憶體百萬字元", "C. 每秒百萬浮點運算", "D. 磁碟百萬轉速"], "answer": "A", "explanation": "MIPS 代表 Million Instructions Per Second（每秒百萬條指令）。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q25", "chapter": "第 01 章 導論", "difficulty": "一般", "type": "架構觀念", "question": "下列哪一項不是馮諾曼架構所定義的硬體特徵？", "options": ["A. 使用二進位制進行運算", "B. 程式指令循序執行", "C. 指令與資料分別儲存於兩顆完全隔離的晶片", "D. 具備算術邏輯單元與控制單元"], "answer": "C", "explanation": "馮諾曼架構核心特徵就是指令與資料儲存於『同一主記憶體』中。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q26", "chapter": "第 01 章 導論", "difficulty": "一般", "type": "電腦發展史", "question": "何樂禮 (Herman Hollerith) 發明的打孔卡片製表機，最早成功應用於哪一項歷史事件？", "options": ["A. 二戰密碼破譯", "B. 美國 1890 年人口普查", "C. 阿波羅登月計畫", "D. 曼哈頓工程"], "answer": "B", "explanation": "何樂禮的打孔卡片機使美國 1890 人口普查統計時間由原本數年縮短至數月。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q27", "chapter": "第 01 章 導論", "difficulty": "一般", "type": "時脈概念", "question": "現代 CPU 主頻標示為 3.2 GHz，這代表 CPU 內部主時脈每秒振盪幾次？", "options": ["A. 3.2 萬次", "B. 3.2 百萬次", "C. 3.2 億次", "D. 32 億次 (3.2 × 10^9)"], "answer": "D", "explanation": "1 GHz = 10^9 Hz，3.2 GHz 代表每秒振盪 32 億次。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q28", "chapter": "第 01 章 導論", "difficulty": "一般", "type": "進階架構", "question": "現代微處理器在晶片內部哪一層結構中，最常採用類似哈佛架構的分立設計？", "options": ["A. L1 快取 (L1 I-Cache 與 L1 D-Cache 分立)", "B. 主記憶體 DRAM", "C. 機械硬碟", "D. 外部 USB 介面"], "answer": "A", "explanation": "現代 CPU 內部 L1 快取多採哈佛架構分設指令快取與資料快取以提高吞吐。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q29", "chapter": "第 01 章 導論", "difficulty": "一般", "type": "單位換算", "question": "電腦記憶體存取時間通常落在 10~60 奈秒，若換算為微秒 (μs) 應為？", "options": ["A. 0.01 ~ 0.06 μs", "B. 100 ~ 600 μs", "C. 1 ~ 6 μs", "D. 0.0001 μs"], "answer": "A", "explanation": "1 ns = 10^-3 μs，故 10~60 ns = 0.01~0.06 μs。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q30", "chapter": "第 01 章 導論", "difficulty": "一般", "type": "軟體演進", "question": "第三代電腦 (1965-1970) 發展出何種重要軟體技術，允許多名使用者同時連線操作電腦？", "options": ["A. 區塊鏈", "B. 分時多工作業系統 (Time-Sharing OS)", "C. 深度學習神經網路", "D. 虛擬實境"], "answer": "B", "explanation": "第三代電腦伴隨 IC 技術誕生了分時作業系統，大幅降低電腦使用成本。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q31", "chapter": "第 01 章 導論", "difficulty": "一般", "type": "單位換算", "question": "1 PB (Petabyte) 容量等於多少個 Bytes（以 2 的次方表示）？", "options": ["A. 2^30", "B. 2^40", "C. 2^50", "D. 2^60"], "answer": "C", "explanation": "GB = 2^30, TB = 2^40, PB = 2^50, EB = 2^60。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q32", "chapter": "第 01 章 導論", "difficulty": "一般", "type": "效能指標", "question": "評估處理器執行效能時，CPI 指標代表的意涵為何？", "options": ["A. 每秒時脈頻率", "B. 執行單一指令所需的平均時脈週期數 (Cycles Per Instruction)", "C. 處理器電壓", "D. 快取未命中率"], "answer": "B", "explanation": "CPI (Cycles Per Instruction) 為每條指令平均耗費的 CPU 時脈週期數。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q33", "chapter": "第 01 章 導論", "difficulty": "一般", "type": "五大單元", "question": "下列哪一種裝置是典型的『輸出單元 (Output Unit)』？", "options": ["A. 條碼掃描器", "B. 液晶顯示器 (Monitor)", "C. 鍵盤", "D. 麥克風"], "answer": "B", "explanation": "螢幕顯示器將運算結果以視覺方式呈現給使用者，為標準輸出單元。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q34", "chapter": "第 01 章 導論", "difficulty": "一般", "type": "密碼歷史", "question": "在二戰期間專為破譯德軍 Lorenz 密碼而建造的英國秘密專用電子裝置名稱為？", "options": ["A. 巨人機 (Colossus)", "B. ENIAC", "C. EDVAC", "D. ABC 電腦"], "answer": "A", "explanation": "英國布萊切利園研發的 Colossus 巨人機是二戰著名的電子密碼破譯設備。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q35", "chapter": "第 01 章 導論", "difficulty": "一般", "type": "世代演進", "question": "下列何者為『第四代電腦』最具代表性的劃時代硬體突破？", "options": ["A. 電晶體發明", "B. 單晶片微處理器 (Microprocessor) 誕生", "C. 水銀延遲線記憶體", "D. 真空管發明"], "answer": "B", "explanation": "第四代核心即為超大型積體電路將完整 CPU 整合至單一晶片上的微處理器。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q36", "chapter": "第 01 章 導論", "difficulty": "難", "type": "計算分析", "question": "依據安達爾定律 (Amdahl's Law)，若某程式有 20% 必須循序執行無法平行，則即便配置無限多顆 CPU 核心，理論最大加速比為何？", "options": ["A. 2 倍", "B. 5 倍", "C. 10 倍", "D. 20 倍"], "answer": "B", "explanation": "加速比上限 = 1 / (1 - P)。此處不可平行的循序比例 1-P = 0.2，故上限為 1 / 0.2 = 5 倍。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q37", "chapter": "第 01 章 導論", "difficulty": "難", "type": "計算分析", "question": "假設某演算法原本需執行 100 秒，其中 80 秒的部分可以被完美平行化。若使用 4 顆 CPU 核心並行運算，整體執行時間變為多少秒？", "options": ["A. 20 秒", "B. 40 秒", "C. 25 秒", "D. 50 秒"], "answer": "B", "explanation": "循序 20 秒不變，平行 80 秒由 4 核心分擔為 80/4 = 20 秒，總時間 = 20 + 20 = 40 秒。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q38", "chapter": "第 01 章 導論", "difficulty": "難", "type": "計算分析", "question": "若一 CPU 執行某程式需 10 億條指令，平均 CPI 為 2.0，處理器時脈頻率為 4.0 GHz，則該程式的 CPU 執行時間為多少秒？", "options": ["A. 0.25 秒", "B. 0.5 秒", "C. 1.0 秒", "D. 2.0 秒"], "answer": "B", "explanation": "總時鐘週期數 = 10^9 × 2 = 2 × 10^9 次。CPU 時間 = 週期數 / 時脈頻率 = (2 × 10^9) / (4 × 10^9) = 0.5 秒。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q39", "chapter": "第 01 章 導論", "difficulty": "難", "type": "半導體前沿", "question": "在半導體製程微縮發展中，『登納德縮放比例定律 (Dennard Scaling)』失效導致的最直接後果為何？", "options": ["A. 晶片無法再微縮", "B. 功耗密度無法再維持恆定，晶片面臨發熱極限（暗矽 Dark Silicon 現象）", "C. 晶片製造費用降為零", "D. 電晶體運算速度變慢"], "answer": "B", "explanation": "登納德定律失效使電晶體微縮時功耗不再等比例下降，發熱量飆升促使單核轉向多核心。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q40", "chapter": "第 01 章 導論", "difficulty": "難", "type": "架構優化", "question": "現代高效能處理器為了大幅緩解『馮諾曼瓶頸』，在微架構層面普遍採取的關鍵技術不包括下列何者？", "options": ["A. 晶片內建多層級快取 (L1/L2/L3 SRAM Cache)", "B. 硬體分支預測 (Branch Prediction)", "C. 指令與資料預取機制 (Prefetching)", "D. 強制所有運算全數改用軟體直譯執行"], "answer": "D", "explanation": "軟體直譯反而會加劇效能低落；快取、分支預測與預取才是硬體緩解瓶頸的主流技術。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q41", "chapter": "第 01 章 導論", "difficulty": "難", "type": "單位運算", "question": "某電腦儲存了 2^33 個 Bytes 的檔案資料，若換算為標準容量，恰好等於多少？", "options": ["A. 2 GB", "B. 4 GB", "C. 8 GB", "D. 16 GB"], "answer": "C", "explanation": "1 GB = 2^30 Bytes，2^33 / 2^30 = 2^3 = 8 GB。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q42", "chapter": "第 01 章 導論", "difficulty": "難", "type": "定理反推", "question": "依據安達爾定律，若某程式經過 8 核心處理器加速後，整體速度提升了 4 倍，則該程式中原本可被平行化的比例 P 約為多少？", "options": ["A. 50%", "B. 75%", "C. 85.7%", "D. 95%"], "answer": "C", "explanation": "公式：4 = 1 / [(1-P) + P/8]，展開得 1-P + P/8 = 0.25 ➔ 1 - 7P/8 = 0.25 ➔ 7P/8 = 0.75 ➔ P = 6/7 ≈ 85.7%。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q43", "chapter": "第 01 章 導論", "difficulty": "難", "type": "指令週期", "question": "馮諾曼架構中，CPU 執行一條指令的四個標準階段順序為何？", "options": ["A. 擷取 (Fetch) ➔ 解碼 (Decode) ➔ 執行 (Execute) ➔ 寫回 (Writeback)", "B. 解碼 ➔ 擷取 ➔ 寫回 ➔ 執行", "C. 執行 ➔ 擷取 ➔ 解碼 ➔ 寫回", "D. 擷取 ➔ 執行 ➔ 解碼 ➔ 寫回"], "answer": "A", "explanation": "標準指令週期為：自記憶體抓取指令 (Fetch) ➔ 解碼 (Decode) ➔ 執行 (Execute) ➔ 寫回暫存器 (Writeback)。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q44", "chapter": "第 01 章 導論", "difficulty": "難", "type": "時間量級", "question": "現代處理器內部暫存器 (Registers) 的存取延遲通常約在數百皮秒 (ps) 等級，若以秒表示應為？", "options": ["A. 10^-6 秒", "B. 10^-9 秒", "C. 10^-10 ~ 10^-11 秒", "D. 10^-15 秒"], "answer": "C", "explanation": "1 ps = 10^-12 秒，數百 ps (例如 500 ps = 500 × 10^-12 = 5 × 10^-10 秒)。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q45", "chapter": "第 01 章 導論", "difficulty": "難", "type": "算力等級", "question": "超級電腦運算速度已正式跨入『百萬兆級 (Exascale)』，這代表其每秒可執行多少次浮點運算？", "options": ["A. 10^12 次 (Tera)", "B. 10^15 次 (Peta)", "C. 10^18 次 (Exa)", "D. 10^21 次 (Zetta)"], "answer": "C", "explanation": "Exa 代表 10^18，Exascale 超級電腦（如 Frontier）每秒運算超過 10^18 次 FLOPS。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q46", "chapter": "第 01 章 導論", "difficulty": "難", "type": "先進晶片", "question": "現代晶片設計為突破後莫爾時代物理極限，將多個不同功能的小晶片封裝在同一塊基板上的先進封裝技術稱為？", "options": ["A. Chiplet (小晶片技術)", "B. 真空管陣列", "C. 軟體虛擬化", "D. 磁鼓儲存"], "answer": "A", "explanation": "Chiplet (如 AMD Zen、台積電 CoWoS 3D 封裝) 為後莫爾時代延續算力成長的核心工程技術。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q47", "chapter": "第 01 章 導論", "difficulty": "難", "type": "硬體定址", "question": "在馮諾曼架構中，若記憶體位址匯流排寬度為 32 條 (32-bit Address Bus)，則該 CPU 理論上最大可直接定址的記憶體實體空間為？", "options": ["A. 1 GB", "B. 2 GB", "C. 4 GB", "D. 8 GB"], "answer": "C", "explanation": "32 條位址線可產生 2^32 個位址，以每位址 1 Byte 計，2^32 Bytes = 4 GB。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q48", "chapter": "第 01 章 導論", "difficulty": "難", "type": "效能公式", "question": "某程式總指令數固定，若透過編譯器優化使某特定迴圈的 CPI 降低 50%，在時脈不變的前提下，該部分的執行時間將？", "options": ["A. 縮減為原來的 50%", "B. 維持不變", "C. 增加一倍", "D. 縮減為原來的 25%"], "answer": "A", "explanation": "CPU 時間 = 指令數 × CPI × 週期時間，CPI 減半則執行時間等比例減半。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q49", "chapter": "第 01 章 導論", "difficulty": "難", "type": "計算理論", "question": "下列關於圖靈機 (Turing Machine) 的理論描述，何者完全正確？", "options": ["A. 它是由真空管製造的第一代實體電腦", "B. 它是一種包含無限長紙帶、讀寫頭與狀態暫存器的抽象數學計算模型", "C. 它只能用來破解商業密碼，無法進行通用運算", "D. 它是 Intel 設計的指令集架構"], "answer": "B", "explanation": "圖靈機為艾倫·圖靈於 1936 年提出的抽象計算模型，確立了現代演算法與可計算性邊界。", "source": "教材 1.1 - 1.5 節"}, {"id": "01-q50", "chapter": "第 01 章 導論", "difficulty": "難", "type": "AI運算架構", "question": "為解決通用 CPU 在深度學習矩陣乘法中的頻寬與能耗瓶頸，所發展出的領域特定架構 (DSA) 代表元件為？", "options": ["A. TPU (張量處理單元) / NPU", "B. 軟碟控制器", "C. 傳統機械硬碟", "D. 鍵盤微控制器"], "answer": "A", "explanation": "TPU (Google Tensor Processing Unit) 等專用處理器專為矩陣乘法設計，突破傳統 CPU 效能瓶頸。", "source": "教材 1.1 - 1.5 節"}], "supplements": {"teacher": [{"title": "第 1 週作業：哈佛架構與馮諾曼架構之比較", "desc": "探討獨立指令/資料匯流排對系統吞吐量的影響。"}, {"title": "計算題：安達爾定律平行加速比計算", "desc": "給定平行比例與核心數，計算理論加速上限。"}], "papers": [{"title": "First Draft of a Report on the EDVAC (John von Neumann, 1945)", "desc": "儲存程式概念奠基論文。"}, {"title": "Computing Machinery and Intelligence (Alan M. Turing, 1950)", "desc": "圖靈測試與人工智慧開山之作。"}]}}, "02": {"chapterId": "02", "title": "第 02 章 人工智慧與科技新發展 (50題全真特訓版)", "notes": [{"section": "2.1 人工智慧定義、分類與三次歷史浪潮", "items": ["AI 分類：", "• 弱人工智慧 (Narrow AI)：專精於單一特定領域任務（如 AlphaGo 下圍棋、人臉辨識、Siri 語音助理、醫療影像診斷），當前所有實用 AI 均屬此類。", "• 強人工智慧 (General AI / AGI)：具備等同於人類之通用認知、跨領域推理、自主學習與問題解決能力。", "• 超人工智慧 (Superintelligence / ASI)：在所有智力領域（包含科學創造力、智慧、社交技巧）遠遠超越全體人類智慧總和的假想形態。", "AI 演進三浪潮：", "• 第一次浪潮 (1950-1970)：符號邏輯與搜尋，以邏輯推理與跳棋程式為代表。面臨第一次寒冬：單層感知器無法解決 XOR 非線性問題。", "• 第二次浪潮 (1980-1990)：專家系統 (Expert Systems) 與知識庫工程，BP 反向傳播演算法振興多層感知器。面臨第二次寒冬：知識獲取困難、系統難以維護。", "• 第三次浪潮 (2012-至今)：大數據 + GPU 平行運算 + 深度學習 (AlexNet 奪冠、AlphaGo)，演進至當前以 Transformer 為基礎的生成式 AI 與大型語言模型 (LLM) 爆發。"]}, {"section": "2.2 機器學習 (Machine Learning) 三大範式", "items": ["1. 監督式學習 (Supervised Learning)：訓練資料包含「特徵 (Features)」與「標籤 (Labels)」。任務包含：分類 (Classification，輸出離散類別，如垃圾郵件判定) 與 回歸 (Regression，輸出連續數值，如預測房價)。", "2. 非監督式學習 (Unsupervised Learning)：訓練資料「沒有任何標籤」，由演算法自主發掘資料潛在分佈結構。任務包含：分群 (Clustering，如 K-Means 客戶群體細分) 與 降維 (Dimensionality Reduction，如 PCA)。", "3. 強化學習 (Reinforcement Learning)：智慧代理人 (Agent) 在環境中採取行動 (Action)，透過環境給予的獎勵 (Reward) 或懲罰持續試錯學習最佳策略 (Policy)（如 AlphaGo、自駕車導航）。", "自監督學習 (Self-Supervised Learning)：大語言模型預訓練之核心，直接利用無標籤海量文本，自製克漏字填空或預測下一個 Token 進行大規模自我學習。"]}, {"section": "2.3 深度學習核心架構演進：CNN、RNN 到 Transformer", "items": ["人工神經元基本運算：輸入向量與權重 (Weights) 進行內積運算，加上偏置 (Bias)，再經過非線性「激活函數 (Activation Function，如 ReLU、Sigmoid、GELU)」產生輸出。", "卷積神經網路 (CNN)：具備局部感知 (Local Receptive Field) 與權重共享 (Weight Sharing) 特性，具平移不變性，專長於「電腦視覺 (Computer Vision)」影像特徵提取。", "遞歸神經網路 (RNN / LSTM)：專為時間序列與自然語言設計，具隱藏狀態 (Hidden State) 記憶歷史資訊。致命缺點：必須逐字序列處理（無法平行運算加速），且面臨「梯度消失 (Vanishing Gradient)」與長距遺忘問題。", "Transformer 架構 (2017 Google 發表)：", "• 自注意力機制 (Self-Attention)：全文本矩陣並行計算，任一字詞均能直接關注文章中其他所有字詞的語意關聯。", "• 徹底擺脫 RNN 序列循環，完全契合 GPU 大規模平行張量矩陣計算，成為現代 GPT、Claude、Gemini 與多模態大模型的通用架構。"]}, {"section": "2.4 生成式 AI 與大型語言模型 (LLM) 關鍵工程技術", "items": ["LLM 三階段訓練管線：", "1. 預訓練 (Pre-training)：海量無標籤文本學習語言規律與世界知識（獲得基底模型 Base Model）。", "2. 監督式微調 (SFT)：高品質問答對訓練模型聽懂指令並依格式回答（Instruction Following）。", "3. 對齊 (Alignment - RLHF / DPO)：透過人類回饋強化學習，確保模型符合 3H 原則（Helpful 有幫助、Honest 誠實、Harmless 無害）。", "提示工程 (Prompt Engineering)：設計角色設定、情境脈絡、少樣本範例 (Few-Shot) 與思維鏈 (Chain-of-Thought, CoT) 激發模型逐步推理能力。", "RAG (檢索增強生成)：生成前先從外部私有向量資料庫 (Vector DB) 檢索最新參考資料填入 Prompt，徹底根除模型「幻覺 (Hallucination)」與知識過期問題。", "PEFT (參數高效微調 - LoRA)：凍結模型原數百億參數，僅外掛訓練低秩小矩陣，以極低顯存與成本完成模型客製化。", "模型量化 (Quantization)：將浮點數權重由 FP16 壓縮至 INT8 或 INT4，大幅縮減顯存並加速推論。"]}, {"section": "2.5 前沿新興科技 (Edge AI、量子運算、數位雙生)", "items": ["邊緣 AI (Edge AI)：將神經網路模型部署於本地終端晶片（NPU / 行動裝置），達成超低延遲、離線可用且保障個資隱私。", "量子運算 (Quantum Computing)：以量子位元 (Qubit) 為基本單位，利用「量子疊加 (Superposition)」與「量子糾纏 (Entanglement)」，在特定難題（如質因數分解 Shor's Algorithm、分子藥物模擬）達成指數級算力超越（量子霸權）。", "具身智能 (Embodied AI)：結合多模態大模型的大腦與實體機器人肢體，能理解物理世界環境並執行精密實體動作。"]}], "concepts": [{"name": "Transformer 架構與自注意力機制", "tag": "深度學習架構", "aim": "當代大型語言模型 (GPT, Gemini) 的底層通用算力模型", "pipeline": "Tokens ➔ Embedding + Positional Encoding ➔ Multi-Head Self-Attention ➔ Feed Forward ➔ Softmax", "glossary": "Self-Attention、Q/K/V、Positional Encoding、Context Window、Multi-Head", "tech": "高度契合 GPU 平行張量運算，以 attention map 捕捉跨千字以上的全域語意相依性", "source": "Vaswani et al., 2017 (Attention Is All You Need)"}, {"name": "檢索增強生成 (RAG) 系統工程", "tag": "LLM應用架構", "aim": "為大模型外掛私有領域知識庫，根絕模型幻覺與時效性問題", "pipeline": "用戶 Query ➔ Embedding 向量化 ➔ 向量資料庫檢索 Top-K 文本 ➔ 組合 Prompt ➔ LLM 生成附出處的可靠答案", "glossary": "Vector DB, Embedding, Cosine Similarity, Chunking, Hallucination", "tech": "採用 Hybrid Search (語意向量 + 關鍵字 BM25) 與 Re-ranking 重排模型最大化檢索精準度", "source": "Lewis et al., 2020 (RAG for Knowledge-Intensive NLP Tasks)"}], "flashcards": [{"front": "什麼是『弱人工智慧 (Narrow AI)』與『強人工智慧 (AGI)』？", "back": "• 弱 AI (Narrow AI)：專精於單一特定任務（如人臉辨識、下圍棋、翻譯），目前現實生活中的所有 AI 皆屬此類。
-• 強 AI (AGI)：具備等同人類、能跨領域自主學習、推理與解決全新複雜問題的通用智能。", "tag": "AI分類"}, {"front": "監督式學習 (Supervised) 與 非監督式學習 (Unsupervised) 最核心區別？", "back": "• 監督式學習：訓練資料『有標籤 (Labels)』，包含分類（如貓狗分類）與回歸（如房價預測）。
-• 非監督式學習：訓練資料『沒有標籤』，演算法自行發掘資料群體特徵（如 K-Means 分群、PCA 降維）。", "tag": "機器學習"}, {"front": "Transformer 革命為何能徹底取代傳統 RNN？", "back": "傳統 RNN 必須逐字循序讀取，無法讓 GPU 平行加速且容易遺忘長文本；Transformer 採用『自注意力機制 (Self-Attention)』，可同時平行處理整篇文章所有字詞的矩陣計算，訓練速度呈指數級飛躍。", "tag": "深度學習"}, {"front": "什麼是大型語言模型的『幻覺 (Hallucination)』？如何有效防範？", "back": "幻覺指模型以極度流暢自信的語氣，生成完全捏造、錯誤或無中生有的虛假資訊。
-防範手法：採用 RAG（檢索增強生成）、提示詞加上嚴格引用限制、調低 Temperature 參數、以及知識對齊 (RLHF)。", "tag": "LLM核心"}, {"front": "簡述 RAG (檢索增強生成) 的運作四步驟？", "back": "1. 檢索 (Retrieve)：將用戶問題向量化，在向量資料庫中搜尋最相似的私有文件。
-2. 增強 (Augment)：將檢索到的正確文本片段塞入 Prompt 作為參考背景。
-3. 生成 (Generate)：傳給 LLM 根據參考資料產出精準回答。
-4. 溯源：附帶原始文件出處。", "tag": "RAG架構"}, {"front": "什麼是參數高效微調技術『LoRA (Low-Rank Adaptation)』？", "back": "一種極度省資源的微調技術。它保持原本龐大的大模型權重凍結不動，僅在外側附加訓練兩顆極小的低秩矩陣 (A × B)，以不到原本 1% 的顯存成本達成專屬領域客製化。", "tag": "微調技術"}, {"front": "量子運算的核心原理是什麼？什麼是量子疊加態？", "back": "傳統位元只能是 0 或 1；量子位元 (Qubit) 藉由量子疊加態 (Superposition)，可同時處於 0 和 1 的機率結合狀態。n 個量子位元可同時表示 2^n 個狀態，具備龐大的平行計算潛力。", "tag": "前沿科技"}, {"front": "什麼是『提示工程 (Prompt Engineering)』的思維鏈 (Chain-of-Thought, CoT)？", "back": "一種在提示詞中引導模型「一步一步思考 (Let's think step by step)」的技巧。透過將複雜問題拆解為多個中間推導步驟，大幅降低邏輯與數學運算的答錯機率。", "tag": "提示工程"}], "quiz": [{"id": "02-q01", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "簡單", "type": "AI分類", "question": "專精於單一特定領域任務（如 AlphaGo 下圍棋、Apple FaceID 人臉辨識），但不具備人類廣泛通用推理能力的 AI 稱為？", "options": ["A. 弱人工智慧 (Narrow AI)", "B. 通用人工智慧 (AGI)", "C. 超人工智慧 (ASI)", "D. 符號邏輯 AI"], "answer": "A", "explanation": "目前現實世界所有商用與專用 AI 均屬於弱人工智慧 (Narrow AI)。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q02", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "簡單", "type": "機器學習基礎", "question": "訓練資料同時包含『輸入特徵 (Features)』與『正確標準答案 (Labels)』的機器學習方法稱為？", "options": ["A. 監督式學習 (Supervised Learning)", "B. 非監督式學習 (Unsupervised Learning)", "C. 強化學習 (Reinforcement Learning)", "D. 演化計算"], "answer": "A", "explanation": "監督式學習的根本特徵即為訓練集具備已知標籤 (Labels)。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q03", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "簡單", "type": "非監督學習", "question": "訓練資料完全沒有任何標籤，由演算法自行分析並將相似的客戶資料自動分成數個群組的任務屬於？", "options": ["A. 分類 (Classification)", "B. 分群 (Clustering)", "C. 回歸 (Regression)", "D. 強化學習"], "answer": "B", "explanation": "分群（如 K-Means）是非監督式學習的典型應用，目標為尋找無標籤資料的群聚結構。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q04", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "簡單", "type": "深度學習架構", "question": "2017 年 Google 在論文《Attention Is All You Need》中提出，成為當代大語言模型基石的核心架構是？", "options": ["A. CNN", "B. RNN", "C. Transformer", "D. 決策樹"], "answer": "C", "explanation": "Transformer 架構揚棄循序循環，完全以自注意力機制實現並行計算。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q05", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "簡單", "type": "LLM核心觀念", "question": "大語言模型以極為流暢自信的語調，講出表面看似合理但事實上完全捏造錯誤的現象在 AI 術語中稱為？", "options": ["A. 梯度爆炸", "B. 幻覺 (Hallucination)", "C. 溢位 (Overflow)", "D. 偏置 (Bias)"], "answer": "B", "explanation": "幻覺指大語言模型受限於機率預測機制產出的無中生有錯誤事實。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q06", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "簡單", "type": "電腦視覺", "question": "在圖像辨識與電腦視覺 (Computer Vision) 領域中，最常採用的經典深度學習神經網路架構為？", "options": ["A. CNN (卷積神經網路)", "B. RNN (遞歸神經網路)", "C. ANN (傳統感知器)", "D. 專家系統"], "answer": "A", "explanation": "CNN 具備卷積核局部感知與權重共享，為影像特徵提取的權威架構。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q07", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "簡單", "type": "NLP基礎", "question": "在自然語言處理中，將大文章或字句切分成機器可處理的最小單元（如單詞或子詞）的技術過程稱為？", "options": ["A. 標記化 (Tokenization)", "B. 量化 (Quantization)", "C. 剪枝 (Pruning)", "D. 蒸餾 (Distillation)"], "answer": "A", "explanation": "Tokenization 將輸入字串切為 Tokens（如使用 BPE 演算法）。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q08", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "簡單", "type": "強化學習", "question": "AlphaGo 透過與環境下圍棋並藉由輸贏回饋分數來持續優化策略的學習方式，屬於下列何者？", "options": ["A. 監督式學習", "B. 非監督式學習", "C. 強化學習 (Reinforcement Learning)", "D. 啟發式搜尋"], "answer": "C", "explanation": "強化學習透過 Agent 採取行動並由環境回饋 Reward 獎懲來學習最佳策略。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q09", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "簡單", "type": "量子運算", "question": "傳統電腦以二進位 Bit (0 或 1) 為基礎，而量子電腦所使用的基本資訊運算單元稱為？", "options": ["A. Qubit (量子位元)", "B. Byte", "C. Qu-Byte", "D. Token"], "answer": "A", "explanation": "Qubit（量子位元）為量子電腦的基本運算單位。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q10", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "簡單", "type": "神經網路基礎", "question": "神經網絡中負責引入非線性轉換能力，使神經網路能夠擬合複雜函數的元件稱為？", "options": ["A. 匯流排", "B. 激活函數 (Activation Function)", "C. 時脈振盪器", "D. 暫存器"], "answer": "B", "explanation": "若無非線性激活函數（如 ReLU），多層神經網路本質上仍只是單純的線性代數矩陣相乘。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q11", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "簡單", "type": "提示工程", "question": "在提示工程 (Prompt Engineering) 中，在提問時完全不給任何範例直接要求模型回答的模式稱為？", "options": ["A. Zero-Shot Prompting (零樣本提示)", "B. Few-Shot Prompting (少樣本提示)", "C. Fine-Tuning", "D. Pre-training"], "answer": "A", "explanation": "Zero-Shot 代表提問中不提供任何參考範例，直接考驗模型通用知識。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q12", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "簡單", "type": "邊緣運算", "question": "將 AI 深度學習模型直接部署於智慧型手機、行車紀錄器等終端邊緣設備運行的架構稱為？", "options": ["A. 邊緣 AI (Edge AI)", "B. 雲端集中運算", "C. 虛擬主機", "D. 超級運算中心"], "answer": "A", "explanation": "Edge AI 在本地晶片執行模型推論，具備低延遲與高隱私優勢。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q13", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "簡單", "type": "機器學習分類", "question": "機器學習中，用來預測房屋價格（輸出為連續實數數值）的任務類型屬於？", "options": ["A. 分類 (Classification)", "B. 回歸 (Regression)", "C. 分群 (Clustering)", "D. 雜湊"], "answer": "B", "explanation": "預測連續實數為回歸任務；預測離散類別（如貓或狗）為分類任務。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q14", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "簡單", "type": "AI歷史名機", "question": "1997 年擊敗世界西洋棋棋王卡斯帕羅夫的 IBM 電腦名稱為？", "options": ["A. 深藍 (Deep Blue)", "B. 華生 (Watson)", "C. 深層思考 (DeepMind)", "D. 巨人機 (Colossus)"], "answer": "A", "explanation": "IBM 深藍 (Deep Blue) 於 1997 年擊敗人類西洋棋世界冠軍，震撼全球。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q15", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "簡單", "type": "企業部署", "question": "企業為避免向 OpenAI 傳送商業機密，將開源大模型私有化部署在自家內網伺服器的行為屬於？", "options": ["A. 地端部署 (On-Premises)", "B. 公有雲服務", "C. SaaS 租用", "D. 網路釣魚"], "answer": "A", "explanation": "On-Premises 指將硬體與模型架設於企業內部受限機房，保障機密性。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q16", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "一般", "type": "RAG架構", "question": "在大型語言模型中，RAG (Retrieval-Augmented Generation) 解決模型幻覺的最關鍵步驟是？", "options": ["A. 將模型層數增加十倍", "B. 在生成回答前，先由向量資料庫檢索精準的私有外部資料填入 Prompt", "C. 提高伺服器電源供應瓦數", "D. 將程式碼編譯成組合語言"], "answer": "B", "explanation": "RAG 透過「先檢索外部客觀事實，再生成回答」機制，大幅降低幻覺並更新即時知識。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q17", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "一般", "type": "深度學習機制", "question": "傳統遞歸神經網路 (RNN) 處理長篇文章時，最常遭遇何種嚴重的數學最佳化瓶頸？", "options": ["A. 空間碎裂", "B. 梯度消失 (Vanishing Gradient) 與長距遺忘", "C. 緩衝區溢位", "D. 死結循環"], "answer": "B", "explanation": "反向傳播跨多個時間步連乘小於 1 的權重時，梯度呈指數衰減至 0，失去學習長距依賴能力。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q18", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "一般", "type": "Transformer架構", "question": "Transformer 中的『自注意力機制 (Self-Attention)』主要是透過計算哪三個向量矩陣的交互關係？", "options": ["A. Alpha, Beta, Gamma", "B. Query, Key, Value (Q, K, V)", "C. Input, Output, Hidden", "D. Push, Pop, Peek"], "answer": "B", "explanation": "Self-Attention 透過 Q 查詢向量與 K 鍵值向量做內積計算注意力權重，再加權聚合 V 數值向量。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q19", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "一般", "type": "提示工程", "question": "在大模型提示工程中，引導模型『請一步一步思考 (Let's think step by step)』以提升複雜邏輯推理正確率的技巧稱為？", "options": ["A. 少樣本提示 (Few-Shot)", "B. 思維鏈 (Chain-of-Thought, CoT)", "C. 模型蒸餾", "D. 語意對齊"], "answer": "B", "explanation": "思維鏈 (CoT) 促使模型產生逐步的中間推理 Token，顯著提高數學與複雜推理命中率。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q20", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "一般", "type": "模型對齊", "question": "在訓練大語言模型對齊 (Alignment) 時，利用人類標註員對模型輸出的優劣進行評分以微調模型的技術縮寫為何？", "options": ["A. RLHF (人類回饋強化學習)", "B. CNN", "C. DFS", "D. NAT"], "answer": "A", "explanation": "RLHF (Reinforcement Learning from Human Feedback) 是讓大模型遵循人類價值觀（3H）的關鍵對齊方法。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q21", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "一般", "type": "微調技術", "question": "參數高效微調技術 LoRA (Low-Rank Adaptation) 能在僅消耗極少顯存的前提下微調大模型，其核心數學原理為？", "options": ["A. 將模型所有權重歸零", "B. 凍結主模型權重，僅透過分解的兩個低秩矩陣 (A × B) 進行增量訓練", "C. 砍掉模型所有的注意力頭", "D. 轉為二進位純文字儲存"], "answer": "B", "explanation": "LoRA 利用內在維度 (Intrinsic Rank) 低的假設，將龐大更新矩陣拆為兩個低階小矩陣大幅節省顯存。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q22", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "一般", "type": "向量檢索", "question": "在向量資料庫 (Vector Database) 中，評估兩段文字 Embedding 向量語意相似度最常用的幾何衡量方式為？", "options": ["A. 餘弦相似度 (Cosine Similarity)", "B. 費氏數列", "C. 奇偶校驗", "D. 漢明距離"], "answer": "A", "explanation": "餘弦相似度計算兩多維向量間的夾角餘弦值，值越接近 1 代表語意關聯度越高。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q23", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "一般", "type": "模型壓縮", "question": "將深度學習模型的浮點數權重由 16 位元 (FP16) 轉換為 8 位元 (INT8) 或 4 位元 (INT4) 的壓縮技術稱為？", "options": ["A. 模型量化 (Quantization)", "B. 模型對齊 (Alignment)", "C. 資料正規化", "D. 反向傳播"], "answer": "A", "explanation": "量化以微小精度損失為代價，大幅削減模型顯存佔用（減半以上）並加速 GPU 矩陣推論。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q24", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "一般", "type": "量子前沿", "question": "量子運算中，兩個或多個量子位元在空間上彼此相隔遙遠，但一個量子狀態的改變會瞬間影響另一個的奇特物理現象稱為？", "options": ["A. 量子穿隧", "B. 量子糾纏 (Quantum Entanglement)", "C. 量子退相干", "D. 莫爾效應"], "answer": "B", "explanation": "量子糾纏是量子通訊（量子密鑰分發 QKD）與量子平行計算的核心物理依據。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q25", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "一般", "type": "神經網路", "question": "在深度學習神經元中，ReLU 激活函數的數學定義為？", "options": ["A. f(x) = x^2", "B. f(x) = max(0, x)", "C. f(x) = 1 / (1 + e^-x)", "D. f(x) = sin(x)"], "answer": "B", "explanation": "ReLU (Rectified Linear Unit) 定義為 max(0, x)，計算極簡且在正數區無梯度消失問題。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q26", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "一般", "type": "推論參數", "question": "在大模型生成文本時，控制模型回答『隨機性與創造力』的超參數為？", "options": ["A. Batch Size", "B. Temperature (溫度參數)", "C. Learning Rate", "D. Momentum"], "answer": "B", "explanation": "Temperature 越低輸出越確定保守；Temperature 越高輸出越多樣富創造力（但也更易胡言亂語）。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q27", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "一般", "type": "新興科技", "question": "下列何種技術可以將實體工廠、風力發電機或城市管線在電腦中建立 1:1 的即時數位虛擬鏡像以進行預測模擬？", "options": ["A. 數位雙生 (Digital Twin)", "B. 區塊鏈", "C. 雜湊表", "D. 多工器"], "answer": "A", "explanation": "數位雙生結合物聯網感測器即時數據與 3D 模擬，達到設備預測性維護。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q28", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "一般", "type": "評估指標", "question": "在機器學習評估指標中，預測為正且實際也為正的樣本佔所有被預測為正的樣本比例稱為？", "options": ["A. 精確率 (Precision)", "B. 召回率 (Recall)", "C. 損失函數 (Loss)", "D. 學習率"], "answer": "A", "explanation": "Precision = TP / (TP + FP)，代表模型預測命中正例的準繩度。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q29", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "一般", "type": "AI倫理資安", "question": "利用深度學習偽造名人的臉部特徵或聲音進行詐騙或造假的黑科技統稱為？", "options": ["A. 深偽技術 (Deepfake)", "B. 勒索軟體", "C. 殭屍網路", "D. 數位簽章"], "answer": "A", "explanation": "Deepfake 主要利用 GAN 生成對抗網路或 Diffusion 擴散模型偽造極度逼真的影音假訊息。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q30", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "一般", "type": "語意表示", "question": "在自然語言處理中，將字詞轉換為高維度稠密數值向量以捕捉語意關係的技術稱為？", "options": ["A. 詞嵌入 (Word Embedding)", "B. 編譯", "C. 鏈結", "D. 加密"], "answer": "A", "explanation": "Embedding（如 Word2Vec）將字詞映射到多維向量空間，語意相近的詞在空間距離更近。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q31", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "一般", "type": "CNN架構", "question": "卷積神經網路 (CNN) 中的『池化層 (Pooling Layer，如 Max Pooling)』最主要的功用為？", "options": ["A. 增加影像特徵圖的解析度", "B. 降低特徵圖空間維度以減少運算參數量並具備微小位移容忍度", "C. 執行字串翻譯", "D. 加密影像資料"], "answer": "B", "explanation": "池化層（降取樣）縮小特徵圖尺寸，減少後續運算量並有效防止過擬合 (Overfitting)。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q32", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "一般", "type": "電腦視覺", "question": "在自駕車視覺辨識系統中，能夠為影像中『每一個像素 (Pixel)』都標註出所屬物體類別的進階視覺技術為？", "options": ["A. 語意分割 (Semantic Segmentation)", "B. 影像分類", "C. 文字轉語音", "D. 邊界檢測"], "answer": "A", "explanation": "語意分割逐像素精準劃分道路、行人與障礙物，為高階自動駕駛核心演算法。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q33", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "一般", "type": "模型訓練", "question": "大語言模型訓練過程中，為防止模型在訓練集表現完美但在新資料一塌糊塗的現象稱為？", "options": ["A. 欠擬合 (Underfitting)", "B. 過擬合 (Overfitting)", "C. 梯度爆炸", "D. 量化誤差"], "answer": "B", "explanation": "過擬合（Overfitting）指模型死記訓練資料的雜訊，失去面對未知資料的泛化能力。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q34", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "一般", "type": "生成技術", "question": "下列哪一種生成模型是目前主流文字生成圖片工具（如 Midjourney、Stable Diffusion）所廣泛採用的核心演算法？", "options": ["A. 擴散模型 (Diffusion Models)", "B. 決策樹", "C. 線性回歸", "D. 隱藏式馬可夫模型"], "answer": "A", "explanation": "擴散模型透過在影像逐步加入高斯雜訊，再訓練神經網絡反向「去噪」重現高清圖片。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q35", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "一般", "type": "LLM評測", "question": "當前大模型主流評估標竿中，專門測試模型在文史、數理、醫學等跨學科知識儲備的多主題評測基準縮寫為何？", "options": ["A. MMLU (Massive Multitask Language Understanding)", "B. TCP/IP", "C. SQL", "D. IEEE 754"], "answer": "A", "explanation": "MMLU 包含 57 個學科領域的大量選擇題，為衡量當代基礎大模型綜合知識能力的權威評測集。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q36", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "難", "type": "數學底層機制", "question": "在 Transformer 的自注意力運算中，標準 Scaled Dot-Product Attention 公式為 Attention(Q,K,V) = softmax( (QK^T) / sqrt(d_k) ) × V，其中除以 sqrt(d_k) 的關鍵數學目的為何？", "options": ["A. 增加權重大小以加快計算", "B. 防止向量維度 d_k 過大時點積數值過大，導致 Softmax 進入極端飽和區造成梯度消失", "C. 將矩陣轉為整數以利儲存", "D. 消除偏置 Bias 影響"], "answer": "B", "explanation": "維度 d_k 很大時點積方差激增，除以 sqrt(d_k) 可將數值縮放回常態分佈，維持 Softmax 穩定的梯度反向傳播。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q37", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "難", "type": "RAG工程細節", "question": "某公司擁有 10 萬篇內部 PDF 技術規章，若直接將整份規章全部塞入大模型 Prompt 往往會導致 Context Window 爆表且費用昂貴。在建構 RAG 系統時，標準的『分塊 (Chunking)』最佳實踐通常會保留 overlap（重疊字數），其核心目的為？", "options": ["A. 增加資料庫體積", "B. 防止文章在固定長度切斷時，剛好把關鍵語意或名詞硬生生腰斬分離造成資訊斷裂", "C. 加密檔案內容", "D. 減少向量計算量"], "answer": "B", "explanation": "Chunk Overlap（如每 500 字切一段保留 50 字重疊）確保跨切片交界處的語意上下文連貫不遺失。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q38", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "難", "type": "數學向量計算", "question": "假設一個二維平面空間中，向量 A = (1, 1)，向量 B = (0, 2)，則兩向量之間的『餘弦相似度 (Cosine Similarity)』計算結果為何？", "options": ["A. 0.5", "B. sqrt(2) / 2 (約 0.707)", "C. 1.0", "D. 0"], "answer": "B", "explanation": "A·B = 0+2 = 2。|A| = sqrt(1+1) = sqrt(2)，|B| = sqrt(4) = 2。Cos = 2 / (sqrt(2) × 2) = 1/sqrt(2) = sqrt(2)/2 ≈ 0.707。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q39", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "難", "type": "參數量計算", "question": "在 LoRA 參數高效微調架構中，若原始大模型的權重矩陣 W 維度為 4096 × 4096（共約 1677 萬個參數）。若設定秩 rank r = 8，將其分解為 A(4096 × 8) 與 B(8 × 4096)，則 LoRA 需要訓練的參數量為多少？", "options": ["A. 32,768 (約 3.2 萬個參數)", "B. 65,536 (約 6.5 萬個參數)", "C. 100 萬個參數", "D. 4096 個參數"], "answer": "B", "explanation": "A 參數量 = 4096 × 8 = 32,768；B 參數量 = 8 × 4096 = 32,768。總參數量 = 32768 + 32768 = 65,536，僅佔原本的 0.39%！", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q40", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "難", "type": "量子威脅", "question": "量子運算演算法中著名的『秀爾演算法 (Shor's Algorithm)』，因能在多項式時間內解決何種數學難題，從而對現代 RSA 非對稱密碼體系構成致命崩潰威脅？", "options": ["A. 質因數分解 (Prime Factorization)", "B. 矩陣轉置", "C. 排序演算法", "D. 雜湊校驗"], "answer": "A", "explanation": "Shor's Algorithm 能在量子多項式時間破解大整數質因數分解，直接摧毀建立在大質數難題上的 RSA 加密。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q41", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "難", "type": "LLM推論優化", "question": "大模型在執行推論 (Inference) 生成文本時，通常會快取前文已計算好的 Key 與 Value 向量，避免每個 Token 生成都重複計算整個歷史上下文。這項關鍵記憶體優化技術稱為？", "options": ["A. KV Cache", "B. 虛擬記憶體 Paging", "C. 堆疊 Stack", "D. 垃圾回收 GC"], "answer": "A", "explanation": "KV Cache 將歷史 Tokens 的 Key 與 Value 張量暫存於顯存中，將後續自回歸生成的計算複雜度大幅降低。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q42", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "難", "type": "RL理論", "question": "在強化學習 (Reinforcement Learning) 的貝爾曼方程式 (Bellman Equation) 中，折現因子 (Discount Factor, γ，通常介於 0 到 1 之間) 的核心作用為？", "options": ["A. 權衡眼前立即獎勵與長遠未來累積獎勵的比重", "B. 減少記憶體佔用", "C. 防止除以零錯誤", "D. 加密通訊數據"], "answer": "A", "explanation": "γ 越接近 0 代表 Agent 極度短視只看眼前獎勵；γ 越接近 1 代表 Agent 越重視長遠未來的持續收益。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q43", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "難", "type": "前沿對齊技術", "question": "目前國際頂尖 AI 實驗室所推動的『Constitutional AI (憲法 AI)』對齊架構，其主要突破創新在於何處？", "options": ["A. 廢除所有 AI 倫理約束", "B. 利用一套預先寫好的明確原則規範（憲法），讓 AI 模型自我評判與修正批判，大幅減少對昂貴人類標註員的依賴", "C. 強制將 AI 原始碼開源", "D. 改用二進位手動微調"], "answer": "B", "explanation": "Anthropic 提出的 Constitutional AI 透過 AI 自我監督與 RLAIF 實現大規模自動化無害對齊。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q44", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "難", "type": "MoE架構", "question": "在大模型混合專家系統 (Mixture of Experts, MoE，如 Mixtral 8x7B) 架構中，系統如何在保持極大總參數量的同時，維持極快的單 Token 推論速度？", "options": ["A. 每次推論時，由路由門控網路 (Gating Network) 動態僅啟用 1~2 個最相關的專屬前饋專家層 (Feed-Forward Experts)", "B. 砍掉所有權重矩陣", "C. 改用 CPU 序列執行", "D. 將所有文字轉為音訊"], "answer": "A", "explanation": "MoE 採用稀疏激活 (Sparse Activation)，總參數量巨大但每個 Token 僅呼叫局部專家子網絡計算。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q45", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "難", "type": "量子物理難題", "question": "在量子電腦硬體中，量子位元極易受到外界環境溫度、電磁雜訊干擾而喪失量子疊加特性退化為普通位元的現象稱為？", "options": ["A. 量子退相干 (Quantum Decoherence)", "B. 量子霸權", "C. 馮諾曼瓶頸", "D. 梯度消失"], "answer": "A", "explanation": "量子退相干（Decoherence）是量子電腦必須維持在接近絕對零度（數十毫開爾文 mK）環境運作的主因。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q46", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "難", "type": "生成架構", "question": "現代 Diffusion 擴散模型（如 Stable Diffusion）在去噪生成圖片的過程中，實體負責預測並剔除噪聲的神經網絡骨幹多採用下列何者？", "options": ["A. U-Net 架構 (或 Diffusion Transformer - DiT)", "B. 單層感知器", "C. 傳統專家系統", "D. 泡沫排序器"], "answer": "A", "explanation": "U-Net 具備編碼器-解碼器跳躍連接結構，能精準在多尺度特徵圖上預測高斯噪聲分佈。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q47", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "難", "type": "深度學習革命", "question": "當神經網路層數極深時（如超過 100 層），ResNet (殘差網路) 藉由何種突破性的設計，成功解決了深層網路反向傳播時的梯度消失問題？", "options": ["A. 殘差跳躍連接 (Skip / Residual Connection: F(x) + x)", "B. 拔除所有激活函數", "C. 改用全連接層", "D. 增加池化層數目"], "answer": "A", "explanation": "何愷明提出的殘差連接使得梯度可以直接經由恆等映射 (Identity Map) 跨層暢通無阻傳播至最淺層。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q48", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "難", "type": "Tokenizer算法", "question": "某語言模型使用 BPE (Byte-Pair Encoding) 演算法建構詞表，其最根本的建表邏輯是依據下列何者反覆迭代合併？", "options": ["A. 字母在字典的順序", "B. 統計文本中相鄰字元對 (Byte-Pair) 出現頻率最高者進行合併", "C. 隨機亂數抽取", "D. 英文文法規則"], "answer": "B", "explanation": "BPE 貪婪地統計並合併最高頻連續子字元對，在詞表體積與未登錄詞 (OOV) 覆蓋率間取得完美平衡。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q49", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "難", "type": "系統工程優化", "question": "在大模型推論服務部署中，PageAttention (如 vLLM 框架) 藉由借鑑作業系統的何種經典記憶體管理概念，大幅解決了 KV Cache 顯存浪費與碎片化問題？", "options": ["A. 虛擬記憶體分頁機制 (Paging)", "B. 死結循環等待", "C. 磁碟磁軌重組", "D. 堆疊溢位"], "answer": "A", "explanation": "vLLM 借鑑 OS 虛擬分頁，將 KV Cache 切為固定物理分頁非連續儲存，將顯存浪費降至 4% 以下。", "source": "教材 2.1 - 2.5 節"}, {"id": "02-q50", "chapter": "第 02 章 人工智慧與科技新發展", "difficulty": "難", "type": "AI評測陷阱", "question": "在 AI 評測中，所謂的『數據污染 (Data Contamination)』現象是指？", "options": ["A. 訓練資料感染電腦病毒", "B. 評測測試集的題目與標準答案已經不慎洩漏並混入大模型的預訓練語料中，導致跑分虛高假象", "C. 資料庫被植入木馬", "D. 影像解析度過低"], "answer": "B", "explanation": "數據污染指模型在預訓練時早已「看過考卷題目與解答」，使得跑分極高但真實泛化推理能力低落。", "source": "教材 2.1 - 2.5 節"}], "supplements": {"teacher": [{"title": "第 2 週實作作業：使用 Python 串接 LLM API 並實作 RAG 向量搜尋系統", "desc": "以 LangChain 或 LlamaIndex 實作私有 PDF 文件問答。"}, {"title": "深度計算作業：自注意力機制矩陣乘法維度推導與 LoRA 參數量估算", "desc": "計算不同 rank 參數下參數量縮減比率。"}], "papers": [{"title": "Attention Is All You Need (Vaswani et al., 2017)", "desc": "開啟生成式 AI 新紀元的 Transformer 開創性論文。"}, {"title": "LoRA: Low-Rank Adaptation of Large Language Models (Hu et al., 2021)", "desc": "奠定大模型輕量化微調主流地位的經典論文。"}]}}};
-
-    // 全域變數
     let currentChapterId = "01";
+    let currentChapterData = null;
     let userAnswers = {};
     let flashcardIndex = 0;
     let flashcardList = [];
     let masteredFlashcards = new Set(JSON.parse(localStorage.getItem('fc_mastered') || '[]'));
     let mistakeList = JSON.parse(localStorage.getItem('cs_mistakes') || '[]');
 
-    // 初始化頁面
     function init() {
-      // 填入 14 章下拉選單
       const sel = document.getElementById('chapterSelect');
       sel.innerHTML = CHAPTERS_METADATA.map(ch => `<option value="${ch.id}">${ch.title}</option>`).join('');
       sel.value = currentChapterId;
-
       loadChapter(currentChapterId);
       updateMistakeStats();
     }
 
-    // 章節切換
     function onChapterChange(chId) {
       currentChapterId = chId;
       loadChapter(chId);
     }
 
-    // 載入章節資料 (先嘗試 fetch 本地資料夾，若無則降級使用內建資料)
+    // 核心資料讀取邏輯：優先從對應資料夾 (如 01/data.json) 讀取完整 50 題
     async function loadChapter(chId) {
-      let data = BUILTIN_DATABASE[chId];
-      
-      // 嘗試從本地或 GitHub Pages 資料夾讀取 ./XX/data.json
+      let data = null;
       try {
         const res = await fetch(`./${chId}/data.json?_t=${Date.now()}`);
         if (res.ok) {
           const remoteData = await res.json();
-          if (remoteData) data = remoteData;
+          if (remoteData && remoteData.quiz && remoteData.quiz.length > 0) {
+            data = remoteData;
+          }
         }
       } catch (e) {
-        // 離線或 file:// 模式下優雅降級
+        console.warn("讀取資料夾失敗，準備備用方案：", e);
       }
 
       if (!data) {
         data = {
           title: CHAPTERS_METADATA.find(c => c.id === chId)?.title || `第 ${chId} 章`,
-          notes: [{ section: "章節建置中", items: ["此章節筆記正陸續更新中，歡迎將講義投影片交付 AI 助教一鍵生成完整內容！"] }],
+          notes: [{ section: "資料載入提示", items: [`正在讀取 ${chId}/data.json，若未出現請確認 GitHub 上該檔案是否已提交。`] }],
           concepts: [],
           quiz: [],
           flashcards: [],
@@ -482,6 +397,7 @@
         };
       }
 
+      currentChapterData = data;
       renderNotes(data);
       renderConcepts(data);
       renderQuiz(data);
@@ -490,7 +406,6 @@
       updateHeaderCounts();
     }
 
-    // 1. 渲染筆記
     function renderNotes(data) {
       document.getElementById('notesChapterTitle').innerText = data.title;
       const container = document.getElementById('notesContainer');
@@ -508,11 +423,10 @@
       `).join('');
     }
 
-    // 2. 渲染 5 維度概念庫
     function renderConcepts(data) {
       const container = document.getElementById('conceptsContainer');
       if (!data.concepts || data.concepts.length === 0) {
-        container.innerHTML = `<div class="col-span-2 text-center py-12 text-slate-400">本章尚無核心概念收錄。</div>`;
+        container.innerHTML = `<div class="col-span-2 text-center py-12 text-slate-400">本章核心概念載入中。</div>`;
         return;
       }
       container.innerHTML = data.concepts.map(c => `
@@ -530,21 +444,15 @@
               <span class="text-slate-400 font-sans block text-[10px] mb-1">⚙️ 底層架構機制 (Pipeline)：</span>
               ${c.pipeline}
             </div>
-            <div class="text-slate-300 leading-relaxed">
-              <span class="text-amber-400 font-semibold">📖 必備術語：</span> ${c.glossary}
-            </div>
-            <div class="text-slate-300 leading-relaxed">
-              <span class="text-purple-400 font-semibold">🛠️ 實務技術：</span> ${c.tech}
-            </div>
-            <div class="text-slate-400 text-[11px] pt-1">
-              <span>📜 理論出處：</span> ${c.source}
-            </div>
+            <div class="text-slate-300 leading-relaxed"><span class="text-amber-400 font-semibold">📖 必備術語：</span> ${c.glossary}</div>
+            <div class="text-slate-300 leading-relaxed"><span class="text-purple-400 font-semibold">🛠️ 實務技術：</span> ${c.tech}</div>
+            <div class="text-slate-400 text-[11px] pt-1"><span>📜 理論出處：</span> ${c.source}</div>
           </div>
         </div>
       `).join('');
     }
 
-    // 3. 渲染題目考場
+    // 渲染考場：清晰標註「難度」與「題型」
     function renderQuiz(data) {
       const container = document.getElementById('quizContainer');
       const submitBar = document.getElementById('quizSubmitBar');
@@ -553,7 +461,7 @@
       userAnswers = {};
 
       if (!data.quiz || data.quiz.length === 0) {
-        container.innerHTML = `<div class="text-center py-12 text-slate-400 bg-slate-900 border border-slate-800 rounded-2xl">本章目前尚無題目，可使用右下角 AI 助教快速出題練習！</div>`;
+        container.innerHTML = `<div class="text-center py-12 text-slate-400 bg-slate-900 border border-slate-800 rounded-2xl">本章目前尚無題目，可使用右下角 AI 助教快速出題！</div>`;
         submitBar.classList.add('hidden');
         return;
       }
@@ -571,9 +479,7 @@
               <span class="px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 border border-slate-700 text-[11px]">${q.type || '一般題型'}</span>
             </div>
           </div>
-          <div class="text-base font-semibold text-white leading-relaxed">
-            ${q.question}
-          </div>
+          <div class="text-base font-semibold text-white leading-relaxed">${q.question}</div>
           <div class="space-y-2">
             ${q.options.map(opt => {
               const optChar = opt.charAt(0);
@@ -585,7 +491,6 @@
               `;
             }).join('')}
           </div>
-          <!-- 結算後顯示的詳解區塊 -->
           <div id="explain-${q.id}" class="hidden pt-4 border-t border-slate-800 text-xs space-y-2">
             <div class="flex items-center gap-2">
               <span class="text-slate-400">官方正解：</span>
@@ -598,7 +503,6 @@
       `).join('');
     }
 
-    // 選擇答案
     function selectQuizOption(qId, optChar, btnElement) {
       userAnswers[qId] = optChar;
       document.querySelectorAll(`.opt-btn-${qId}`).forEach(btn => {
@@ -607,16 +511,13 @@
       });
       btnElement.classList.add('border-emerald-500', 'bg-emerald-500/10', 'text-white');
       btnElement.classList.remove('border-slate-800', 'text-slate-300');
-
       document.getElementById('quizAnsweredCount').innerText = Object.keys(userAnswers).length;
     }
 
-    // 交卷結算
     function submitQuiz() {
-      const data = currentChapterData || BUILTIN_DATABASE[currentChapterId];
+      const data = currentChapterData;
       if (!data || !data.quiz) return;
 
-      let score = 0;
       let correct = 0;
       let wrong = 0;
       const total = data.quiz.length;
@@ -641,7 +542,6 @@
             card.classList.remove('border-slate-800');
             card.classList.add('border-red-500/50', 'bg-red-950/10');
           }
-          // 自動加入錯題本 (若尚未存在)
           if (!mistakeList.some(m => m.id === q.id)) {
             mistakeList.push({
               id: q.id,
@@ -657,7 +557,7 @@
         }
       });
 
-      score = Math.round((correct / total) * 100);
+      const score = Math.round((correct / total) * 100);
       document.getElementById('resScore').innerText = score;
       document.getElementById('resCorrect').innerText = correct;
       document.getElementById('resWrong').innerText = wrong;
@@ -674,12 +574,10 @@
       document.getElementById('quizResultCard').classList.remove('hidden');
       document.getElementById('quizResultCard').scrollIntoView({ behavior: 'smooth' });
 
-      // 儲存錯題至 localStorage
       localStorage.setItem('cs_mistakes', JSON.stringify(mistakeList));
       updateMistakeStats();
     }
 
-    // 4. 渲染 3D 記憶卡
     function renderFlashcards(data) {
       flashcardList = data.flashcards || [];
       flashcardIndex = 0;
@@ -700,14 +598,13 @@
 
       const card = flashcardList[flashcardIndex];
       const inner = document.getElementById('flashcardInner');
-      inner.classList.remove('rotate-y-180'); // 轉回正面
+      inner.classList.remove('rotate-y-180');
 
       document.getElementById('fcFrontText').innerText = card.front;
       document.getElementById('fcBackText').innerText = card.back;
       document.getElementById('fcIndex').innerText = `${flashcardIndex + 1} / ${flashcardList.length}`;
       document.getElementById('fcTag').innerText = card.tag || '考點解析';
 
-      // 更新進度條
       const masteredCount = flashcardList.filter(c => masteredFlashcards.has(c.front)).length;
       const pct = Math.round((masteredCount / flashcardList.length) * 100);
       document.getElementById('fcProgressBar').style.width = `${pct}%`;
@@ -716,8 +613,7 @@
     }
 
     function flipCard() {
-      const inner = document.getElementById('flashcardInner');
-      inner.classList.toggle('rotate-y-180');
+      document.getElementById('flashcardInner').classList.toggle('rotate-y-180');
     }
 
     function prevFlashcard() {
@@ -735,11 +631,8 @@
     function markFlashcard(isMastered) {
       if (flashcardList.length === 0) return;
       const card = flashcardList[flashcardIndex];
-      if (isMastered) {
-        masteredFlashcards.add(card.front);
-      } else {
-        masteredFlashcards.delete(card.front);
-      }
+      if (isMastered) masteredFlashcards.add(card.front);
+      else masteredFlashcards.delete(card.front);
       localStorage.setItem('fc_mastered', JSON.stringify([...masteredFlashcards]));
       nextFlashcard();
     }
@@ -756,15 +649,12 @@
       updateFlashcardView();
     }
 
-    // 5. 錯題系統：分析與盲測重寫
     function updateMistakeStats() {
       document.getElementById('navMistakeCount').innerText = mistakeList.length;
       document.getElementById('mistakeListCount').innerText = mistakeList.length;
 
-      // 依章節統計
       const chMap = {};
       const typeMap = {};
-
       mistakeList.forEach(m => {
         chMap[m.chapter] = (chMap[m.chapter] || 0) + 1;
         typeMap[m.type] = (typeMap[m.type] || 0) + 1;
@@ -772,7 +662,7 @@
 
       const chContainer = document.getElementById('mistakeChapterBars');
       if (Object.keys(chMap).length === 0) {
-        chContainer.innerHTML = `<p class="text-slate-400">目前尚無錯題紀錄，太厲害了！</p>`;
+        chContainer.innerHTML = `<p class="text-slate-400">目前尚無錯題紀錄，太優秀了！</p>`;
       } else {
         chContainer.innerHTML = Object.entries(chMap).map(([ch, count]) => `
           <div class="space-y-1">
@@ -781,7 +671,7 @@
               <span class="text-red-400 font-bold">${count} 題</span>
             </div>
             <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-              <div class="bg-red-500 h-full" style="width: ${Math.min(count * 20, 100)}%"></div>
+              <div class="bg-red-500 h-full" style="width: ${Math.min(count * 15, 100)}%"></div>
             </div>
           </div>
         `).join('');
@@ -798,7 +688,7 @@
               <span class="text-amber-400 font-bold">${count} 題</span>
             </div>
             <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-              <div class="bg-amber-500 h-full" style="width: ${Math.min(count * 20, 100)}%"></div>
+              <div class="bg-amber-500 h-full" style="width: ${Math.min(count * 15, 100)}%"></div>
             </div>
           </div>
         `).join('');
@@ -820,9 +710,7 @@
             <span class="px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-300 border border-red-500/30">${m.chapter}</span>
             <span class="text-slate-400">題型：${m.type}</span>
           </div>
-          <div class="text-base font-semibold text-white">
-            ${m.question}
-          </div>
+          <div class="text-base font-semibold text-white">${m.question}</div>
           <div class="space-y-2">
             ${m.options.map(opt => `
               <button onclick="checkMistakeRetry('${m.id}', '${opt.charAt(0)}')" class="w-full text-left px-4 py-2.5 rounded-xl border border-slate-800 hover:bg-slate-800 text-sm text-slate-300 transition">
@@ -871,12 +759,10 @@
       }
     }
 
-    // 6. 渲染補充專區
     function renderSupplements(data) {
       const tContainer = document.getElementById('supplementsTeacherList');
       const pContainer = document.getElementById('supplementsPapersList');
 
-      // 動態更新「查看老師原版講義」連結與文字
       const teacherLink = document.getElementById('teacherChapterLink');
       const teacherBtnText = document.getElementById('teacherChapterBtnText');
       if (teacherLink && teacherBtnText) {
@@ -909,16 +795,14 @@
       }
     }
 
-    // 頁首累積題目數統計
     function updateHeaderCounts() {
-      let totalQ = 0;
-      Object.values(BUILTIN_DATABASE).forEach(ch => {
-        if (ch.quiz) totalQ += ch.quiz.length;
-      });
-      document.getElementById('totalQuestionsCount').innerText = totalQ;
+      let count = 0;
+      if (currentChapterData && currentChapterData.quiz) {
+        count = currentChapterData.quiz.length;
+      }
+      document.getElementById('totalQuestionsCount').innerText = count;
     }
 
-    // 分頁切換機制
     function switchTab(tabName) {
       const tabs = ['notes', 'concepts', 'quiz', 'flashcards', 'mistakes', 'supplements'];
       tabs.forEach(t => {
@@ -936,10 +820,8 @@
       });
     }
 
-    // AI 助教抽屜切換
     function toggleAiDrawer() {
-      const drawer = document.getElementById('aiDrawer');
-      drawer.classList.toggle('hidden');
+      document.getElementById('aiDrawer').classList.toggle('hidden');
     }
 
     function sendAiMessage() {
@@ -948,22 +830,18 @@
       if (!text) return;
 
       const chat = document.getElementById('aiChatMessages');
-      // 使用者訊息
       chat.innerHTML += `
         <div class="flex justify-end">
-          <div class="bg-emerald-600 text-white p-2.5 rounded-xl max-w-[85%] text-xs">
-            ${text}
-          </div>
+          <div class="bg-emerald-600 text-white p-2.5 rounded-xl max-w-[85%] text-xs">${text}</div>
         </div>
       `;
       input.value = '';
       chat.scrollTop = chat.scrollHeight;
 
-      // 模擬 AI 智慧回應
       setTimeout(() => {
         let reply = "這是一個非常關鍵的計算機概論核心觀念！";
         if (text.includes("二進位") || text.includes("補數")) {
-          reply = "【二數補數運算 (2's Complement)】：電腦內部表示負整數的標準方式。做法是：先取反（1變0、0變1），最後再加 1。最大優點是可以將減法運算直接轉為加法器處理！";
+          reply = "【二補數運算 (2's Complement)】：電腦內部表示負整數的標準方式。做法是：先取反（1變0、0變1），最後再加 1。最大優點是可以將減法運算直接轉為加法器處理！";
         } else if (text.includes("馮諾曼") || text.includes("架構")) {
           reply = "【馮諾曼架構】：特點是程式指令與資料都放在同一個記憶體（Stored-Program）。五大單元包含 Input、Output、Memory、CU、ALU。注意『馮諾曼瓶頸』是指匯流排頻寬趕不上 CPU 運算速度。";
         } else if (text.includes("GPU") || text.includes("CPU")) {
@@ -983,22 +861,15 @@
       }, 500);
     }
 
-    // 匯出當前筆記為 Markdown 檔
     function exportCurrentChapterMarkdown() {
-      const data = BUILTIN_DATABASE[currentChapterId];
+      const data = currentChapterData;
       if (!data) return;
-      let md = `# ${data.title}
-
-`;
+      let md = `# ${data.title}\\n\\n`;
       if (data.notes) {
         data.notes.forEach(sec => {
-          md += `## ${sec.section}
-
-`;
-          sec.items.forEach(item => { md += `- ${item}
-`; });
-          md += `
-`;
+          md += `## ${sec.section}\\n\\n`;
+          sec.items.forEach(item => { md += `- ${item}\\n`; });
+          md += `\\n`;
         });
       }
       const blob = new Blob([md], { type: 'text/markdown;charset=utf-8;' });
@@ -1010,9 +881,7 @@
       URL.revokeObjectURL(url);
     }
 
-    // 頁面啟動
     window.onload = init;
   </script>
 </body>
 </html>
-
