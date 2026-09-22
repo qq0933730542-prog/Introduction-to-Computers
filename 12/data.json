@@ -1,0 +1,136 @@
+{
+  "chapterId": "12",
+  "title": "第 12 章 資料結構",
+  "notes": [
+    {
+      "section": "12.1 線性資料結構：陣列 (Array) vs. 鏈結串列 (Linked List)",
+      "items": [
+        "陣列 (Array)：使用連續的記憶體空間。優點：依索引值 (Index) 隨機存取極快，時間複雜度為 O(1)；缺點：大小固定，中間插入或刪除元素需要搬移後續大量資料，耗時 O(n)。",
+        "鏈結串列 (Linked List)：由節點 (Node) 組成，每個節點包含資料欄 (Data) 與指標欄 (Pointer / Next)，記憶體空間不需連續。優點：大小動態增減、插入與刪除節點極快 O(1)；缺點：不支援隨機存取，必須從頭循序走訪搜尋 O(n)。"
+      ]
+    },
+    {
+      "section": "12.2 堆疊 (Stack) vs. 佇列 (Queue)",
+      "items": [
+        "堆疊 (Stack) —— 後進先出 (LIFO - Last In First Out)：如同疊盤子，最後放進去的先拿出來。操作：Push（推入頂端）、Pop（自頂端彈出）。應用：函式遞迴呼叫 (Call Stack)、編輯器復原 (Undo/Redo)、括號配對檢查、中序算式轉後序。",
+        "佇列 (Queue) —— 先進先出 (FIFO - First In First Out)：如同排隊買票，先排隊的先被服務。操作：Enqueue（從尾端入隊）、Dequeue（從前端出隊）。應用：作業系統 CPU 輪轉排程、印表機列印佇列、廣度優先搜尋 (BFS)。"
+      ]
+    },
+    {
+      "section": "12.3 樹狀結構 (Tree) 與 二元搜尋樹 (BST)",
+      "items": [
+        "二元樹 (Binary Tree)：每個節點最多只能有 2 個子節點（左子節點、右子節點）。",
+        "二元搜尋樹 (BST - Binary Search Tree)：所有左子樹節點數值 < 根節點數值 < 所有右子樹節點數值。搜尋、插入平均時間複雜度為 O(log n)。",
+        "二元樹三大走訪 (Traversal)：",
+        "• 前序走訪 (Preorder)：根 ➔ 左 ➔ 右",
+        "• 中序走訪 (Inorder)：左 ➔ 根 ➔ 右（※ 考點：對 BST 進行中序走訪，輸出的結果剛好會是由小到大嚴格遞增排序！）",
+        "• 後序走訪 (Postorder)：左 ➔ 右 ➔ 根"
+      ]
+    },
+    {
+      "section": "12.4 圖形 (Graph) 與 雜湊表 (Hash Table)",
+      "items": [
+        "圖形 (Graph)：由頂點 (Vertices) 與連接頂點的邊 (Edges) 組成。走訪方式包含深度優先搜尋 (DFS，利用 Stack) 與廣度優先搜尋 (BFS，利用 Queue)。",
+        "雜湊表 (Hash Table)：透過雜湊函數 (Hash Function) 將 Key 映射至陣列位置，理想情況下搜尋、新增、刪除皆為超高速的 O(1)。"
+      ]
+    }
+  ],
+  "concepts": [
+    {
+      "name": "堆疊 (Stack) vs. 佇列 (Queue) 行為模式",
+      "tag": "基本抽象資料型態 (ADT)",
+      "aim": "掌握電腦系統處理遞迴呼叫與排隊等待的核心資料結構",
+      "pipeline": "Stack: Push(A) ➔ Push(B) ➔ Pop() 彈出 B (LIFO)；Queue: Enqueue(A) ➔ Enqueue(B) ➔ Dequeue() 取出 A (FIFO)",
+      "glossary": "LIFO (後進先出)、FIFO (先進先出)、Push/Pop、Enqueue/Dequeue、Call Stack",
+      "tech": "CPU 執行遞迴演算法過深時引發的「堆疊溢位 (Stack Overflow)」，即為 Call Stack 耗盡記憶體所致",
+      "source": "Niklaus Wirth (Algorithms + Data Structures = Programs)"
+    },
+    {
+      "name": "二元搜尋樹 (BST) 與走訪特性",
+      "tag": "樹狀結構",
+      "aim": "動態高效搜尋、插入與有序資料輸出的核心結構",
+      "pipeline": "左節點 < 根節點 < 右節點 ➔ 遞迴搜尋比目標小往左、比目標大往右 ➔ 執行 Inorder (左根右) 走訪輸出遞增排序",
+      "glossary": "BST、Root、Leaf (葉節點)、Inorder (中序走訪)、AVL Tree (平衡二元樹)",
+      "tech": "為防止 BST 在最差情況下退化為 O(n) 單向鏈結串列，現代資料庫索引演化出紅黑樹 (Red-Black Tree) 與 B+ Tree",
+      "source": "課本 12.3 節與演算法基礎"
+    }
+  ],
+  "quiz": [
+    {
+      "id": "12-q1",
+      "chapter": "第 12 章 資料結構",
+      "type": "觀念題",
+      "question": "文字編輯器中點擊『復原 (Undo)』回到上一步、或程式執行函式遞迴呼叫 (Recursive Call) 時，底層最主要依賴哪一種『後進先出 (LIFO)』的資料結構？",
+      "options": [
+        "A. 佇列 (Queue)",
+        "B. 堆疊 (Stack)",
+        "C. 二元樹 (Binary Tree)",
+        "D. 雜湊表 (Hash Table)"
+      ],
+      "answer": "B",
+      "explanation": "堆疊（Stack）具備後進先出 (LIFO) 的特性，最後發生的動作會最先被撤銷，因此廣泛用於 Call Stack、瀏覽器歷史上一頁與 Undo 功能。",
+      "source": "課本 12.2 節"
+    },
+    {
+      "id": "12-q2",
+      "chapter": "第 12 章 資料結構",
+      "type": "架構題",
+      "question": "對一個標準的『二元搜尋樹 (Binary Search Tree, BST)』依序進行下列哪一種走訪 (Traversal)，輸出的節點數值會剛好呈現『由小到大遞增排列』？",
+      "options": [
+        "A. 前序走訪 (Preorder)",
+        "B. 中序走訪 (Inorder)",
+        "C. 後序走訪 (Postorder)",
+        "D. 層序走訪 (Level-order)"
+      ],
+      "answer": "B",
+      "explanation": "BST 滿足「左子節點 < 根節點 < 右子節點」特性，而中序走訪的順序恰好是「左 ➔ 根 ➔ 右」，因此依序印出時必然由小到大遞增。",
+      "source": "課本 12.3 節"
+    },
+    {
+      "id": "12-q3",
+      "chapter": "第 12 章 資料結構",
+      "type": "名詞定義",
+      "question": "相較於傳統『陣列 (Array)』，採用『鏈結串列 (Linked List)』儲存資料的最顯著優點為何？",
+      "options": [
+        "A. 支援透過 Index 進行 O(1) 快速隨機存取",
+        "B. 記憶體空間完全連續且佔用最小",
+        "C. 大小動態調整容易，且在已知位置插入/刪除節點只需改動指標極為快速",
+        "D. 搜尋資料的速度必定比陣列快"
+      ],
+      "answer": "C",
+      "explanation": "鏈結串列節點藉由指標串接，不需連續記憶體，增加或刪除節點不需搬移大批元素，動態彈性極佳（缺點是無法以 Index 隨機存取）。",
+      "source": "課本 12.1 節"
+    }
+  ],
+  "flashcards": [
+    {
+      "front": "堆疊 (Stack) 與 佇列 (Queue) 最核心的操作特徵是什麼？",
+      "back": "• 堆疊 (Stack)：LIFO（後進先出），像疊盤子，最後放進的最先出來（Push / Pop）。\n• 佇列 (Queue)：FIFO（先進先出），像排隊買票，最先排隊的最先出來（Enqueue / Dequeue）。",
+      "tag": "必考對比"
+    },
+    {
+      "front": "二元樹的前序、中序、後序走訪口訣為何？",
+      "back": "以「根節點」何時被處理為判斷：\n• 前序 (Preorder)：【根】➔ 左 ➔ 右\n• 中序 (Inorder)：左 ➔ 【根】➔ 右\n• 後序 (Postorder)：左 ➔ 右 ➔ 【根】",
+      "tag": "走訪口訣"
+    },
+    {
+      "front": "什麼是『雜湊碰撞 (Hash Collision)』？常見的解決方法是什麼？",
+      "back": "當兩個不同的 Key 經過雜湊函數計算後，得到相同的陣列索引位址時即為碰撞。\n常見解法：\n1. 鏈結法 (Chaining)：在該索引處建立 Linked List 把衝突資料串起來。\n2. 開放定址法 (Open Addressing)：若位置被佔用，依序尋找下一個空位放入（如線性探測）。",
+      "tag": "雜湊機制"
+    }
+  ],
+  "supplements": {
+    "teacher": [
+      {
+        "title": "第 12 週資料結構實作：以 Python 實作 Stack 與 Queue 類別，並用 Stack 完成字串反轉與迴文檢查",
+        "desc": "練習 push, pop, is_empty 基本操作與 LIFO 機制驗證。"
+      }
+    ],
+    "papers": [
+      {
+        "title": "Algorithms + Data Structures = Programs (Niklaus Wirth, 1976)",
+        "desc": "圖靈獎得主沃斯確立現代軟體工程經典架構的傳奇著作。"
+      }
+    ]
+  }
+}
