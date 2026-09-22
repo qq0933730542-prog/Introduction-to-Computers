@@ -1,0 +1,144 @@
+{
+  "chapterId": "06",
+  "title": "第 06 章 電腦軟體與作業系統",
+  "notes": [
+    {
+      "section": "6.1 軟體分類與作業系統核心 (Kernel)",
+      "items": [
+        "軟體階層：應用軟體 ➔ 系統軟體（作業系統、編譯器、驅動程式）➔ 硬體。",
+        "核心 (Kernel)：作業系統最底層的心臟，具備最高硬體控制權（Kernel Mode / User Mode 雙重模式防護）。",
+        "程式編譯三步驟：編譯器 (Compiler，產生目標檔 .obj) ➔ 連結器 (Linker，整合函式庫產生執行檔 .exe) ➔ 載入器 (Loader，將程式載入記憶體執行)。"
+      ]
+    },
+    {
+      "section": "6.2 行程 (Process) 與 CPU 排程",
+      "items": [
+        "行程 (Process) vs 執行緒 (Thread)：",
+        "• 行程：作業系統『資源分配』的最小單位，擁有獨立的記憶體空間（PCB - 行程控制區塊）。",
+        "• 執行緒：CPU『排程與執行』的最小單位，同行程內的多個執行緒共享程式碼區與全域資料，切換開銷極小。",
+        "CPU 排程演算法：",
+        "• FCFS（先到先服務）：簡單但易產生「護衛效應 (Convoy Effect)」。",
+        "• Round Robin (輪轉排程法, RR)：為每個行程分配固定「時間配額 (Time Quantum)」，時間到強制切換，兼顧互動式回應時間。",
+        "• SJF（最短工作優先）：平均等待時間最短，但長工作可能面臨「飢餓 (Starvation)」現象。"
+      ]
+    },
+    {
+      "section": "6.3 記憶體管理與虛擬記憶體 (Virtual Memory)",
+      "items": [
+        "虛擬記憶體：利用硬碟空間當作實體記憶體的延伸，讓程式可用空間超越實體 RAM 限制。",
+        "分頁機制 (Paging)：將虛擬記憶體切成固定大小的頁面 (Page，通常為 4KB)，透過頁表 (Page Table) 映射至實體記憶體框架 (Frame)。",
+        "分頁錯誤 (Page Fault)：CPU 欲存取的頁面不在實體記憶體中，引發中斷並由硬碟載入該頁面。",
+        "顛簸現象 (Thrashing)：因可用記憶體嚴重不足，系統大部分時間都在進行硬碟換頁 (Paging I/O)，導致 CPU 使用率驟降。"
+      ]
+    },
+    {
+      "section": "6.4 死結 (Deadlock) 四大必要條件",
+      "items": [
+        "死結定義：兩個或多個行程相互持有對方的資源且都在等待，造成所有行程永久停滯。",
+        "四大必要條件（缺一不可）：",
+        "1. 互斥 (Mutual Exclusion)：資源一次只能被一個行程使用。",
+        "2. 持有並等待 (Hold and Wait)：持有部分資源，並等待其他資源。",
+        "3. 不可搶先 (No Preemption)：資源不能被強行剝奪，只能由持有者主動釋放。",
+        "4. 循環等待 (Circular Wait)：形成資源等待的閉環迴路 (P1 等 P2，P2 等 P1)。"
+      ]
+    }
+  ],
+  "concepts": [
+    {
+      "name": "虛擬記憶體與分頁機制 (Virtual Memory & Paging)",
+      "tag": "記憶體管理",
+      "aim": "突破實體 RAM 容量限制，並提供跨行程間的記憶體隔離與安全保護",
+      "pipeline": "CPU 發出虛擬位址 ➔ MMU (記憶體管理單元) 查 TLB/Page Table ➔ 若命中得實體位址 ➔ 若 Miss 觸發 Page Fault 載入硬碟頁面",
+      "glossary": "Page (虛擬頁)、Frame (實體框)、MMU、Page Fault (缺頁中斷)、TLB (轉譯後備緩衝區)",
+      "tech": "採用 LRU (Least Recently Used) 分頁置換演算法，防止發生嚴重的系統顛簸 (Thrashing)",
+      "source": "Peter J. Denning, 1970 (Virtual Memory)"
+    },
+    {
+      "name": "死結 (Deadlock) 四大必要條件模型",
+      "tag": "行程並行控制",
+      "aim": "多工作業系統中防止資源競爭死鎖的理論基礎",
+      "pipeline": "互斥 + 持有並等待 + 不可剝奪 + 循環等待 ➔ 系統死結鎖死",
+      "glossary": "Coffman Conditions (科夫曼條件)、Banker's Algorithm (銀行家演算法)、Safe State (安全狀態)",
+      "tech": "破壞任一條件即可預防死結，例如破壞「循環等待」要求行程依序號由小到大申請資源",
+      "source": "Edward G. Coffman Jr. et al., 1971 (System Deadlocks)"
+    }
+  ],
+  "quiz": [
+    {
+      "id": "06-q1",
+      "chapter": "第 06 章 電腦軟體與作業系統",
+      "type": "名詞定義",
+      "question": "在作業系統中，『行程 (Process)』與『執行緒 (Thread)』的主要區別為何？",
+      "options": [
+        "A. 行程是 CPU 排程的最小單位；執行緒是記憶體分配的最小單位",
+        "B. 行程擁有獨立的記憶體位址空間；同行程的多個執行緒共享同一記憶體空間",
+        "C. 一個執行緒可以包含多個行程",
+        "D. 執行緒之間的切換成本遠高於行程切換"
+      ],
+      "answer": "B",
+      "explanation": "行程（Process）是系統分配資源（如記憶體）的最小單位，彼此空間獨立；執行緒（Thread）是 CPU 排程執行的最小單位，同行程內的執行緒共享記憶體程式碼與全域變數，因此切換極為快速。",
+      "source": "課本 6.2 節"
+    },
+    {
+      "id": "06-q2",
+      "chapter": "第 06 章 電腦軟體與作業系統",
+      "type": "觀念題",
+      "question": "下列哪一項『不屬於』產生死結 (Deadlock) 的四個必要條件之一？",
+      "options": [
+        "A. 互斥 (Mutual Exclusion)",
+        "B. 循環等待 (Circular Wait)",
+        "C. 可搶先佔用 (Preemption Allowed)",
+        "D. 持有並等待 (Hold and Wait)"
+      ],
+      "answer": "C",
+      "explanation": "死結的四大必要條件是：互斥、持有並等待、不可搶先（No Preemption，資源不可被強奪）、循環等待。若允許搶先剝奪資源，死結即可被打破。",
+      "source": "課本 6.4 節"
+    },
+    {
+      "id": "06-q3",
+      "chapter": "第 06 章 電腦軟體與作業系統",
+      "type": "架構題",
+      "question": "當作業系統的實體記憶體空間極度匱乏，導致系統花費絕大多數的 CPU 時間在進行硬碟與記憶體之間的分頁置換，導致電腦幾近凍結的現象稱為？",
+      "options": [
+        "A. 飢餓現象 (Starvation)",
+        "B. 顛簸現象 (Thrashing)",
+        "C. 護衛效應 (Convoy Effect)",
+        "D. 碎裂現象 (Fragmentation)"
+      ],
+      "answer": "B",
+      "explanation": "顛簸（Thrashing）指系統因實體記憶體不足而頻繁發生 Page Fault，導致系統都在忙於硬碟換頁 I/O，CPU 使用率反而暴跌。",
+      "source": "課本 6.3 節"
+    }
+  ],
+  "flashcards": [
+    {
+      "front": "作業系統如何利用『分頁機制 (Paging)』實現虛擬記憶體？",
+      "back": "將虛擬記憶體切分為固定大小的「頁 (Page)」，實體記憶體切分為相同大小的「框 (Frame)」，透過頁表 (Page Table) 動態將虛擬位址對應至實體位址，不連續的實體區塊在虛擬空間中可呈現連續。",
+      "tag": "核心機制"
+    },
+    {
+      "front": "什麼是『Round Robin (輪轉排程法)』？它的優點是什麼？",
+      "back": "一種為每個排隊行程分配固定「時間配額 (Time Quantum)」的搶先式 CPU 排程法。時間到若未執行完畢，強制切換至下一位。優點是保證每個行程都能輪流被服務，適合多工互動系統。",
+      "tag": "CPU排程"
+    },
+    {
+      "front": "死結 (Deadlock) 的四大必要條件是哪四個？",
+      "back": "1. 互斥 (Mutual Exclusion)\n2. 持有並等待 (Hold and Wait)\n3. 不可搶先 (No Preemption)\n4. 循環等待 (Circular Wait)\n※ 必須四個條件同時成立，死結才會發生！",
+      "tag": "必背考點"
+    }
+  ],
+  "supplements": {
+    "teacher": [
+      {
+        "title": "第 6 週作業：模擬 CPU 排程演算法 (FCFS, SJF, RR) 的平均等待時間計算",
+        "desc": "以甘特圖 (Gantt Chart) 繪製不同時間配額下的行程切換與完成時間。"
+      }
+    ],
+    "papers": [
+      {
+        "title": "System Deadlocks (Coffman, Elphick & Shoshani, 1971)",
+        "desc": "首次在計算機科學界確立死結四大必要條件的開創性經典論文。"
+      }
+    ]
+  }
+}
