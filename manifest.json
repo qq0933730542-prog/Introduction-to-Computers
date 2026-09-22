@@ -1,0 +1,109 @@
+{
+  "chapterId": "01",
+  "title": "第 01 章 導論",
+  "notes": [
+    {
+      "section": "1.1 計算機發展世代",
+      "items": [
+        "第一代（1940-1956）：真空管 (Vacuum Tube)，體積龐大、耗電發熱量高、故障率高（如 ENIAC）。",
+        "第二代（1956-1963）：電晶體 (Transistor)，體積縮小、運算速度與可靠度大幅躍升。",
+        "第三代（1964-1971）：積體電路 (IC)，將多個元件整合於微小矽晶片。",
+        "第四代（1971-至今）：超大型積體電路 (VLSI / ULSI) 與微處理器 (Microprocessor)。"
+      ]
+    },
+    {
+      "section": "1.2 馮諾曼架構 (von Neumann Architecture)",
+      "items": [
+        "核心特徵：儲存程式（Stored-Program）架構，將指令與資料儲存於同一記憶單元中。",
+        "五大基本單元：輸入單元 (Input)、輸出單元 (Output)、記憶單元 (Memory)、控制單元 (CU)、算術邏輯單元 (ALU)。",
+        "馮諾曼瓶頸 (von Neumann Bottleneck)：CPU 運算速率遠快於記憶體匯流排傳輸速率所導致的效能瓶頸。"
+      ]
+    },
+    {
+      "section": "1.3 效能指標與分類",
+      "items": [
+        "MIPS (Million Instructions Per Second)：每秒執行百萬條指令數，常評估通用 CPU 整數效能。",
+        "FLOPS (Floating-point Operations Per Second)：每秒浮點運算次數，為評估超級電腦與 AI 伺服器算力之標準基準。"
+      ]
+    }
+  ],
+  "concepts": [
+    {
+      "name": "儲存程式概念 (Stored-Program Concept)",
+      "tag": "計算機體系結構",
+      "aim": "奠定現代通用電腦的程式運作基礎",
+      "pipeline": "載入程式與資料至記憶體 -> CU 抓取指令 (Fetch) -> 解碼 (Decode) -> ALU 執行 (Execute)",
+      "glossary": "馮諾曼架構、PC (程式計數器)、IR (指令暫存器)",
+      "tech": "採用記憶體階層快取 (Cache L1/L2/L3) 與管線技術 (Pipelining) 緩解傳輸延遲",
+      "source": "John von Neumann, 1945"
+    },
+    {
+      "name": "莫爾定律 (Moore's Law)",
+      "tag": "半導體製程演進",
+      "aim": "評估積體電路電晶體密度與性價比演進趨勢",
+      "pipeline": "每 18 至 24 個月 -> 晶片容納電晶體數倍增 -> 效能提升且單位成本減半",
+      "glossary": "製程節點 (nm)、極紫外線光刻 (EUV)、小晶片封裝 (Chiplet)",
+      "tech": "邁入 2nm 以下時面臨量子穿隧效應物理極限，發展先進 3D 堆疊封裝補足",
+      "source": "Gordon Moore, 1965"
+    }
+  ],
+  "quiz": [
+    {
+      "id": "01-q1",
+      "chapter": "第 01 章 導論",
+      "type": "名詞定義",
+      "question": "奠定現代通用電子計算機將『程式指令』與『運算資料』置於同一記憶單元的架構稱為？",
+      "options": [
+        "A. 馮諾曼架構 (von Neumann Architecture)",
+        "B. 圖靈機模型 (Turing Machine)",
+        "C. 巴貝奇差分機",
+        "D. 類神經網絡架構"
+      ],
+      "answer": "A",
+      "explanation": "馮諾曼架構的核心理念即為儲存程式（Stored-Program）設計，至今仍是絕大多數電腦的基礎。",
+      "source": "課本 1.2 節"
+    },
+    {
+      "id": "01-q2",
+      "chapter": "第 01 章 導論",
+      "type": "架構題",
+      "question": "下列哪一個單元『不屬於』馮諾曼五大基本核心單元？",
+      "options": [
+        "A. 算術邏輯單元 (ALU)",
+        "B. 控制單元 (CU)",
+        "C. 網路通訊單元 (Network Interface)",
+        "D. 記憶單元 (Memory)"
+      ],
+      "answer": "C",
+      "explanation": "五大基本單元為 Input、Output、Memory、CU、ALU。網路通訊單元為後續外接的周邊介面設備。",
+      "source": "課本 1.2 節"
+    },
+    {
+      "id": "01-q3",
+      "chapter": "第 01 章 導論",
+      "type": "運算題",
+      "question": "衡量現代超級電腦或 AI 深度學習晶片運算能力時，最廣泛採用的效能單位為？",
+      "options": [
+        "A. MIPS",
+        "B. FLOPS",
+        "C. DPI",
+        "D. Baud Rate"
+      ],
+      "answer": "B",
+      "explanation": "深度學習大量涉及矩陣與浮點數運算，故以 FLOPS（每秒浮點運算次數）為算力權威標準。",
+      "source": "課本 1.3 節"
+    }
+  ],
+  "flashcards": [
+    {
+      "front": "何謂『馮諾曼瓶頸 (von Neumann Bottleneck)』？",
+      "back": "因 CPU 與主記憶體共享同一傳輸匯流排，當 CPU 運算速度遠超記憶體頻寬時，CPU 必須等待資料讀寫，造成整體運算速度受制於匯流排頻寬的現象。",
+      "tag": "架構名詞"
+    },
+    {
+      "front": "電腦的五大硬體架構單元為何？",
+      "back": "1. 輸入單元 (Input Unit)\n2. 輸出單元 (Output Unit)\n3. 記憶單元 (Memory Unit)\n4. 控制單元 (Control Unit, CU)\n5. 算術邏輯單元 (Arithmetic Logic Unit, ALU)",
+      "tag": "基礎考點"
+    }
+  ]
+}
