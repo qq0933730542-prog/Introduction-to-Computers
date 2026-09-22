@@ -45,7 +45,7 @@
       </div>
     </div>
 
-    <!-- 章節選擇器 (14 章) -->
+    <!-- 章節選擇器 -->
     <div class="flex items-center gap-2">
       <span class="text-xs text-slate-400 font-medium">當前章節：</span>
       <select id="chapterSelect" onchange="onChapterChange(this.value)" class="bg-slate-800 border border-slate-700 text-emerald-300 text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium cursor-pointer">
@@ -113,12 +113,12 @@
       </div>
     </section>
 
-    <!-- 3. 題目考場分頁 (支援 50 題與難度標籤) -->
+    <!-- 3. 題目考場分頁 -->
     <section id="view-quiz" class="space-y-6 hidden">
       <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-800 pb-4">
         <div>
           <h2 class="text-2xl font-bold text-white">📝 全真題目考場</h2>
-          <p class="text-sm text-slate-400 mt-1">支援章節隨堂測驗 · 難度分級 · 即時紅綠對照 · 智能收錄錯題本</p>
+          <p class="text-sm text-slate-400 mt-1">支援章節測驗 · 難度分級 · 即時對照 · 智能錯題本</p>
         </div>
       </div>
 
@@ -247,7 +247,7 @@
       </div>
     </section>
 
-    <!-- 6. 補充專區分頁 (對接老師 GitHub) -->
+    <!-- 6. 補充專區分頁 -->
     <section id="view-supplements" class="space-y-6 hidden">
       <div class="border-b border-slate-800 pb-4">
         <h2 class="text-2xl font-bold text-white">📂 補充專區</h2>
@@ -302,32 +302,6 @@
 
   </main>
 
-  <!-- 浮動 AI 助教 -->
-  <div class="fixed bottom-6 right-6 z-50">
-    <button onclick="toggleAiDrawer()" class="w-14 h-14 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-xl shadow-emerald-500/30 flex items-center justify-center text-2xl hover:scale-105 transition-transform">
-      ✨
-    </button>
-  </div>
-
-  <div id="aiDrawer" class="fixed bottom-24 right-6 w-96 max-w-[calc(100vw-3rem)] h-[520px] bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl flex flex-col z-50 hidden overflow-hidden">
-    <div class="bg-slate-850 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <span class="text-lg">🤖</span>
-        <span class="text-sm font-bold text-white">計概 AI 隨身助教</span>
-      </div>
-      <button onclick="toggleAiDrawer()" class="text-slate-400 hover:text-white text-sm">✕</button>
-    </div>
-    <div id="aiChatMessages" class="flex-1 p-4 overflow-y-auto space-y-3 text-xs leading-relaxed">
-      <div class="bg-slate-800 p-3 rounded-xl text-slate-200">
-        👋 你好！我是你的《計算機概論》專屬助教。讀筆記或做題目有任何不懂的名詞，隨時問我！
-      </div>
-    </div>
-    <div class="p-3 border-t border-slate-800 bg-slate-850 flex gap-2">
-      <input type="text" id="aiInput" onkeypress="if(event.key==='Enter') sendAiMessage()" placeholder="輸入想問的計概概念或題目..." class="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:ring-1 focus:ring-emerald-500" />
-      <button onclick="sendAiMessage()" class="px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs">發送</button>
-    </div>
-  </div>
-
   <footer class="border-t border-slate-800/80 py-4 text-center text-xs text-slate-400">
     <p>© 2026 計算機概論 終極備考系統 · GitHub Pages 靜態零成本運行</p>
   </footer>
@@ -371,25 +345,39 @@
       loadChapter(chId);
     }
 
-    // 核心資料讀取邏輯：優先從對應資料夾 (如 01/data.json) 讀取完整 50 題
+    // 🌟 全路徑智慧載入引擎：同時自動搜尋中文特訓版檔名與標準 data.json
     async function loadChapter(chId) {
       let data = null;
-      try {
-        const res = await fetch(`./${chId}/data.json?_t=${Date.now()}`);
-        if (res.ok) {
-          const remoteData = await res.json();
-          if (remoteData && remoteData.quiz && remoteData.quiz.length > 0) {
-            data = remoteData;
+
+      const possiblePaths = [
+        `./${chId}/data.json`,
+        `./第01章_導論_50題全真特訓版.json`,
+        `./${chId}/第01章_導論_50題全真特訓版.json`,
+        `./第02章_人工智慧與科技新發展_50題全真特訓版.json`,
+        `./${chId}/第02章_人工智慧與科技新發展_50題全真特訓版.json`,
+        `./第${chId}章_50題全真特訓版.json`,
+        `./${chId}/第${chId}章_50題全真特訓版.json`,
+        `./data/${chId}.json`
+      ];
+
+      for (const p of possiblePaths) {
+        try {
+          const res = await fetch(`${p}?_t=${Date.now()}`);
+          if (res.ok) {
+            const remoteData = await res.json();
+            if (remoteData && (remoteData.quiz || remoteData.notes)) {
+              data = remoteData;
+              console.log(`✅ 成功載入本章題庫來源：${p}`);
+              break;
+            }
           }
-        }
-      } catch (e) {
-        console.warn("讀取資料夾失敗，準備備用方案：", e);
+        } catch (e) {}
       }
 
       if (!data) {
         data = {
           title: CHAPTERS_METADATA.find(c => c.id === chId)?.title || `第 ${chId} 章`,
-          notes: [{ section: "資料載入提示", items: [`正在讀取 ${chId}/data.json，若未出現請確認 GitHub 上該檔案是否已提交。`] }],
+          notes: [{ section: "資料載入提示", items: [`正在讀取 ${chId} 章資料，若未出現請確認檔案是否已上傳。`] }],
           concepts: [],
           quiz: [],
           flashcards: [],
@@ -452,7 +440,6 @@
       `).join('');
     }
 
-    // 渲染考場：清晰標註「難度」與「題型」
     function renderQuiz(data) {
       const container = document.getElementById('quizContainer');
       const submitBar = document.getElementById('quizSubmitBar');
@@ -461,7 +448,7 @@
       userAnswers = {};
 
       if (!data.quiz || data.quiz.length === 0) {
-        container.innerHTML = `<div class="text-center py-12 text-slate-400 bg-slate-900 border border-slate-800 rounded-2xl">本章目前尚無題目，可使用右下角 AI 助教快速出題！</div>`;
+        container.innerHTML = `<div class="text-center py-12 text-slate-400 bg-slate-900 border border-slate-800 rounded-2xl">本章目前尚無題目。</div>`;
         submitBar.classList.add('hidden');
         return;
       }
@@ -820,56 +807,15 @@
       });
     }
 
-    function toggleAiDrawer() {
-      document.getElementById('aiDrawer').classList.toggle('hidden');
-    }
-
-    function sendAiMessage() {
-      const input = document.getElementById('aiInput');
-      const text = input.value.trim();
-      if (!text) return;
-
-      const chat = document.getElementById('aiChatMessages');
-      chat.innerHTML += `
-        <div class="flex justify-end">
-          <div class="bg-emerald-600 text-white p-2.5 rounded-xl max-w-[85%] text-xs">${text}</div>
-        </div>
-      `;
-      input.value = '';
-      chat.scrollTop = chat.scrollHeight;
-
-      setTimeout(() => {
-        let reply = "這是一個非常關鍵的計算機概論核心觀念！";
-        if (text.includes("二進位") || text.includes("補數")) {
-          reply = "【二補數運算 (2's Complement)】：電腦內部表示負整數的標準方式。做法是：先取反（1變0、0變1），最後再加 1。最大優點是可以將減法運算直接轉為加法器處理！";
-        } else if (text.includes("馮諾曼") || text.includes("架構")) {
-          reply = "【馮諾曼架構】：特點是程式指令與資料都放在同一個記憶體（Stored-Program）。五大單元包含 Input、Output、Memory、CU、ALU。注意『馮諾曼瓶頸』是指匯流排頻寬趕不上 CPU 運算速度。";
-        } else if (text.includes("GPU") || text.includes("CPU")) {
-          reply = "【CPU vs GPU】：CPU 擁有少數強大的核心與複雜的控制邏輯（擅長低延遲的序列複雜任務）；GPU 則擁有數千個較小的核心（擅長高吞吐量的平行矩陣運算，因此非常適合 3D 渲染與 AI 深度學習）。";
-        } else {
-          reply = `關於「${text}」，在計算機科學中，建議先從底層運作原理（如資料如何表示、硬體如何執行指令）著手，再對照課本重點章節的理論模型！`;
-        }
-
-        chat.innerHTML += `
-          <div class="flex justify-start">
-            <div class="bg-slate-800 text-slate-200 p-2.5 rounded-xl max-w-[85%] text-xs border border-slate-700 leading-relaxed">
-              🤖 ${reply}
-            </div>
-          </div>
-        `;
-        chat.scrollTop = chat.scrollHeight;
-      }, 500);
-    }
-
     function exportCurrentChapterMarkdown() {
       const data = currentChapterData;
       if (!data) return;
-      let md = `# ${data.title}\\n\\n`;
+      let md = `# ${data.title}\n\n`;
       if (data.notes) {
         data.notes.forEach(sec => {
-          md += `## ${sec.section}\\n\\n`;
-          sec.items.forEach(item => { md += `- ${item}\\n`; });
-          md += `\\n`;
+          md += `## ${sec.section}\n\n`;
+          sec.items.forEach(item => { md += `- ${item}\n`; });
+          md += `\n`;
         });
       }
       const blob = new Blob([md], { type: 'text/markdown;charset=utf-8;' });
