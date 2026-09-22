@@ -1,0 +1,130 @@
+{
+  "chapterId": "04",
+  "title": "第 04 章 數位邏輯設計",
+  "notes": [
+    {
+      "section": "4.1 基本邏輯閘與布林代數 (Boolean Algebra)",
+      "items": [
+        "三大基本閘：AND（及閘，兩者皆 1 輸出 1）、OR（或閘，任一為 1 輸出 1）、NOT（反閘，0 變 1、1 變 0）。",
+        "重要延伸閘：XOR（互斥或閘，輸入相異為 1，相同為 0）、NAND（反及閘）、NOR（反或閘）。",
+        "萬用邏輯閘 (Universal Gates)：NAND 閘與 NOR 閘稱為萬用閘，僅用單一種類的 NAND（或 NOR）就能組合出 AND、OR、NOT 等所有電路！",
+        "笛摩根定律 (De Morgan's Laws)：(A · B)' = A' + B' 且 (A + B)' = A' · B'。"
+      ]
+    },
+    {
+      "section": "4.2 組合邏輯電路 (Combinational Logic)",
+      "items": [
+        "特點：輸出「只取決於當前的輸入」，內部沒有記憶功能。",
+        "半加器 (Half Adder)：負責將兩個 1-bit 相加。和 (Sum) = A ⊕ B (XOR 閘)；進位 (Carry) = A · B (AND 閘)。",
+        "全加器 (Full Adder)：負責三數相加（輸入 A、輸入 B 與來自低位的進位 Cin），由兩個半加器和一個 OR 閘組合而成。",
+        "常見元件：多工器 (Multiplexer / MUX，資料選擇器)、解碼器 (Decoder，如 2-to-4 解碼器)。"
+      ]
+    },
+    {
+      "section": "4.3 循序邏輯電路 (Sequential Logic)",
+      "items": [
+        "特點：輸出不僅取決於當前輸入，還取決於「過去的狀態」（具備記憶能力）。",
+        "核心元件：正反器 (Flip-Flop，如 D 型正反器、JK 正反器)，是電腦暫存器 (Register) 與靜態記憶體 (SRAM) 的基本記憶儲存單元。",
+        "時脈訊號 (Clock)：提供統一的同步方波節奏，確保整個 CPU 晶片各模組同步運作。"
+      ]
+    }
+  ],
+  "concepts": [
+    {
+      "name": "半加器 (Half Adder) 與 全加器 (Full Adder)",
+      "tag": "算術運算電路",
+      "aim": "CPU 內部算術邏輯單元 (ALU) 執行加法運算的硬體基礎",
+      "pipeline": "輸入 A, B ➔ XOR 閘產出 Sum (和) ➔ AND 閘產出 Carry (進位)；全加器額外納入低位 Cin",
+      "glossary": "Sum = A ⊕ B, Carry = A · B, Full Adder, Ripple Carry Adder (串列進位加法器)",
+      "tech": "串接多個全加器可組成 32-bit 或 64-bit 加法器，進階架構採超前進位加法器 (Carry-Lookahead Adder) 消除串列延遲",
+      "source": "課本 4.2 節與數位系統導論"
+    },
+    {
+      "name": "萬用邏輯閘 (Universal Gate - NAND / NOR)",
+      "tag": "晶片電路實現",
+      "aim": "工業製程上降低晶圓光罩複雜度與生產成本的關鍵概念",
+      "pipeline": "僅使用 NAND 閘 ➔ 兩輸入接在一起為 NOT ➔ 接反向得 AND ➔ 依笛摩根定律組出 OR",
+      "glossary": "NAND、NOR、晶片面積、CMOS 製程",
+      "tech": "快閃記憶體 (NAND Flash) 就是基於 NAND 結構開發，成為現代 SSD 固態硬碟的基石",
+      "source": "Claude Shannon, 1938 (A Symbolic Analysis of Relay and Switching Circuits)"
+    }
+  ],
+  "quiz": [
+    {
+      "id": "04-q1",
+      "chapter": "第 04 章 數位邏輯設計",
+      "type": "架構題",
+      "question": "在數位電路中，負責計算兩個 1-bit 二進位數值相加的『半加器 (Half Adder)』，其產生『和 (Sum)』與『進位 (Carry)』分別使用哪兩種邏輯閘？",
+      "options": [
+        "A. Sum 使用 AND 閘；Carry 使用 OR 閘",
+        "B. Sum 使用 XOR 閘；Carry 使用 AND 閘",
+        "C. Sum 使用 OR 閘；Carry 使用 NOT 閘",
+        "D. Sum 使用 XOR 閘；Carry 使用 NOR 閘"
+      ],
+      "answer": "B",
+      "explanation": "半加器真值表：0+0=0, 0+1=1, 1+0=1, 1+1=0(進位1)。Sum 符合相異為 1 的 XOR 閘；Carry 符合兩者皆為 1 時才為 1 的 AND 閘。",
+      "source": "課本 4.2 節"
+    },
+    {
+      "id": "04-q2",
+      "chapter": "第 04 章 數位邏輯設計",
+      "type": "名詞定義",
+      "question": "下列哪一種邏輯閘僅需單一種類，就能透過排列組合實現出 AND、OR、NOT 等所有基本邏輯功能，因此被稱為『萬用邏輯閘 (Universal Gate)』？",
+      "options": [
+        "A. XOR 閘",
+        "B. AND 閘",
+        "C. NAND 閘",
+        "D. XNOR 閘"
+      ],
+      "answer": "C",
+      "explanation": "NAND 閘與 NOR 閘為數位邏輯中的兩大萬用閘（Universal Gates），單靠 NAND 即可構建所有布林函數與電路。",
+      "source": "課本 4.1 節"
+    },
+    {
+      "id": "04-q3",
+      "chapter": "第 04 章 數位邏輯設計",
+      "type": "觀念題",
+      "question": "『組合邏輯電路 (Combinational Logic)』與『循序邏輯電路 (Sequential Logic)』最根本的差異在於循序邏輯具備何種特性？",
+      "options": [
+        "A. 具備記憶過去狀態的能力",
+        "B. 運算速度一定比組合邏輯快",
+        "C. 只能處理類比訊號",
+        "D. 只能使用二進位輸入"
+      ],
+      "answer": "A",
+      "explanation": "組合邏輯輸出只取決於當前輸入（如加法器）；循序邏輯內部具備正反器 (Flip-Flop) 與狀態回授，能儲存過去歷史狀態（即記憶能力）。",
+      "source": "課本 4.3 節"
+    }
+  ],
+  "flashcards": [
+    {
+      "front": "笛摩根定律 (De Morgan's Laws) 的兩個核心公式為何？",
+      "back": "1. (A · B)' = A' + B'（及閘輸出反相 = 兩輸入反相後取或）\n2. (A + B)' = A' · B'（或閘輸出反相 = 兩輸入反相後取及）",
+      "tag": "定理公式"
+    },
+    {
+      "front": "什麼是『正反器 (Flip-Flop)』？它在計算機中的主要功用是什麼？",
+      "back": "正反器是一種雙穩態循序邏輯電路，能夠保存 1 個位元 (1 bit) 的二進位狀態（0 或 1），是建構 CPU 暫存器 (Registers) 與快取 SRAM 的基本記憶單元。",
+      "tag": "硬體架構"
+    },
+    {
+      "front": "XOR (互斥或) 邏輯閘的輸出規則是什麼？",
+      "back": "兩輸入相異時輸出為 1；兩輸入相同時輸出為 0。\n(0 ⊕ 0 = 0, 0 ⊕ 1 = 1, 1 ⊕ 0 = 1, 1 ⊕ 1 = 0)",
+      "tag": "真值表規則"
+    }
+  ],
+  "supplements": {
+    "teacher": [
+      {
+        "title": "第 4 週數位電路作業：使用 Logisim 模擬軟體實作 4-bit 串列進位加法器",
+        "desc": "以 1 個半加器與 3 個全加器串接，驗證二進位加法與進位輸出。"
+      }
+    ],
+    "papers": [
+      {
+        "title": "A Symbolic Analysis of Relay and Switching Circuits (Claude Shannon, 1938)",
+        "desc": "資訊理論之父夏農的碩士論文，首次證明布林代數可用於建構電子開關電路，開啟數位電腦時代。"
+      }
+    ]
+  }
+}
