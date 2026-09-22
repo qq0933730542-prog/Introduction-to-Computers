@@ -1,0 +1,139 @@
+{
+  "chapterId": "10",
+  "title": "第 10 章 程式語言",
+  "notes": [
+    {
+      "section": "10.1 程式語言的五個發展世代 (Generations)",
+      "items": [
+        "第一代 (1GL) 機器語言：由純二進位 0 與 1 組成，直接由硬體執行，人類極難讀寫且完全依賴硬體架構。",
+        "第二代 (2GL) 組合語言：使用英文助記符號 (Mnemonics，如 MOV、ADD、JMP)，需透過「組譯器 (Assembler)」轉譯為機器碼。",
+        "第三代 (3GL) 高階程序語言：語法貼近人類英語與數學邏輯，具備跨平台能力（如 C、Fortran、Java、Python）。",
+        "第四代 (4GL) 問題導向/宣告式語言：強調「做什麼 (What)」而非「如何做 (How)」，以 SQL 資料庫查詢語言為經典代表。",
+        "第五代 (5GL) 邏輯與自然語言：基於人工智慧約束與邏輯推理（如 Prolog），現代延伸至利用自然語言 Prompt 生成程式碼。"
+      ]
+    },
+    {
+      "section": "10.2 程式轉譯機制：編譯器 vs. 直譯器",
+      "items": [
+        "編譯器 (Compiler)：一次性將整份原始碼編譯並生成獨立的二進位目標檔或執行檔（如 C、C++、Go、Rust）。特點：執行速度極快、原始碼不外洩，但更換作業系統需重新編譯。",
+        "直譯器 (Interpreter)：由直譯器逐行讀取、即時解譯並立刻執行（如 Python、JavaScript、PHP）。特點：跨平台極為方便、除錯直觀，但純執行速度較編譯型語言慢。",
+        "混合式 / 位元碼 (Bytecode)：如 Java 程式先編譯為中介碼 (.class Bytecode)，再由各平台的「Java 虛擬機 (JVM)」透過 JIT (即時編譯) 執行，兼顧跨平台與效能。"
+      ]
+    },
+    {
+      "section": "10.3 物件導向程式設計 (OOP) 三大核心支柱",
+      "items": [
+        "類別 (Class) vs. 物件 (Object)：類別是汽車的「設計藍圖」；物件是依藍圖實體化出來的「實體真車 (Instance)」。",
+        "1. 封裝 (Encapsulation)：將資料屬性與處理資料的方法綑綁在一起，隱藏內部細節並透過公開介面存取，提高安全性與模組化。",
+        "2. 繼承 (Inheritance)：子類別可直接繼承父類別的特性與方法，並可擴充新功能，大幅提升程式碼重用率 (Code Reuse)。",
+        "3. 多型 (Polymorphism)：「同一介面，不同實作」。例如定義同一個 `speak()` 函式，狗物件呼叫會「汪汪」，貓物件呼叫會「喵喵」。"
+      ]
+    },
+    {
+      "section": "10.4 變數型別與記憶體管理",
+      "items": [
+        "靜態型別 (Static Typing，如 C、Java)：變數在編譯時就必須明確宣告資料型別，編譯時期即可揪出型別錯誤。",
+        "動態型別 (Dynamic Typing，如 Python、JS)：變數型別由執行時被賦予的值動態決定，寫法靈活簡潔。",
+        "垃圾回收 (Garbage Collection, GC)：現代高階語言（Java、Python、Go）由執行環境自動偵測並回收不再使用的記憶體空間，防止記憶體洩漏 (Memory Leak)。"
+      ]
+    }
+  ],
+  "concepts": [
+    {
+      "name": "物件導向三大支柱 (OOP Three Pillars)",
+      "tag": "軟體架構典範",
+      "aim": "大型企業級軟體工程降低程式耦合度與提升維護性的基石",
+      "pipeline": "定義 Class (屬性與方法) ➔ 封裝 (Private 隱藏資料) ➔ 繼承 (Extends 父類別) ➔ 多型 (Override 改寫同名方法)",
+      "glossary": "Encapsulation (封裝)、Inheritance (繼承)、Polymorphism (多型)、Override (覆寫)、Overload (多載)",
+      "tech": "現代軟體架構基於此演化出 SOLID 設計原則，成為各類設計模式 (Design Patterns) 的核心根基",
+      "source": "Alan Kay (Smalltalk & OOP Pioneer, Turing Award)"
+    },
+    {
+      "name": "編譯器 (Compiler) vs. 直譯器 (Interpreter)",
+      "tag": "程式轉譯機制",
+      "aim": "理解高階語言如何轉譯為 CPU 可執行的機器碼指令",
+      "pipeline": "原始碼 ➔ 詞法分析 ➔ 語法分析 (AST) ➔ 語意分析 ➔ (編譯器：產出機器碼 .exe) / (直譯器：逐行 VM 執行)",
+      "glossary": "AST (抽象語法樹)、Bytecode (位元碼)、JIT (Just-In-Time 即時編譯)、JVM",
+      "tech": "現代主流直譯語言（如 Node.js V8 引擎、PyPy）均結合 JIT 技術，將頻繁執行的熱點程式碼 (Hotspot) 動態編譯為機器碼以大幅提速",
+      "source": "Alfred V. Aho et al. (Compilers: Principles, Techniques, and Tools - 龍書)"
+    }
+  ],
+  "quiz": [
+    {
+      "id": "10-q1",
+      "chapter": "第 10 章 程式語言",
+      "type": "名詞定義",
+      "question": "在物件導向程式設計 (OOP) 中，允許相同名稱的方法（Method）在不同子類別中展現出各自不同具體行為的特性稱為？",
+      "options": [
+        "A. 封裝 (Encapsulation)",
+        "B. 繼承 (Inheritance)",
+        "C. 多型 (Polymorphism)",
+        "D. 抽象 (Abstraction)"
+      ],
+      "answer": "C",
+      "explanation": "多型（Polymorphism）指同一操作介面能套用於不同物件類型，並依物件實際型別產生各自對應的行為（例如覆寫 Override）。",
+      "source": "課本 10.3 節"
+    },
+    {
+      "id": "10-q2",
+      "chapter": "第 10 章 程式語言",
+      "type": "觀念題",
+      "question": "相較於編譯型語言（如 C/C++），直譯型語言（如 Python、JavaScript）最顯著的優點通常為何？",
+      "options": [
+        "A. 執行速度絕對最快，超越組合語言",
+        "B. 跨平台移植性高、語法彈性且除錯即時便利",
+        "C. 能夠直接操作 CPU 實體暫存器",
+        "D. 產生體積最小的二進位機器碼執行檔"
+      ],
+      "answer": "B",
+      "explanation": "直譯型語言不需預先編譯為特定硬體的機器碼，只要目標系統具備對應直譯器即可執行，跨平台與互動除錯能力極佳。",
+      "source": "課本 10.2 節"
+    },
+    {
+      "id": "10-q3",
+      "chapter": "第 10 章 程式語言",
+      "type": "架構題",
+      "question": "資料庫結構化查詢語言 SQL 只需要宣告『要撈取什麼資料』，而不需要寫出迴圈等具體演算法步驟，屬於哪一代程式語言 (4GL)？",
+      "options": [
+        "A. 第一代 (1GL)",
+        "B. 第二代 (2GL)",
+        "C. 第三代 (3GL)",
+        "D. 第四代 (4GL)"
+      ],
+      "answer": "D",
+      "explanation": "第四代程式語言 (4GL) 為宣告式/問題導向語言，以 SQL 為代表，使用者僅需陳述目標 (What)，無須控制執行邏輯細節 (How)。",
+      "source": "課本 10.1 節"
+    }
+  ],
+  "flashcards": [
+    {
+      "front": "物件導向 (OOP) 的三大支柱分別為何？各有一句口訣？",
+      "back": "1. 封裝 (Encapsulation)：隱藏內部實作細節，保護資料。\n2. 繼承 (Inheritance)：子承父業，重用並擴充程式碼。\n3. 多型 (Polymorphism)：同一介面名稱，依物件展現不同具體行為。",
+      "tag": "OOP必考"
+    },
+    {
+      "front": "編譯器 (Compiler) 與 直譯器 (Interpreter) 的本質差異為何？",
+      "back": "• 編譯器：一次性把整份原始碼翻譯成獨立的機器碼執行檔（如 C 語言），執行速度極快，原始碼不公開。\n• 直譯器：邊讀邊翻、逐行執行（如 Python），不用預先編譯，跨平台移植性高且除錯靈活。",
+      "tag": "轉譯機制"
+    },
+    {
+      "front": "何謂記憶體的『垃圾回收 (Garbage Collection, GC)』？",
+      "back": "由高階程式語言的執行環境（如 JVM 或 Python 執行環境）在背景自動偵測並釋放「已不再被任何變數引用之記憶體物件」的自動化機制，防止記憶體洩漏 (Memory Leak)。",
+      "tag": "核心機制"
+    }
+  ],
+  "supplements": {
+    "teacher": [
+      {
+        "title": "第 10 週程式實作作業：使用 Python 定義 Animal 父類別與 Dog/Cat 子類別，體驗封裝、繼承與多型",
+        "desc": "練習 class 宣告、__init__ 建構子與 method overriding 方法覆寫。"
+      }
+    ],
+    "papers": [
+      {
+        "title": "Can Programming Be Liberated from the von Neumann Style? (John Backus, 1978 Turing Award)",
+        "desc": "FORTRAN 之父發表的圖靈獎演講，深刻批判傳統馮諾曼風格指令式語言，啟蒙函數式程式設計思潮。"
+      }
+    ]
+  }
+}
