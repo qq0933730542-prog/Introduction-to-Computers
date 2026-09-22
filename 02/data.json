@@ -1,0 +1,128 @@
+{
+  "chapterId": "02",
+  "title": "第 02 章 人工智慧與科技新發展",
+  "notes": [
+    {
+      "section": "2.1 人工智慧定義與發展歷程",
+      "items": [
+        "弱人工智慧 (Narrow AI / Weak AI)：專注於解決特定領域問題（如 AlphaGo 下圍棋、人臉辨識、語音助理）。",
+        "強人工智慧 (General AI / AGI)：具備等同或超越人類的全面通用推理、認知與自主學習能力。",
+        "AI 演進三浪潮：1950-1980 規則專家系統 ➔ 1990-2010 傳統機器學習 (ML，如 SVM、決策樹) ➔ 2012-至今 深度學習 (DL) 與大型語言模型 (LLM)。"
+      ]
+    },
+    {
+      "section": "2.2 深度學習與 Transformer 革命",
+      "items": [
+        "傳統 RNN / LSTM 缺陷：必須序列逐步讀取字詞，難以平行加速運算，且對長文本有遺忘問題。",
+        "Transformer 架構（2017 Google 提出）：以 Self-Attention（自注意力機制）為核心，可全文本並行處理矩陣運算，成為 GPT、Claude、Gemini 的共同基石。",
+        "神經網路核心三要素：權重 (Weights)、偏置 (Bias)、激活函數 (Activation Function，如 ReLU)。"
+      ]
+    },
+    {
+      "section": "2.3 生成式 AI 與大型語言模型實務技術",
+      "items": [
+        "提示工程 (Prompt Engineering)：設計明確角色、背景、範例（Few-Shot）以引導模型產生精準回答。",
+        "RAG (檢索增強生成)：在回答前先檢索外部私有知識庫，徹底解決模型知識過期與「幻覺 (Hallucination)」問題。",
+        "模型微調 (Fine-Tuning) 與參數高效微調 (PEFT / LoRA)：以低算力低成本讓通用大模型專精特定領域。"
+      ]
+    }
+  ],
+  "concepts": [
+    {
+      "name": "Transformer 架構 (自注意力機制)",
+      "tag": "深度學習架構",
+      "aim": "當代大型語言模型 (LLM) 與多模態 AI 的底層核心架構",
+      "pipeline": "Input Tokens ➔ Token & Positional Embedding ➔ Multi-Head Self-Attention ➔ Feed Forward ➔ Softmax 輸出機率",
+      "glossary": "Self-Attention、Query-Key-Value (Q, K, V)、Positional Encoding、Context Window",
+      "tech": "高度契合 GPU 平行張量矩陣加速，徹底取代傳統序列式 RNN/LSTM",
+      "source": "Vaswani et al., 2017 (Attention Is All You Need)"
+    },
+    {
+      "name": "檢索增強生成 (RAG)",
+      "tag": "AI系統工程",
+      "aim": "結合私有外掛資料庫，解決大語言模型知識不及時與幻覺問題",
+      "pipeline": "使用者 Query ➔ Embedding 向量化 ➔ 向量資料庫餘弦相似度檢索 ➔ 拼接 Context ➔ LLM 生成回答",
+      "glossary": "Vector Database (向量資料庫)、Embedding (向量嵌入)、Cosine Similarity、Chunking (分塊)",
+      "tech": "搭配混合檢索 (Hybrid Search) 與重排模型 (Re-ranking) 提高檢索精準度",
+      "source": "Lewis et al., 2020 (Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks)"
+    }
+  ],
+  "quiz": [
+    {
+      "id": "02-q1",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "type": "架構題",
+      "question": "2017 年 Google 發布論文《Attention Is All You Need》，提出了當代大語言模型（如 GPT-4、Gemini）所共同奠基的核心架構，該架構名稱為？",
+      "options": [
+        "A. CNN (卷積神經網路)",
+        "B. RNN (遞歸神經網路)",
+        "C. Transformer 架構",
+        "D. GAN (生成對抗網路)"
+      ],
+      "answer": "C",
+      "explanation": "Transformer 揚棄了傳統 RNN 的循序循環計算，改採自注意力機制（Self-Attention）實現高度並行運算，引爆了當代生成式 AI 與 LLM 革命。",
+      "source": "課本 2.2 節"
+    },
+    {
+      "id": "02-q2",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "type": "實務技術",
+      "question": "企業在不重新訓練整顆大型語言模型的前提下，為解決模型『胡言亂語（幻覺）』並使其能回答公司內部即時專屬文件的技術稱為？",
+      "options": [
+        "A. RAG (檢索增強生成)",
+        "B. Pre-training (預訓練)",
+        "C. Backpropagation (反向傳播)",
+        "D. Quantization (模型量化)"
+      ],
+      "answer": "A",
+      "explanation": "RAG（Retrieval-Augmented Generation）在模型生成回答前，先由向量資料庫檢索精確背景資料傳入 Prompt，是企業消除幻覺最主流手法。",
+      "source": "課本 2.3 節"
+    },
+    {
+      "id": "02-q3",
+      "chapter": "第 02 章 人工智慧與科技新發展",
+      "type": "名詞定義",
+      "question": "能針對下圍棋、人臉辨識或垃圾郵件分類等『單一特定任務』表現極為優異，但不具備人類廣泛通用思考能力的 AI，屬於下列哪一類別？",
+      "options": [
+        "A. 弱人工智慧 (Narrow / Weak AI)",
+        "B. 強人工智慧 (AGI)",
+        "C. 超人工智慧 (ASI)",
+        "D. 符號邏輯 AI"
+      ],
+      "answer": "A",
+      "explanation": "目前現實生活中的所有 AI 應用（包含 AlphaGo、Siri）均屬於弱人工智慧（Narrow AI），專精於特定狹隘領域；強人工智慧（AGI）為具備廣泛通用智能的理想目標。",
+      "source": "課本 2.1 節"
+    }
+  ],
+  "flashcards": [
+    {
+      "front": "何謂『大型語言模型的幻覺 (Hallucination)』？",
+      "back": "指大語言模型生成表面看起來流暢、邏輯完整，但事實上完全錯誤、捏造或無中生有的虛假資訊。",
+      "tag": "AI核心概念"
+    },
+    {
+      "front": "Transformer 為何比傳統 RNN / LSTM 更適合訓練超大型模型？",
+      "back": "因為 RNN 必須序列依序處理字詞（無法並行）；Transformer 使用 Self-Attention 機制，可將整篇文章的所有字詞同時放入 GPU 進行大規模平行矩陣運算，訓練速度呈幾何級數提升。",
+      "tag": "技術機制"
+    },
+    {
+      "front": "何謂『提示工程 (Prompt Engineering)』？",
+      "back": "透過結構化設計輸入給語言模型的提示詞（包含指定角色、任務背景、輸入限制與輸出格式，例如 Few-Shot 範例），以引導模型產生高品質且符合預期的答案。",
+      "tag": "實用技術"
+    }
+  ],
+  "supplements": {
+    "teacher": [
+      {
+        "title": "第 2 週實作作業：使用 Python 串接 LLM API 並設計少樣本提示 (Few-Shot Prompt)",
+        "desc": "練習 Prompt 結構化設定與 Temperature 參數調校。"
+      }
+    ],
+    "papers": [
+      {
+        "title": "Attention Is All You Need (Vaswani et al., 2017)",
+        "desc": "開啟生成式 AI 新紀元的 Transformer 開創性論文。"
+      }
+    ]
+  }
+}
