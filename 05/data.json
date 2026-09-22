@@ -1,0 +1,139 @@
+{
+  "chapterId": "05",
+  "title": "第 05 章 計算機組織",
+  "notes": [
+    {
+      "section": "5.1 CPU 內部架構與指令週期 (Instruction Cycle)",
+      "items": [
+        "指令執行四步驟：擷取 (Fetch) ➔ 解碼 (Decode) ➔ 執行 (Execute) ➔ 寫回 (Writeback)。",
+        "核心專用暫存器：",
+        "• 程式計數器 (PC, Program Counter)：存放『下一條要被執行的指令位址』。",
+        "• 指令暫存器 (IR, Instruction Register)：存放『當前正在解碼與執行的指令內容』。",
+        "• 累加器 (AC, Accumulator)：暫存 ALU 運算的中間結果。",
+        "• 記憶體位址/資料暫存器 (MAR / MDR)：負責與主記憶體匯流排溝通的位址與資料快取。"
+      ]
+    },
+    {
+      "section": "5.2 CISC vs. RISC 指令集架構",
+      "items": [
+        "CISC (複雜指令集，如 x86 / Intel / AMD)：指令繁多且長度不一、硬體解碼複雜、強調單一指令完成複雜任務，多用於高效能桌機與伺服器。",
+        "RISC (精簡指令集，如 ARM、Apple Silicon、RISC-V)：指令精簡且長度固定、單一週期執行、採 Load/Store 架構，具省電、低功耗優勢，主導手機、平板與現代節能架構。"
+      ]
+    },
+    {
+      "section": "5.3 記憶體階層架構 (Memory Hierarchy)",
+      "items": [
+        "速度由快到慢、成本由高到低、容量由小到大：",
+        "暫存器 (Registers) ➔ L1/L2/L3 快取 (SRAM) ➔ 主記憶體 (DRAM) ➔ 固態硬碟 (SSD / NAND Flash) ➔ 外接儲存/雲端。",
+        "局部性原理 (Principle of Locality)：",
+        "• 時間局部性 (Temporal Locality)：最近被存取過的資料，在不久的將來極可能再次被存取（例如迴圈變數）。",
+        "• 空間局部性 (Spatial Locality)：某位址的資料被存取，其鄰近位址的資料極可能隨後被存取（例如陣列連續走訪）。"
+      ]
+    },
+    {
+      "section": "5.4 管線技術 (Pipelining) 與平行處理",
+      "items": [
+        "管線概念：類似工廠生產線，讓多個指令處於不同的執行階段（例如指令 A 執行時，指令 B 同時解碼，指令 C 同時擷取），大幅提升指令吞吐量 (Throughput)。",
+        "三大管線危障 (Hazards)：結構危障 (硬體資源衝突)、資料危障 (後續指令需要前一指令未算好的資料)、分支危障 (條件跳躍造成的路徑未定)。"
+      ]
+    }
+  ],
+  "concepts": [
+    {
+      "name": "記憶體階層架構與局部性原理",
+      "tag": "系統效能架構",
+      "aim": "以極高性價比達成兼具『暫存器超高速』與『硬碟超大容量』的電腦系統設計",
+      "pipeline": "CPU 發出記憶體存取請求 ➔ 查 L1/L2 Cache ➔ 若 Hit 則立即返回 ➔ 若 Miss 則至主記憶體載入整塊 Block 填入快取",
+      "glossary": "Cache Hit/Miss (命中/未命中)、Hit Rate (命中率)、SRAM (靜態隨機存取記憶體)、DRAM (動態隨機存取記憶體)",
+      "tech": "依據時間局部性與空間局部性演算法，搭配 LRU (Least Recently Used) 替換策略優化快取",
+      "source": "John L. Hennessy & David A. Patterson (Computer Architecture: A Quantitative Approach)"
+    },
+    {
+      "name": "RISC vs. CISC 指令集哲學",
+      "tag": "微處理器設計",
+      "aim": "指令集複雜度與晶片硬體功耗/效能的平衡權衡",
+      "pipeline": "RISC：固定 32-bit 長度 ➔ 硬體直接硬線解碼 (Hardwired) ➔ 單一週期執行；CISC：微碼解碼 (Microcode)",
+      "glossary": "ISA (指令集架構)、ARM、x86-64、RISC-V、Load/Store 架構",
+      "tech": "現代 x86 CPU（如 Intel Core）內部採用融合技術：前端接收 CISC 指令，內部微解碼為類 RISC 微操作 (micro-ops) 執行",
+      "source": "David Patterson (UC Berkeley RISC Project)"
+    }
+  ],
+  "quiz": [
+    {
+      "id": "05-q1",
+      "chapter": "第 05 章 計算機組織",
+      "type": "架構題",
+      "question": "在 CPU 的專用暫存器中，負責儲存『下一條準備被擷取並執行之指令所在的記憶體位址』的暫存器為？",
+      "options": [
+        "A. 指令暫存器 (IR)",
+        "B. 程式計數器 (PC)",
+        "C. 累加器 (AC)",
+        "D. 記憶體資料暫存器 (MDR)"
+      ],
+      "answer": "B",
+      "explanation": "PC (Program Counter，程式計數器) 永遠指向下一條即將執行的指令記憶體位址；IR 則存放當前已經擷取進來、正在解碼的指令。",
+      "source": "課本 5.1 節"
+    },
+    {
+      "id": "05-q2",
+      "chapter": "第 05 章 計算機組織",
+      "type": "名詞定義",
+      "question": "智慧型手機處理器（如 Apple A/M 系列、高通驍龍）廣泛採用的 ARM 架構，在指令集設計上主要屬於下列何者？",
+      "options": [
+        "A. CISC (複雜指令集)",
+        "B. RISC (精簡指令集)",
+        "C. VLIW (超長指令字)",
+        "D. ASIC (專用積體電路)"
+      ],
+      "answer": "B",
+      "explanation": "ARM 與 RISC-V 均為典型的 RISC (精簡指令集) 架構，具備指令長度固定、低耗電與高能效比特性，極為適合行動裝置與現代資料中心。",
+      "source": "課本 5.2 節"
+    },
+    {
+      "id": "05-q3",
+      "chapter": "第 05 章 計算機組織",
+      "type": "觀念題",
+      "question": "在電腦記憶體階層中，下列各級儲存元件依據『存取存取速度由快到慢』的正確排序為？",
+      "options": [
+        "A. 暫存器 (Registers) ➔ 快取 (Cache) ➔ 主記憶體 (RAM) ➔ 固態硬碟 (SSD)",
+        "B. 快取 (Cache) ➔ 暫存器 (Registers) ➔ 固態硬碟 (SSD) ➔ 主記憶體 (RAM)",
+        "C. 暫存器 (Registers) ➔ 主記憶體 (RAM) ➔ 快取 (Cache) ➔ 固態硬碟 (SSD)",
+        "D. 主記憶體 (RAM) ➔ 暫存器 (Registers) ➔ 快取 (Cache) ➔ 固態硬碟 (SSD)"
+      ],
+      "answer": "A",
+      "explanation": "越靠近 CPU 核心的速度越快、成本越高：暫存器（幾十皮秒）> L1/L2/L3 快取（奈秒級）> 主記憶體 DRAM（幾十奈秒）> SSD/硬碟（微秒至毫秒級）。",
+      "source": "課本 5.3 節"
+    }
+  ],
+  "flashcards": [
+    {
+      "front": "何謂『時間局部性 (Temporal Locality)』與『空間局部性 (Spatial Locality)』？",
+      "back": "• 時間局部性：最近剛被存取的資料，極可能在短時間內再次被存取（例如迴圈或常數）。\n• 空間局部性：存取了某記憶體位址後，其相鄰的連續位址極可能馬上被存取（例如陣列連續走訪）。",
+      "tag": "核心考點"
+    },
+    {
+      "front": "靜態隨機存取記憶體 (SRAM) 與 動態隨機存取記憶體 (DRAM) 的核心差異？",
+      "back": "• SRAM：由 6 個電晶體構成雙穩態正反器，速度極快、成本高、免充電刷新，主要用於 CPU 快取 (Cache)。\n• DRAM：由 1 個電晶體 + 1 個電容構成，電容會漏電故需定期刷新 (Refresh)，速度較慢但積體度高、成本低，用於電腦主記憶體 (RAM)。",
+      "tag": "硬體比較"
+    },
+    {
+      "front": "CPU 管線 (Pipelining) 的好處是什麼？會遇到哪三種 Hazards（危障）？",
+      "back": "好處：大幅提升指令吞吐量 (Throughput)。\n三種危障：\n1. 結構危障 (Structural Hazard)：多個指令搶同一硬體資源。\n2. 資料危障 (Data Hazard)：後指令依賴前指令的運算結果。\n3. 控制危障 (Control Hazard)：遇 if/else 或跳躍分支造成預先擷取的指令失效。",
+      "tag": "運作機制"
+    }
+  ],
+  "supplements": {
+    "teacher": [
+      {
+        "title": "第 5 週計算機組織作業：分析一段 C 語言迴圈在組合語言層級的暫存器分配與 Cache 命中率",
+        "desc": "探討矩陣橫向 (Row-major) 與縱向 (Col-major) 走訪對空間局部性的巨大效能影響。"
+      }
+    ],
+    "papers": [
+      {
+        "title": "Computer Architecture: A Quantitative Approach (Turing Award Lecture by Hennessy & Patterson)",
+        "desc": "兩位圖靈獎得主奠定現代量化計算機組織學派的權威巨著。"
+      }
+    ]
+  }
+}
