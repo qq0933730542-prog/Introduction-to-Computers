@@ -1,0 +1,139 @@
+{
+  "chapterId": "08",
+  "title": "第 08 章 網際網路、雲端運算與物聯網",
+  "notes": [
+    {
+      "section": "8.1 網際網路定址與核心服務 (IP, DNS, DHCP)",
+      "items": [
+        "IPv4 vs. IPv6：",
+        "• IPv4：32 位元（4 個十進位數字組成，如 192.168.1.1），共有約 43 億個位址，現已完全耗盡。",
+        "• IPv6：128 位元（8 組十六進位數字組成），位址數量近乎無限，徹底解決位址不足問題。",
+        "NAT (網路位址轉譯)：將多台電腦的私有 IP (Private IP) 轉換為單一公開 IP (Public IP) 上網，延緩了 IPv4 枯竭。",
+        "DNS (網域名稱系統)：網路上的「電話簿」，負責將人類好記的網域名稱（如 google.com）解析轉換為電腦辨識的 IP 位址。",
+        "DHCP (動態主機設定協定)：讓電腦連上網路時，自動由路由器租借取得 IP 位址、子網路遮罩與預設閘道。"
+      ]
+    },
+    {
+      "section": "8.2 應用層常見通訊協定",
+      "items": [
+        "HTTP vs. HTTPS：HTTP 使用明文傳輸（Port 80）；HTTPS 加上 SSL/TLS 憑證加密（Port 443），防止傳輸過程中帳號密碼遭竊聽竊取。",
+        "電子郵件協定：SMTP（發送郵件，Port 25）；POP3 / IMAP（自伺服器接收與讀取郵件）。",
+        "FTP (檔案傳輸協定)：Port 20/21，用於客戶端與伺服器之間上傳/下載檔案。"
+      ]
+    },
+    {
+      "section": "8.3 雲端運算三大服務模式 (Cloud Service Models)",
+      "items": [
+        "IaaS (基礎架構即服務)：提供底層虛擬主機、運算儲存與網路，使用者需自管 OS 與應用程式（如 AWS EC2、GCP Compute Engine）。",
+        "PaaS (平台即服務)：提供開發環境、運行時期 (Runtime) 與資料庫，開發者只需專注寫程式程式碼，底層 OS 自動託管（如 Heroku、Google App Engine）。",
+        "SaaS (軟體即服務)：直接透過瀏覽器提供隨選即用的終端軟體，完全免安裝免維護（如 Gmail、Google Docs、Microsoft 365、Dropbox）。",
+        "邊緣運算 (Edge Computing)：將運算任務從遠端集中式雲端，推移至靠近數據源頭的終端設備（如自動駕駛車、智慧攝影機），達成超低延遲與高隱私。"
+      ]
+    },
+    {
+      "section": "8.4 物聯網 (IoT - Internet of Things)",
+      "items": [
+        "三層架構：感測層 (Perception，各類感測器 RFID/溫度/陀螺儀) ➔ 網路層 (Network，4G/5G、Wi-Fi、LoRaWAN) ➔ 應用層 (智慧家庭、智慧工廠)。",
+        "MQTT 協定：專為低頻寬、不穩定網路與受限微控制器設計的輕量級發布/訂閱 (Pub/Sub) 物聯網訊息通訊協定。"
+      ]
+    }
+  ],
+  "concepts": [
+    {
+      "name": "雲端運算三大服務層級 (IaaS, PaaS, SaaS)",
+      "tag": "雲端架構模型",
+      "aim": "劃分雲端服務供應商與客戶之間的管理權責與成本架構",
+      "pipeline": "硬體機房 ➔ IaaS (管硬體/虛擬機) ➔ PaaS (管開發平台/OS) ➔ SaaS (全託管應用軟體，用戶直接使用)",
+      "glossary": "IaaS、PaaS、SaaS、On-Premises (地端自建)、Multi-Tenant (多租戶架構)",
+      "tech": "現代雲端向 Serverless (無伺服器架構 / FaaS) 演進，依執行次數計費，實現極限彈性伸縮",
+      "source": "NIST SP 800-145 (The NIST Definition of Cloud Computing)"
+    },
+    {
+      "name": "DNS 階層式解析機制 (Domain Name System)",
+      "tag": "網路核心服務",
+      "aim": "全球分散式域名與 IP 雙向對應映射查詢系統",
+      "pipeline": "Client 瀏覽器 ➔ 本地 Local DNS Cache ➔ Root DNS (.) ➔ TLD DNS (.com) ➔ Authoritative DNS ➔ 返回 IP 並快取",
+      "glossary": "Root Server (根伺服器)、TLD (頂級域名)、A Record (IPv4紀錄)、AAAA Record (IPv6紀錄)、TTL (存活時間)",
+      "tech": "採用 DNSSEC 數位簽章防禦 DNS 劫持與快取污染 (Cache Poisoning) 攻擊",
+      "source": "RFC 1034 & RFC 1035 (Domain Names - Concepts and Facilities)"
+    }
+  ],
+  "quiz": [
+    {
+      "id": "08-q1",
+      "chapter": "第 08 章 網際網路、雲端運算與物聯網",
+      "type": "名詞定義",
+      "question": "使用 Google Docs 線上編輯文件、登入 Gmail 收發信件，使用者無須安裝與維護底層作業系統與伺服器，這種雲端服務模式屬於下列何者？",
+      "options": [
+        "A. IaaS (基礎架構即服務)",
+        "B. PaaS (平台即服務)",
+        "C. SaaS (軟體即服務)",
+        "D. BaaS (區塊鏈即服務)"
+      ],
+      "answer": "C",
+      "explanation": "SaaS (Software as a Service，軟體即服務) 是直接透過網路將應用軟體提供給終端使用者，使用者完全不必管理底層硬體、作業系統或開發環境。",
+      "source": "課本 8.3 節"
+    },
+    {
+      "id": "08-q2",
+      "chapter": "第 08 章 網際網路、雲端運算與物聯網",
+      "type": "架構題",
+      "question": "當我們在瀏覽器輸入網址『www.google.com』時，負責將該英文字串網域名稱轉換為電腦可識別的 IP 位址的網路服務為？",
+      "options": [
+        "A. DHCP",
+        "B. DNS",
+        "C. NAT",
+        "D. FTP"
+      ],
+      "answer": "B",
+      "explanation": "DNS (Domain Name System，網域名稱系統) 的核心功能就是將人類好記憶的網址字串翻譯為電腦路由尋址所需的 IP 位址。",
+      "source": "課本 8.1 節"
+    },
+    {
+      "id": "08-q3",
+      "chapter": "第 08 章 網際網路、雲端運算與物聯網",
+      "type": "觀念題",
+      "question": "相較於傳統 IPv4 位址採用 32 位元長度，新一代網際網路通訊協定 IPv6 採用多少位元的位址長度，以徹底解決位址耗盡危機？",
+      "options": [
+        "A. 48 位元",
+        "B. 64 位元",
+        "C. 128 位元",
+        "D. 256 位元"
+      ],
+      "answer": "C",
+      "explanation": "IPv6 採用 128 位元（128 bits），可提供 2^128 個位址（約 3.4 × 10^38 個），號稱能為地球上的每一粒沙子都分配一個 IP 位址。",
+      "source": "課本 8.1 節"
+    }
+  ],
+  "flashcards": [
+    {
+      "front": "簡述雲端三兄弟 IaaS、PaaS、SaaS 的最核心差異？",
+      "back": "• IaaS：租硬體/虛擬機（自己裝 OS、管環境、寫程式）。\n• PaaS：租開發平台（平台管 OS 與資料庫，自己只管寫程式佈署）。\n• SaaS：租現成軟體（直接開瀏覽器使用，如 Gmail、Office 365）。",
+      "tag": "雲端必考"
+    },
+    {
+      "front": "HTTP 與 HTTPS 最主要的差異為何？預設通訊埠 (Port) 分別是多少？",
+      "back": "• HTTP：明文傳輸無加密，預設 Port 80，容易遭中間人監聽或竄改。\n• HTTPS：經 SSL/TLS 加密協定保護，預設 Port 443，具備機密性、完整性與伺服器身分鑑別。",
+      "tag": "網路安全"
+    },
+    {
+      "front": "物聯網 (IoT) 常用通訊協定 MQTT 是什麼？有何特色？",
+      "back": "MQTT (Message Queuing Telemetry Transport) 是一種基於發布/訂閱 (Pub/Sub) 架構的輕量級通訊協定。標頭開銷極小（最低僅 2 Bytes），適合頻寬有限、電量受限的感測器與物聯網節點。",
+      "tag": "物聯網技術"
+    }
+  ],
+  "supplements": {
+    "teacher": [
+      {
+        "title": "第 8 週實作：使用 nslookup 與 dig 命令查詢全球 DNS 解析歷程與 A/AAAA 記錄",
+        "desc": "實際追蹤 Root DNS 伺服器至權威伺服器的遞迴查詢流程。"
+      }
+    ],
+    "papers": [
+      {
+        "title": "The NIST Definition of Cloud Computing (NIST Special Publication 800-145)",
+        "desc": "美國國家標準與技術研究院確立雲端運算 5 大特徵、3 大服務模式與 4 種部署模式的權威標準白皮書。"
+      }
+    ]
+  }
+}
