@@ -1,0 +1,142 @@
+{
+  "chapterId": "11",
+  "title": "第 11 章 演算法",
+  "notes": [
+    {
+      "section": "11.1 演算法定義與五大特性 (Knuth 準則)",
+      "items": [
+        "1. 輸入 (Input)：有 0 個或多個由外部提供的輸入資料。",
+        "2. 輸出 (Output)：至少產生 1 個或多個運算結果。",
+        "3. 明確性 (Definiteness)：每個步驟指令必須清晰明瞭，絕無歧義或模糊空間。",
+        "4. 有限性 (Finiteness)：在任何輸入情況下，演算法必須在執行「有限個步驟」後自動結束，絕不能陷入無窮迴圈。",
+        "5. 有效性 (Effectiveness)：每個指令必須足夠基礎，在原則上僅用紙筆就能在有限時間內完成。"
+      ]
+    },
+    {
+      "section": "11.2 演算法效能與 Big-O 漸進時間複雜度",
+      "items": [
+        "Big-O (大 O 標記法)：用來評估演算法隨輸入資料量 n 暴增時，執行時間的成長趨勢上限。",
+        "時間複雜度速度由快到慢（越快越好）：",
+        "O(1) 常數時間 ➔ O(log n) 對數時間 ➔ O(n) 線性時間 ➔ O(n log n) 線性對數 ➔ O(n^2) 平方時間 ➔ O(2^n) 指數時間 ➔ O(n!) 階乘時間。",
+        "常見範例：Hash 表取值為 O(1)；二分搜尋為 O(log n)；走訪陣列為 O(n)；快速排序為 O(n log n)；氣泡排序為 O(n^2)。"
+      ]
+    },
+    {
+      "section": "11.3 經典搜尋演算法 (Searching)",
+      "items": [
+        "線性搜尋 (Linear Search)：從第一個元素依序比對到最後一個。特點：資料「無須排序」，但效率較差，時間複雜度為 O(n)。",
+        "二分搜尋 (Binary Search)：核心先決條件是「資料必須已經由小到大排序完畢」！每次拿中間值比對，若不合直接切除一半範圍，時間複雜度為超高速的 O(log n)。"
+      ]
+    },
+    {
+      "section": "11.4 經典排序演算法 (Sorting)",
+      "items": [
+        "基礎排序法（時間複雜度 O(n^2)）：",
+        "• 氣泡排序 (Bubble Sort)：相鄰兩兩比較並交換，每次把最大值「浮」到最右端。",
+        "• 選擇排序 (Selection Sort)：每次在未排序區挑出最小值，擺到已排序區末端。",
+        "• 插入排序 (Insertion Sort)：如同整理撲克牌手牌，逐張插入合適位置。",
+        "高效進階排序法（時間複雜度 O(n log n)）：",
+        "• 快速排序 (Quick Sort)：分治法 (Divide and Conquer)，挑選一個基準點 (Pivot)，將比它小的放左邊、大的放右邊，再遞迴處理。",
+        "• 合併排序 (Merge Sort)：分治法，將陣列切半再切半直到最小，最後按大小兩兩「合併」，保證最差與平均皆為 O(n log n)。"
+      ]
+    }
+  ],
+  "concepts": [
+    {
+      "name": "Big-O 時間複雜度階梯",
+      "tag": "演算法分析",
+      "aim": "科學量化程式在極大規模資料下的運行瓶頸與效率評比",
+      "pipeline": "分析指令重複次數 ➔ 取最高次方項 ➔ 忽略係數常數 ➔ 標記為 O(f(n))",
+      "glossary": "Time Complexity (時間複雜度)、Space Complexity (空間複雜度)、Best/Average/Worst Case",
+      "tech": "百萬筆資料時，O(log n) 僅需約 20 次運算，而 O(n^2) 高達 1 兆次，選對演算法可決定系統生死",
+      "source": "Donald E. Knuth (The Art of Computer Programming, Vol. 1)"
+    },
+    {
+      "name": "分治演算法 (Divide and Conquer)",
+      "tag": "演算法設計思維",
+      "aim": "將龐大難解的複雜問題，切分為互相獨立的子問題分別擊破後再行組合",
+      "pipeline": "Divide (將大問題切分為子問題) ➔ Conquer (遞迴解決各子問題) ➔ Combine (合併子問題的解以得到全域解答)",
+      "glossary": "Divide, Conquer, Combine, Recursion (遞迴), Merge Sort, Quick Sort",
+      "tech": "現代雲端大數據 MapReduce 架構本質上就是分散式分治法的具體實現",
+      "source": "Cormen, Leiserson, Rivest, Stein (Introduction to Algorithms - CLRS)"
+    }
+  ],
+  "quiz": [
+    {
+      "id": "11-q1",
+      "chapter": "第 11 章 演算法",
+      "type": "觀念題",
+      "question": "使用『二分搜尋法 (Binary Search)』在一個串列中尋找目標數值，其最重要的『先決必要條件』為何？",
+      "options": [
+        "A. 串列內必須全部是偶數",
+        "B. 串列內的資料必須已經預先排序好",
+        "C. 串列長度必須剛好是 2 的次方",
+        "D. 串列內絕對不能包含負數"
+      ],
+      "answer": "B",
+      "explanation": "二分搜尋每次比對中間元素來排除一半的搜尋範圍，這項邏輯成立的唯一前提就是『資料必須已經排序好』；若未排序則只能使用線性搜尋。",
+      "source": "課本 11.3 節"
+    },
+    {
+      "id": "11-q2",
+      "chapter": "第 11 章 演算法",
+      "type": "運算題",
+      "question": "下列常見的 Big-O 漸進時間複雜度，依據執行效率『由快到慢（耗時由少到多）』的正確排列順序為？",
+      "options": [
+        "A. O(1) ➔ O(log n) ➔ O(n) ➔ O(n log n) ➔ O(n^2)",
+        "B. O(1) ➔ O(n) ➔ O(log n) ➔ O(n^2) ➔ O(n log n)",
+        "C. O(log n) ➔ O(1) ➔ O(n) ➔ O(n log n) ➔ O(n^2)",
+        "D. O(1) ➔ O(log n) ➔ O(n log n) ➔ O(n) ➔ O(n^2)"
+      ],
+      "answer": "A",
+      "explanation": "時間複雜度由快到慢為：常數 O(1) < 對數 O(log n) < 線性 O(n) < 線性對數 O(n log n) < 多項式 O(n^2) < 指數 O(2^n)。",
+      "source": "課本 11.2 節"
+    },
+    {
+      "id": "11-q3",
+      "chapter": "第 11 章 演算法",
+      "type": "名詞定義",
+      "question": "電腦大師 Donald Knuth 所定義的演算法五大特性中，規定演算法必須在執行有限步驟後終止，絕不能形成無窮迴圈的特性稱為？",
+      "options": [
+        "A. 明確性 (Definiteness)",
+        "B. 有效性 (Effectiveness)",
+        "C. 有限性 (Finiteness)",
+        "D. 封裝性 (Encapsulation)"
+      ],
+      "answer": "C",
+      "explanation": "有限性（Finiteness）要求演算法在任何合理輸入情況下，都必須在有限時間與步驟後正常停止，不能永遠跑不完。",
+      "source": "課本 11.1 節"
+    }
+  ],
+  "flashcards": [
+    {
+      "front": "演算法必須滿足的五大基本條件 (Knuth 準則) 是哪五個？",
+      "back": "1. 輸入 (Input)：0 個或多個。\n2. 輸出 (Output)：至少 1 個結果。\n3. 明確性 (Definiteness)：步驟清晰無二義性。\n4. 有限性 (Finiteness)：有限步驟內必須停止，不可無窮迴圈。\n5. 有效性 (Effectiveness)：每個動作必須切實可行。",
+      "tag": "必背準則"
+    },
+    {
+      "front": "為什麼二分搜尋法 (Binary Search) 的時間複雜度是 O(log n)？",
+      "back": "因為每次檢查中間元素後，就能立刻排除掉一半（50%）的資料。資料量為 n 時，最多只需對折 log2(n) 次範圍就會縮減到只剩 1 個元素，例如 1024 筆資料最多只需比較 10 次。",
+      "tag": "搜尋複雜度"
+    },
+    {
+      "front": "快速排序 (Quick Sort) 的核心運作機制是什麼？",
+      "back": "利用分治法 (Divide and Conquer)：\n1. 挑選基準值 (Pivot)。\n2. 分割 (Partition)：比 Pivot 小的移到左邊，大的移到右邊。\n3. 左右兩子數列遞迴執行上述步驟，平均時間複雜度為 O(n log n)。",
+      "tag": "排序機制"
+    }
+  ],
+  "supplements": {
+    "teacher": [
+      {
+        "title": "第 11 週演算法實作：以 Python 實作二分搜尋法與氣泡排序法，並比較其執行時間差異",
+        "desc": "以 time 模組測試陣列大小為 10,000 筆資料時，線性搜尋與二分搜尋的耗時對比。"
+      }
+    ],
+    "papers": [
+      {
+        "title": "The Art of Computer Programming (Donald E. Knuth, 1968)",
+        "desc": "被譽為計算機科學界「聖經」的經典鉅著，奠定現代演算法複雜度分析的數學基礎。"
+      }
+    ]
+  }
+}
